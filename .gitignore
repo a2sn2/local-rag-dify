@@ -1,0 +1,127 @@
+# ==============================================================================
+# Local RAG System — Git Ignore & Public Repository Security Policy
+# Target Repo: https://github.com/a2sn2/local-rag-dify (PUBLIC REPOSITORY)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Private Assessment Reports & Machine-Specific Diagnostics
+# ------------------------------------------------------------------------------
+docs/assessments/private/
+*PRIVATE*
+*private*
+*.local.md
+*.machine.md
+system_diagnostics.txt
+
+# ------------------------------------------------------------------------------
+# 2. Environment Variables, Secrets & Authentication Credentials
+# ------------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.cert
+*.crt
+*.pfx
+*.secret
+*.token
+*secret*
+*credential*
+passwd
+credentials.json
+auth_token.txt
+
+# ------------------------------------------------------------------------------
+# 3. Docker Volumes, Databases & Persistent Runtime Data
+# ------------------------------------------------------------------------------
+volumes/
+docker/volumes/
+**/volumes/
+*.vhdx
+*.vdi
+*.vmdk
+*.sqlite
+*.sqlite3
+*.db
+pgdata/
+weaviate_data/
+redis_data/
+storage/
+
+# ------------------------------------------------------------------------------
+# 4. LLM & Embedding Model Weights (GGUF, PyTorch, Safetensors)
+# ------------------------------------------------------------------------------
+models/
+*.gguf
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.onnx
+blobs/
+manifests/
+
+# ------------------------------------------------------------------------------
+# 5. User Documents, Datasets & Knowledge Base Content
+# ------------------------------------------------------------------------------
+knowledge-base/
+data/documents/
+data/datasets/
+uploads/
+*.pdf
+*.docx
+*.doc
+*.pptx
+*.xlsx
+*.xls
+*.csv
+# Allow non-sensitive sample fixtures explicitly if added in tests
+!tests/fixtures/*.sample.txt
+!tests/fixtures/*.sample.md
+
+# ------------------------------------------------------------------------------
+# 6. Runtime Logs, Celery Traces & Process Dumps
+# ------------------------------------------------------------------------------
+*.log
+logs/
+*.trace
+*.pid
+*.dump
+*.dmp
+celerybeat-schedule
+celerybeat.pid
+
+# ------------------------------------------------------------------------------
+# 7. Operating System & IDE Artifacts
+# ------------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Visual Studio / VS Code / JetBrains
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Antigravity & Agent Scratch Artifacts
+.gemini/
+.antigravity/
+.antigravity-ide/
+brain/
+scratch/
+
+# ------------------------------------------------------------------------------
+# 8. Temporary Backup Files
+# ------------------------------------------------------------------------------
+*.bak
+*.tmp
+*.temp
+*~
+*.swp
+*.swo
