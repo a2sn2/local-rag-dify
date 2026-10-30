@@ -83,6 +83,10 @@ uploads/
 # ------------------------------------------------------------------------------
 # 6. Runtime Logs, Celery Traces & Process Dumps
 # ------------------------------------------------------------------------------
+*.exe
+*.msi
+*.msix
+*.msixbundle
 *.log
 logs/
 *.trace
@@ -91,6 +95,15 @@ logs/
 *.dmp
 celerybeat-schedule
 celerybeat.pid
+stage_*_status.json
+stage_*_install.log
+stage_*_resume.json
+stage_a_status.json
+stage_a_install.log
+stage_a_resume.json
+wsl_status.json
+wsl_elevated.log
+docker_user.log
 
 # ------------------------------------------------------------------------------
 # 7. Operating System & IDE Artifacts

@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.2.0] — 2026-10-30
+
+### Added
+- Successfully completed and verified **Stage A (WSL2 & Docker Desktop Provisioning)**.
+- Provisioned Windows Subsystem for Linux (WSL2) with Linux Kernel `6.18.54.1-1` and WSL package `3.0.3.0`.
+- Implemented and applied host-protective resource configuration (`.wslconfig`) reserving 24GB RAM and 4 CPU threads for host Windows and Ollama (allocating 16GB RAM, 12 logical processors, and 8GB swap to containers).
+- Installed Docker Desktop **v4.97.0** in officially recommended per-user mode for Windows user `hassa`.
+- Verified Docker Engine daemon **v29.9.2** and Docker Compose **v5.6.1**.
+- Verified Linux container runtime execution via `docker run --rm hello-world`.
+- Confirmed host Ollama CUDA service remains operational on `http://127.0.0.1:11434` with model `qwen3.5:4b`.
+- Added reproducible, privilege-separated provisioning automation scripts (`provision-wsl-elevated.ps1`, `provision-docker-user.ps1`, `launch-stage-a.ps1`).
+
 ## [0.1.0] — 2026-10-30
 
 ### Added

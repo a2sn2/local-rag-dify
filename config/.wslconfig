@@ -1,0 +1,25 @@
+# ==============================================================================
+# Local RAG System — WSL2 Resource Configuration (.wslconfig)
+# Target Hardware: AMD Ryzen 9 5900HS (16 Logical Processors) + 40GB RAM
+# Purpose: Preserve host memory and GPU capacity for Ollama and Windows desktop
+# ==============================================================================
+
+[wsl2]
+# Allocate up to 16GB of system RAM to WSL2 and Docker containers.
+# Guarantees that at least 24GB of RAM remains dedicated to Windows & Ollama.
+memory=16GB
+
+# Allocate 12 logical processors to WSL2, reserving 4 processors for host & Ollama.
+processors=12
+
+# Configure a conservative 8GB swap space on fast SSD storage.
+swap=8GB
+
+# Enable loopback forwarding from WSL2 to Windows localhost
+localhostForwarding=true
+
+# Enable nested virtualization if supported
+nestedVirtualization=true
+
+# Page reporting allows Windows to reclaim unused memory from WSL2 dynamically
+pageReporting=true

@@ -4,23 +4,28 @@
 [![Ollama Engine](https://img.shields.io/badge/Ollama-Native%20CUDA-green.svg)](https://ollama.com)
 [![Hardware Acceleration](https://img.shields.io/badge/GPU-RTX%203060%20(6GB)-76B900.svg)](https://www.nvidia.com)
 [![Bilingual RAG](https://img.shields.io/badge/Languages-Arabic%20%26%20English-orange.svg)](#bilingual-rag-support)
-[![Security Policy](https://img.shields.io/badge/Security-Air--Gapped%20%2F%20Loopback-red.svg)](docs/security/security-policy.md)
+[![Privacy Policy](https://img.shields.io/badge/Privacy-100%25%20Local%20Inference-green.svg)](docs/security/security-policy.md)
 [![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)](LICENSE)
 
-An enterprise-grade, fully local **Retrieval-Augmented Generation (RAG)** platform designed for high-precision document question-answering in **Arabic and English**. 
+An enterprise-grade, self-hosted **Retrieval-Augmented Generation (RAG)** platform designed for high-precision document question-answering in **Arabic and English**. 
 
-The system couples **Dify Open Source (Pinned v1.18.0)** as the workflow orchestrator and web UI with **Ollama** running natively on the host workstation to deliver 100% GPU-accelerated inference without routing documents, embeddings, or prompts through external cloud APIs.
+The system couples **Dify Open Source (Pinned v1.18.0)** as the workflow orchestrator and web UI with **Ollama** running natively on the host workstation to deliver 100% GPU-accelerated local inference without routing documents, embeddings, or prompts through external cloud APIs.
+
+> [!NOTE]
+> **Operational Network Scope:**
+> The RAG inference runtime, vector indexing, and model execution are 100% self-hosted and offline-capable (no data or prompts ever leave the local machine). Standard internet connectivity is utilized strictly for developer administrative workflows: package installations, pulling official Docker images, and synchronizing code with the public GitHub repository.
 
 ---
 
 ## نبذة تنفيذية للمشروع (Executive Overview in Arabic)
 
-يهدف هذا المشروع إلى بناء وتشغيل نظام **استرجاع وتوليد معزز (RAG)** محلي بالكامل وعالي الأمان على جهاز الحاسوب الشخصي، مع التركيز على:
-1. **السيادة التامة على البيانات (Zero Cloud Dependence):** تشغيل جميع نماذج المحادثة ونماذج التضمين الشعاعي محلياً بنسبة 100% دون أي اتصال بخدمات الذكاء الاصطناعي السحابية المدفوعة.
+يهدف هذا المشروع إلى بناء وتشغيل نظام **استرجاع وتوليد معزز (RAG)** ذاتي الاستضافة ومحلي المعالجة وعالي الأمان على جهاز الحاسوب الشخصي، مع التركيز على:
+1. **السيادة التامة على البيانات والاستدلال المحلي (100% Local Inference):** تشغيل جميع نماذج المحادثة ونماذج التضمين الشعاعي محلياً بالكامل دون أي اتصال بخدمات الذكاء الاصطناعي السحابية الخارجية.
 2. **الدعم المتقدم للوثائق العربية والإنجليزية:** استخراج وفهرسة دقيقة لنصوص الوثائق (PDF, Word, Markdown, TXT) ودعم البحث الدلالي العابر للغات (طرح سؤال بالعربية واسترجاع إجابة موثقة من وثائق إنجليزية).
-3. **التسريع العتادي الأقصى (GPU Acceleration):** تفريغ كامل لنموذج التوليد `qwen3.5:4b` على كرت الشاشة `NVIDIA RTX 3060 6GB` محققاً سرعة توليد مقاسة بلغت **59.18 كلمة/ثانية**.
-4. **التوثيق الصارم ومنع الهلوسة:** إلزام النموذج بحصر إجاباته في السياق المسترجع فقط مع ذكر اسم الوثيقة ورقم الفقرة، والامتناع الصريح عن الإجابة في حال عدم توفر المعلومة.
-5. **العزل الأمني الصارم:** حصر الوصول لواجهة النظام وقواعد البيانات على حلقة الاسترجاع المحلية (`127.0.0.1`) وحماية المنافذ من أي كشف على الشبكة المحلية أو الإنترنت.
+3. **التسريع العتادي الأقصى (GPU Acceleration):** تفريغ كامل لنموذج التوليد `qwen3.5:4b` على كرت الشاشة `NVIDIA RTX 3060 6GB` محققاً سرعة توليد مقاسة بلغت **59.18 رمز/ثانية (Tokens/sec)**.
+4. **التوثيق الصارم ومنع الهلوسة:** إلزام النموذج بحصر إجاباته في السياق المسترجع فقط مع ذكر اسم الوثيقة ورقم الفقرة، والامتناع الصريح عن الإجابة في حال عدم توفر المعلومة في الوثائق المرفقة.
+5. **العزل الأمني الصارم:** حصر الوصول لواجهة النظام وقواعد البيانات على حلقة الاسترجاع المحلية (`127.0.0.1`) وحظر نشر المنافذ على الشبكة الخارجية.
+6. **نطاق الاتصال بالإنترنت:** يقتصر الاتصال بالإنترنت حصراً على تنزيل البرمجيات والحاويات ومزامنة التوثيق مع مستودع GitHub البعيد، بينما عمليات الـ RAG والمحادثة ومعالجة الوثائق تعمل محلياً بنسبة 100%.
 
 ---
 
@@ -38,7 +43,7 @@ flowchart TB
 
         subgraph OllamaEngine ["Host LLM & Embedding Engine (Ollama Native)"]
             OllamaDaemon["Ollama Daemon (:11434)\nSocket: [::]:11434 / 127.0.0.1"]
-            ChatLLM["Chat LLM: qwen3.5:4b\n(100% GPU | 59.18 t/s | num_ctx: 4096)"]
+            ChatLLM["Chat LLM: qwen3.5:4b\n(100% GPU | 59.18 tokens/s | num_ctx: 4096)"]
             EmbeddingModel["Embedding Model: bge-m3 / qwen3-embedding:0.6b\n(Multilingual Arabic/English)"]
             OllamaDaemon --> ChatLLM
             OllamaDaemon --> EmbeddingModel
@@ -87,7 +92,7 @@ flowchart TB
 
 ## Measured Hardware Benchmarks
 
-Direct physical measurements captured on the workstation:
+Direct physical measurements captured on the target workstation:
 
 | Benchmark Parameter | Measured Result | Verification Detail |
 | :--- | :--- | :--- |
@@ -97,8 +102,8 @@ Direct physical measurements captured on the workstation:
 | **Chat LLM Model** | `qwen3.5:4b` | GGUF Q4_K_M (3.1 GB memory image) |
 | **Context Window Tested** | `num_ctx: 4096` tokens | Conservative baseline ensuring 1650 MiB VRAM margin |
 | **Execution Acceleration** | **100% GPU Offload** | Confirmed via `ollama ps` CUDA llamacpp runner |
-| **Model Load Time** | **7.28 seconds** | Instantaneous model warmup |
-| **Generation Speed** | **59.18 tokens/second** | 1969 tokens generated in 33.27 seconds |
+| **Model Load Time** | **7.28 seconds** | Fast native warmup |
+| **Generation Speed** | **59.18 tokens/second** | 1969 tokens generated in 33.27 seconds (not words/sec) |
 | **Active VRAM Usage** | **4345 MiB / 6144 MiB** | 70.7% GPU memory utilization under peak load |
 
 ---
@@ -111,7 +116,7 @@ local-rag-dify/
 ├── CHANGELOG.md                   # Semantic versioning changelog
 ├── .gitignore                     # Comprehensive security and secret exclusion policy
 ├── .gitattributes                 # Cross-platform line ending normalization
-├── .env.example                   # Hardened configuration template with Dify 1.18.0 tokens
+├── .env.example                   # Baseline configuration template (finalized upon Stage B deployment)
 ├── docs/
 │   ├── architecture/
 │   │   └── system-architecture.md # Full 10-tier microservices architectural specification
@@ -141,7 +146,7 @@ This project adheres to an isolated phased deployment protocol requiring explici
 
 - [x] **Stage 0: GitHub Integration & Project Initialization** *(Completed)*
   - Remote repository setup, directory scaffolding, security exclusions, and public documentation.
-- [ ] **Stage A: WSL2 and Docker Desktop Prerequisites** *(Pending Authorization)*
+- [ ] **Stage A: WSL2 and Docker Desktop Prerequisites** *(In Progress)*
   - Enabling WSL2 Linux kernel and installing Docker Desktop with WSL2 backend.
 - [ ] **Stage B: Dify 1.18.0 Deployment & Container Health Check**
   - Pinned stable release checkout, secret generation, loopback binding, and service verification.
@@ -158,6 +163,7 @@ This project adheres to an isolated phased deployment protocol requiring explici
 
 Because this repository is public, strict data-exclusion measures are enforced:
 - **No Secrets or Credentials:** `.env` files, API keys, passwords, and tokens are strictly excluded via `.gitignore`.
+- **Configuration Templates:** `.env.example` provides an illustrative baseline template with placeholders; exact variables will be verified against the pinned Dify 1.18.0 Compose definition during Stage B.
 - **Loopback Enforcement:** Nginx is bound strictly to `127.0.0.1:80`. No service is exposed to the local network (`0.0.0.0`).
 - **Data Sovereignty:** Uploaded documents, vector database stores, and model weights are retained locally and never committed.
 - **Sanitized Reports:** All machine-specific personal serials and paths are isolated from public Git tracking.

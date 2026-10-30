@@ -9,48 +9,52 @@
 
 ```mermaid
 flowchart TD
-    Stage0["Stage 0: GitHub Integration & Project Init\n(CURRENT — Authorized)"] --> Gate0{User Review & Approval}
-    Gate0 --> StageA["Stage A: WSL2 & Docker Desktop Prerequisites\n(NOT YET AUTHORIZED)"]
-    Gate0 -. Stop if blocked .-> Abort0[Resolve Stage 0 Issues]
-    StageA --> GateA{User Review & Approval}
-    GateA --> StageB["Stage B: Dify 1.18.0 Deployment & Health Check"]
+    Stage0["Stage 0: GitHub Integration & Project Init\n(COMPLETED & VERIFIED)"] --> Gate0{User Review & Approval}
+    Gate0 --> StageA["Stage A: WSL2 & Docker Desktop Prerequisites\n(COMPLETED & VERIFIED)"]
+    StageA --> GateA{User Review & Approval\n(CURRENT GATE)}
+    GateA --> StageB["Stage B: Dify 1.18.0 Deployment & Health Check\n(AUTHORIZED UPON APPROVAL)"]
     StageB --> GateB{User Review & Approval}
-    GateB --> StageC["Stage C: Ollama Networking & Embedding Model"]
+    GateB --> StageC["Stage C: Ollama Networking & Embedding Model\n(PENDING STAGE B)"]
     StageC --> GateC{User Review & Approval}
-    GateC --> StageD["Stage D: Knowledge Base & RAG App Creation"]
+    GateC --> StageD["Stage D: Knowledge Base & RAG App Creation\n(PENDING STAGE C)"]
     StageD --> GateD{User Review & Approval}
-    GateD --> StageE["Stage E: Functional & Acceptance Validation"]
+    GateD --> StageE["Stage E: Functional & Acceptance Validation\n(FINAL GATE)"]
 ```
 
 ---
 
 ## 2. Stage Breakdown & Acceptance Gates
 
-### Stage 0: Repository Integration & Project Initialization (Current)
-- **Status:** **ACTIVE & AUTHORIZED**
+### Stage 0: Repository Integration & Project Initialization (Completed)
+- **Status:** **COMPLETED & VERIFIED** (Commit: `3d4b9fe`)
 - **Objective:** Establish the official public GitHub repository (`https://github.com/a2sn2/local-rag-dify`), sanitize documentation, implement the security exclusion policy, configure `.gitignore`, and commit initial project scaffolding.
-- **Deliverables:**
-  - Standardized directory layout (`docs/`, `docker/`, `config/`, `scripts/`, `tests/`).
-  - Strict `.gitignore` protecting secrets, models, private reports, and dataset files.
-  - Initialized Git repository targeting `origin/main`.
-  - Comprehensive public architectural and deployment specifications.
-- **Verification Gate:** Verified clean git status, successful push to remote, and verified commit hash on GitHub.
+- **Verification Gate:** Confirmed SHA match on GitHub remote, 100% clean tree, zero sensitive data tracked.
 
 ---
 
-### Stage A: WSL2 and Docker Desktop Prerequisites
-- **Status:** **PENDING USER AUTHORIZATION** (Do NOT start until Stage 0 is approved).
-- **Objective:** Provision Linux container support on Windows 11 via official packages without affecting user files.
-- **Actions:**
-  1. Install WSL2 kernel: `wsl.exe --install --no-distribution`.
-  2. Install Docker Desktop via Winget: `winget install -e --id Docker.DockerDesktop`.
-  3. Verify WSL2 backend integration and `docker compose version`.
-- **Verification Gate:** `docker info` confirms Docker Desktop running on WSL2 with active daemon.
+### Stage A: WSL2 and Docker Desktop Prerequisites (Completed)
+- **Status:** **COMPLETED & FULLY VERIFIED**
+- **Verified Components:**
+  - `Microsoft.WSL`: Version **3.0.3.0** (Linux Kernel **6.18.54.1-1**, Default WSL Version: 2).
+  - `Docker.DockerDesktop`: Version **4.97.0** (Per-User Installation under `hassa`, WSL2 backend).
+  - `Docker Engine`: Version **29.9.2** (Linux daemon operational on `desktop-linux`).
+  - `Docker Compose`: Version **v5.6.1**.
+  - `Container Runtime`: Verified via `docker run --rm hello-world` execution.
+- **Resource Allocation (`.wslconfig`):**
+  - Memory ceiling: **16 GB** (reserves 24 GB RAM for Windows host and Ollama).
+  - CPU cores: **12 logical processors** (reserves 4 cores for host OS and Ollama).
+  - Swap: **8 GB** on NVMe SSD.
+  - Loopback: `localhostForwarding=true`.
+- **Provisioning Scripts & Automation:**
+  - `scripts/provision-wsl-elevated.ps1`: Automated Phase 1 elevated installer enabling `VirtualMachinePlatform` and `Microsoft-Windows-Subsystem-Linux`.
+  - `scripts/provision-docker-user.ps1`: Phase 2 un-elevated user-context installer and acceptance test runner.
+  - `scripts/launch-stage-a.ps1`: Privilege-separated orchestrator.
+- **Verification Gate Results:** All acceptance checks passed (`docker info`, `docker compose version`, `docker run --rm hello-world`, Ollama `qwen3.5:4b` service health).
 
 ---
 
 ### Stage B: Dify 1.18.0 Deployment & Container Health Check
-- **Status:** **PENDING STAGE A COMPLETION**
+- **Status:** **PENDING USER AUTHORIZATION (Next Gate)**
 - **Objective:** Deploy Dify's official pinned stable release `1.18.0` with full security token hardening.
 - **Actions:**
   1. Clone pinned release `1.18.0` into project deployment folder.
