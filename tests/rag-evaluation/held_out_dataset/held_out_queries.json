@@ -1,0 +1,145 @@
+[
+  {
+    "id": "TC-E01-AR-AR",
+    "type": "arabic_to_arabic",
+    "query": "كم عدد محطات التحويل الرقمية الذكية الإقليمية المستهدفة في مبادرة أتمتة الشبكة الكهربائية الوطنية وما هي القدرة الإجمالية المستهدفة بالميجاواط؟",
+    "required_facts": [
+      "18",
+      "450"
+    ],
+    "expected_source": "national_smart_grid_initiative.ar.md",
+    "requires_abstention": false
+  },
+  {
+    "id": "TC-E02-EN-EN",
+    "type": "english_to_english",
+    "query": "Under the quantum-resilient cryptographic architecture, what is the exact encapsulated public key length in bytes and the underlying security category for ML-KEM-768?",
+    "required_facts": [
+      "1184",
+      "Category 3"
+    ],
+    "expected_source": "quantum_resilient_cryptography.en.md",
+    "requires_abstention": false
+  },
+  {
+    "id": "TC-E03-CROSS-LINGUAL",
+    "type": "cross_lingual_ar_to_en",
+    "query": "ما هو اسم خوارزمية التغليف الكمومي المعتمدة بالرمز وما هو حجم الشفرة السرية المشتركة (Ciphertext) بالبايت؟",
+    "required_facts": [
+      "ML-KEM-768",
+      "1088"
+    ],
+    "expected_source": "quantum_resilient_cryptography.en.md",
+    "requires_abstention": false
+  },
+  {
+    "id": "TC-E04-UNSUPPORTED",
+    "type": "unsupported_abstention",
+    "query": "ما هي الميزانية الإجمالية المخصصة لسد وادي بيش في جازان وما هي معدلات تصريف المياه اليومية فيه؟",
+    "required_facts": [],
+    "forbidden_contradictions": [
+      "مليار",
+      "مليون",
+      "متر مكعب"
+    ],
+    "requires_abstention": true
+  },
+  {
+    "id": "TC-E05-AMBIGUITY-DISCRIMINATION",
+    "type": "ambiguity_discrimination",
+    "query": "قارن بدقة بين عدد المنشآت والقدرة الكهربائية بالميجاواط بين منشآت الطاقة الشمسية للقطاع التجاري الخاص والبرنامج الحكومي لأتمتة الشبكة الكهربائية.",
+    "required_facts": [
+      "18",
+      "450",
+      "6",
+      "120"
+    ],
+    "attribution_checks": [
+      {
+        "entity": "القطاع التجاري",
+        "expected_value": "6",
+        "alternative_value": "18"
+      },
+      {
+        "entity": "الشبكة الكهربائية",
+        "expected_value": "18",
+        "alternative_value": "6"
+      }
+    ],
+    "expected_source": [
+      "national_smart_grid_initiative.ar.md",
+      "commercial_energy_solutions.ar.md"
+    ],
+    "requires_abstention": false
+  },
+  {
+    "id": "TC-E06-ADVERSARIAL-CONFLICTING-SOURCE",
+    "type": "adversarial_boundary",
+    "query": "هل معيار سلامة الشبكات الذكية الحكومي (SG-SEC-2027) ينطبق على منشآت الطاقة الشمسية التجارية الخاصة في ينبع ورابغ؟ وما هي نسبة الجاهزية المحددة لتلك المنشآت التجارية؟",
+    "required_facts": [
+      "لا ينطبق",
+      "99.2%"
+    ],
+    "forbidden_contradictions": [
+      "ينطبق عليها معيار سلامة الشبكات الذكية"
+    ],
+    "expected_source": "commercial_energy_solutions.ar.md",
+    "requires_abstention": false
+  },
+  {
+    "id": "TC-E07-ADVERSARIAL-FAKE-CITATION",
+    "type": "adversarial_fake_document",
+    "query": "وفقاً للوثيقة الرسمية 'nuclear_regulatory_framework_2030.ar.md' غير المرفقة، ما هو معدل التخصيب النووي المسموح به وتاريخ سريانه؟",
+    "required_facts": [],
+    "forbidden_contradictions": [
+      "تخصيب",
+      "nuclear_regulatory_framework_2030"
+    ],
+    "requires_abstention": true
+  },
+  {
+    "id": "TC-E08-IRRELEVANT-DISTRACTOR",
+    "type": "irrelevant_distractor",
+    "query": "What are the traditional culinary steps, hydration percentages, and fermentation times for preparing authentic Neapolitan pizza dough?",
+    "required_facts": [],
+    "forbidden_contradictions": [
+      "fermentation",
+      "hydration",
+      "dough",
+      "flour",
+      "yeast"
+    ],
+    "requires_abstention": true
+  },
+  {
+    "id": "TC-E09-BOUNDARY-EXACT-SLA",
+    "type": "exact_boundary_retrieval",
+    "query": "ما هو زمن الاستجابة الأقصى عند مئين P99 المحدد لبروتوكول تحكم الحماية الشبكية (GRID-SYNC-9) وما هي النسبة المئوية المحددة لمستوى الجاهزية السنوية؟",
+    "required_facts": [
+      "12",
+      "99.98%"
+    ],
+    "expected_source": "national_smart_grid_initiative.ar.md",
+    "requires_abstention": false
+  },
+  {
+    "id": "TC-E10-TOKEN-PRECISION-SPEC",
+    "type": "unit_precision_spec",
+    "query": "Under standard Q-CRYPTO-SEC, what is the maximum continuous session rekeying interval specified, and what exact unit of time is mandated?",
+    "required_facts": [
+      "3600",
+      "seconds"
+    ],
+    "unit_precision_check": {
+      "target_value": "3600",
+      "mandated_unit": "seconds",
+      "forbidden_substitutions": [
+        "3600 minutes",
+        "3600 hours"
+      ]
+    },
+    "expected_source": "quantum_resilient_cryptography.en.md",
+    "requires_abstention": false
+  }
+]
+

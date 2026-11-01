@@ -1,0 +1,741 @@
+{
+  "timestamp": "2026-11-01T16:24:18Z",
+  "app_id": "5fa6a5ae-ddf1-4a89-a8cd-57891ad5c244",
+  "app_name": "Local Bilingual RAG Assistant",
+  "app_mode": "chat",
+  "model": "qwen3.5:4b",
+  "embedding": "bge-m3:latest",
+  "total_test_cases": 10,
+  "passed_test_cases": 10,
+  "pass_rate_percentage": 100.0,
+  "total_iterations_run": 30,
+  "total_iterations_passed": 30,
+  "total_iterations_failed": 0,
+  "iteration_pass_rate_percentage": 100.0,
+  "aggregate_p50_total_latency_seconds": 10.608,
+  "aggregate_p95_total_latency_seconds": 19.29,
+  "aggregate_p50_generation_latency_seconds": 10.564,
+  "all_passed": true,
+  "results": [
+    {
+      "id": "TC-E01-AR-AR",
+      "type": "arabic_to_arabic",
+      "query": "كم عدد محطات التحويل الرقمية الذكية الإقليمية المستهدفة في مبادرة أتمتة الشبكة الكهربائية الوطنية وما هي القدرة الإجمالية المستهدفة بالميجاواط؟",
+      "passed": true,
+      "p50_total_latency": 9.89,
+      "p95_total_latency": 14.877,
+      "p50_generation_latency": 9.851,
+      "retrieval_latency_ms": 4994.61,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": true,
+          "http_status": 200,
+          "latency": 15.431,
+          "generation_latency": 15.393,
+          "answer": "يهدف برنامج المبادرة الوطنية للشبكات الذكية إلى بناء وتدشين **18 محطة تحويل رقمية ذكية إقليمية** موزعة في مناطق المملكة الرئيسية. وتبلغ القدرة التحكم والتوليد المتجددة المستهدفة في المرحلة التشغيلية الأولى **450 ميجاواط** (450 MW).\n\n[national_smart_grid_initiative.ar.md, قسم 1]",
+          "retrieved_resources": [
+            "national_smart_grid_initiative.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "saudi_tech_initiatives.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 2,
+          "passed": true,
+          "http_status": 200,
+          "latency": 1.595,
+          "generation_latency": 1.541,
+          "answer": "يهدف برنامج المبادرة الوطنية للشبكات الذكية إلى بناء وتدشين **18 محطة تحويل رقمية ذكية إقليمية** موزعة في مناطق المملكة الرئيسية. وتبلغ القدرة التحكم والتوليد المتجددة المستهدفة لهذه المحطات **450 ميجاواط** (450 MW).\n\n[national_smart_grid_initiative.ar.md, قسم 1]",
+          "retrieved_resources": [
+            "national_smart_grid_initiative.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "saudi_tech_initiatives.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 9.89,
+          "generation_latency": 9.851,
+          "answer": "يهدف برنامج المبادرة الوطنية للشبكات الذكية إلى بناء وتدشين **18 محطة تحويل رقمية ذكية إقليمية** موزعة في مناطق المملكة الرئيسية. وتبلغ القدرة التحكم والتوليد المتجددة المستهدفة في المرحلة التشغيلية الأولى **450 ميجاواط** (450 MW).\n\n[national_smart_grid_initiative.ar.md, قسم 1]",
+          "retrieved_resources": [
+            "national_smart_grid_initiative.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "saudi_tech_initiatives.ar.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    },
+    {
+      "id": "TC-E02-EN-EN",
+      "type": "english_to_english",
+      "query": "Under the quantum-resilient cryptographic architecture, what is the exact encapsulated public key length in bytes and the underlying security category for ML-KEM-768?",
+      "passed": true,
+      "p50_total_latency": 10.419,
+      "p95_total_latency": 19.046,
+      "p50_generation_latency": 10.374,
+      "retrieval_latency_ms": 12296.61,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": true,
+          "http_status": 200,
+          "latency": 20.005,
+          "generation_latency": 19.964,
+          "answer": "Under the quantum-resilient cryptographic architecture, the encapsulated public key for **ML-KEM-768** is strictly serialized to exactly **1184 bytes**. The algorithm operates with a module lattice structure of dimension **N=256** and polynomial modulus **Q=3329**, offering **NIST Security Category 3** equivalence (128-bit post-quantum security margin).\n\n[quantum_resilient_cryptography.en.md, Section 1]\n[quantum_resilient_cryptography.en.md, Section 2]",
+          "retrieved_resources": [
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "cloud_architecture_standards.en.md",
+            "cloud_architecture_standards.en.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 2,
+          "passed": true,
+          "http_status": 200,
+          "latency": 1.553,
+          "generation_latency": 1.513,
+          "answer": "Based on the provided documents:\n\nThe encapsulated public key is strictly serialized to exactly **1184 bytes**, and the algorithm operates with NIST **Security Category 3** equivalence.\n\n[quantum_resilient_cryptography.en.md, Section 1]\n[quantum_resilient_cryptography.en.md, Section 2]",
+          "retrieved_resources": [
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "cloud_architecture_standards.en.md",
+            "cloud_architecture_standards.en.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 10.419,
+          "generation_latency": 10.374,
+          "answer": "Under the quantum-resilient cryptographic architecture, the encapsulated public key for **ML-KEM-768** is strictly serialized to exactly **1184 bytes**, and the algorithm offers **NIST Security Category 3** equivalence (128-bit post-quantum security margin).\n\n[quantum_resilient_cryptography.en.md, Section 1]\n[quantum_resilient_cryptography.en.md, Section 2]",
+          "retrieved_resources": [
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "cloud_architecture_standards.en.md",
+            "cloud_architecture_standards.en.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    },
+    {
+      "id": "TC-E03-CROSS-LINGUAL",
+      "type": "cross_lingual_ar_to_en",
+      "query": "ما هو اسم خوارزمية التغليف الكمومي المعتمدة بالرمز وما هو حجم الشفرة السرية المشتركة (Ciphertext) بالبايت؟",
+      "passed": true,
+      "p50_total_latency": 8.989,
+      "p95_total_latency": 14.446,
+      "p50_generation_latency": 8.943,
+      "retrieval_latency_ms": 12714.92,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": true,
+          "http_status": 200,
+          "latency": 15.052,
+          "generation_latency": 15.017,
+          "answer": "اسم خوارزمية التغليف الكمومي المعتمدة هو **ML-KEM-768**، وحجم الشفرة السرية المشتركة (Ciphertext) هو **1088 بايت**.\n\n[quantum_resilient_cryptography.en.md, Section 1]\n[quantum_resilient_cryptography.en.md, Section 2]",
+          "retrieved_resources": [
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 2,
+          "passed": true,
+          "http_status": 200,
+          "latency": 1.442,
+          "generation_latency": 1.402,
+          "answer": "اسم خوارزمية التغليف الكمومي المعتمدة هو **ML-KEM-768**، وحجم الشفرة السرية المشتركة (Ciphertext) هو **1088 بايت**.\n\n[quantum_resilient_cryptography.en.md, Section 1]\n[quantum_resilient_cryptography.en.md, Section 2]",
+          "retrieved_resources": [
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 8.989,
+          "generation_latency": 8.943,
+          "answer": "اسم خوارزمية التغليف الكمومي المعتمدة هو **ML-KEM-768**، وحجم الشفرة السرية المشتركة (Ciphertext) هو **1088 بايت**.\n\n[quantum_resilient_cryptography.en.md, Section 1]\n[quantum_resilient_cryptography.en.md, Section 2]",
+          "retrieved_resources": [
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    },
+    {
+      "id": "TC-E04-UNSUPPORTED",
+      "type": "unsupported_abstention",
+      "query": "ما هي الميزانية الإجمالية المخصصة لسد وادي بيش في جازان وما هي معدلات تصريف المياه اليومية فيه؟",
+      "passed": true,
+      "p50_total_latency": 8.615,
+      "p95_total_latency": 13.491,
+      "p50_generation_latency": 8.568,
+      "retrieval_latency_ms": 12042.73,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": true,
+          "http_status": 200,
+          "latency": 14.033,
+          "generation_latency": 13.982,
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
+          "retrieved_resources": [
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 2,
+          "passed": true,
+          "http_status": 200,
+          "latency": 1.44,
+          "generation_latency": 1.395,
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
+          "retrieved_resources": [
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 8.615,
+          "generation_latency": 8.568,
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
+          "retrieved_resources": [
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    },
+    {
+      "id": "TC-E05-AMBIGUITY-DISCRIMINATION",
+      "type": "ambiguity_discrimination",
+      "query": "قارن بدقة بين عدد المنشآت والقدرة الكهربائية بالميجاواط بين منشآت الطاقة الشمسية للقطاع التجاري الخاص والبرنامج الحكومي لأتمتة الشبكة الكهربائية.",
+      "passed": true,
+      "p50_total_latency": 15.421,
+      "p95_total_latency": 18.827,
+      "p50_generation_latency": 15.377,
+      "retrieval_latency_ms": 13527.79,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": true,
+          "http_status": 200,
+          "latency": 19.206,
+          "generation_latency": 19.177,
+          "answer": "بناءً على الوثائق المرفقة، إليك مقارنة دقيقة بين المنشآت والقدرة الكهربائية:\n\n**1. منشآت القطاع التجاري الخاص:**\n*   **عدد المنشآت:** 6 منشآت طاقة شمسية مستقلة.\n*   **القدرة التوليدية الإجمالية:** 120 ميجاواط (120 MW).\n*   **الموقع:** مدينتي ينبع ورابغ (مخصصة للمجمعات الصناعية واللوجستية).\n[commercial_energy_solutions.ar.md, قسم 1]\n\n**2. برنامج أتمتة الشبكة الكهربائية الوطني (الحكومي):**\n*   **عدد المحطات:** 18 محطة تحويل رقمية ذكية إقليمية.\n*   **القدرة التشغيلية المستهدفة:** 450 ميجاواط (450 MW).\n*   **الموقع:** مناطق المملكة الرئيسية.\n[national_smart_grid_initiative.ar.md, قسم 1]\n\n**الخلاصة المقارنة:**\nيبلغ عدد منشآت القطاع التجاري الخاص **6** مقابل **18** محطة في البرنامج الحكومي، بينما تتفوق القدرة التوليدية/التشغيلية للبرنامج الحكومي (450 MW) على قدرة القطاع التجاري الخاص (120 MW) بنسبة 3.75 ضعفًا.\n\n[commercial_energy_solutions.ar.md, قسم 1]\n[national_smart_grid_initiative.ar.md, قسم 1]",
+          "retrieved_resources": [
+            "commercial_energy_solutions.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 2,
+          "passed": true,
+          "http_status": 200,
+          "latency": 5.825,
+          "generation_latency": 5.778,
+          "answer": "بناءً على الوثائق المرفقة، إليك مقارنة دقيقة بين المنشآت والقدرة الكهربائية:\n\n**1. منشآت الطاقة الشمسية للقطاع التجاري الخاص:**\n*   **عدد المنشآت:** 6 منشآت طاقة شمسية مستقلة.\n*   **القدرة التوليدية الإجمالية:** 120 ميجاواط (120 MW).\n*   **الموقع:** مدينتي ينبع ورابغ (مخصصة للمجمعات الصناعية واللوجستية).\n[commercial_energy_solutions.ar.md, قسم 1]\n\n**2. برنامج أتمتة الشبكة الكهربائية الذكية الوطنية (الحكومي):**\n*   **عدد المنشآت:** 18 محطة تحويل رقمية ذكية إقليمية.\n*   **القدرة التشغيلية المستهدفة:** 450 ميجاواط (450 MW) للتحكم والتوليد المتجددة لدعم الأحمال الكهربائية الحيوية.\n[national_smart_grid_initiative.ar.md, قسم 1]\n\n**الخلاصة المقارنة:**\nبينما يمتلك القطاع التجاري الخاص **6 منشآت** بقدرة إجمالية تبلغ **120 ميجاواط**، يهدف البرنامج الحكومي لأتمتة الشبكة إلى بناء **18 محطة تحويل رقمية** بقدرة تشغيلية مجتمعة تصل إلى **450 ميجاواط**.",
+          "retrieved_resources": [
+            "commercial_energy_solutions.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 15.421,
+          "generation_latency": 15.377,
+          "answer": "بناءً على الوثائق المرفقة، إليك مقارنة دقيقة بين المنشآت والقدرة الكهربائية:\n\n**1. منشآت القطاع التجاري الخاص:**\n*   **عدد المنشآت:** 6 منشآت طاقة شمسية مستقلة.\n*   **القدرة التوليدية الإجمالية:** 120 ميجاواط (120 MW).\n*   **الموقع:** مدينتي ينبع ورابغ (مخصصة للمجمعات الصناعية واللوجستية).\n[commercial_energy_solutions.ar.md, قسم 1]\n\n**2. برنامج أتمتة الشبكة الكهربائية الوطني (الحكومي):**\n*   **عدد المحطات:** 18 محطة تحويل رقمية ذكية إقليمية.\n*   **القدرة التشغيلية المستهدفة:** 450 ميجاواط (450 MW).\n*   **الموقع:** مناطق المملكة الرئيسية.\n[national_smart_grid_initiative.ar.md, قسم 1]\n\n**الخلاصة:**\nيبلغ عدد منشآت القطاع التجاري الخاص 6 وحدات بقدرة إجمالية 120 ميجاواط، بينما يهدف البرنامج الحكومي إلى تشغيل 18 محطة بقدرة إجمالية تبلغ 450 ميجاواط.",
+          "retrieved_resources": [
+            "commercial_energy_solutions.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    },
+    {
+      "id": "TC-E06-ADVERSARIAL-CONFLICTING-SOURCE",
+      "type": "adversarial_boundary",
+      "query": "هل معيار سلامة الشبكات الذكية الحكومي (SG-SEC-2027) ينطبق على منشآت الطاقة الشمسية التجارية الخاصة في ينبع ورابغ؟ وما هي نسبة الجاهزية المحددة لتلك المنشآت التجارية؟",
+      "passed": true,
+      "p50_total_latency": 12.645,
+      "p95_total_latency": 17.26,
+      "p50_generation_latency": 12.604,
+      "retrieval_latency_ms": 14346.69,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": true,
+          "http_status": 200,
+          "latency": 17.772,
+          "generation_latency": 17.735,
+          "answer": "لا، معيار سلامة الشبكات الذكية الحكومي **(SG-SEC-2027)** لا ينطبق على منشآت الطاقة الشمسية التجارية الخاصة في ينبع ورابغ، حيث تُشغل هذه المنشآت كشبكات معزولة محلياً وتابعة لشركات تجارية خاصة.\n\nنسبة الجاهزية السنوية المحددة لمنشآت القطاع التجاري هي **99.2%**، وذلك وفقاً لاتفاقية مستوى الخدمة الخاصة المعروفة بالرمز **SLA-SOLAR-88**.\n\n[commercial_energy_solutions.ar.md, قسم 3]\n[commercial_energy_solutions.ar.md, قسم 1]",
+          "retrieved_resources": [
+            "commercial_energy_solutions.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 2,
+          "passed": true,
+          "http_status": 200,
+          "latency": 4.212,
+          "generation_latency": 4.168,
+          "answer": "لا، معيار سلامة الشبكات الذكية الحكومي **(SG-SEC-2027)** لا ينطبق على منشآت الطاقة الشمسية التجارية الخاصة في ينبع ورابغ. وذلك نظراً لطبيعة تشغيل هذه المنشآت كشبكات معزولة محلياً وتابعة لشركات تجارية خاصة، حيث لا تخضع لاشتراطات العزل الشبكي السيادي أو متطلبات زمن استجابة الـ 12 مللي ثانية.\n\nأما نسبة الجاهزية السنوية المحددة لمنشآت القطاع التجاري (التي تبلغ قدرتها التوليدية الإجمالية **120 ميجاواط**)، فهي **99.2%** وفقاً لاتفاقية مستوى الخدمة الخاصة المعروفة بالرمز **SLA-SOLAR-88**.\n\n[commercial_energy_solutions.ar.md, قسم 3]\n[commercial_energy_solutions.ar.md, قسم 1]\n[commercial_energy_solutions.ar.md, قسم 2]",
+          "retrieved_resources": [
+            "commercial_energy_solutions.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 12.645,
+          "generation_latency": 12.604,
+          "answer": "لا، معيار سلامة الشبكات الذكية الحكومي **(SG-SEC-2027)** لا ينطبق على منشآت الطاقة الشمسية التجارية الخاصة في ينبع ورابغ، حيث تُشغل هذه المنشآت كشبكات معزولة محلياً وتابعة لشركات تجارية خاصة. [commercial_energy_solutions.ar.md, قسم 3]\n\nنسبة الجاهزية السنوية المحددة لمنشآت القطاع التجاري هي **99.2%**، وذلك وفقاً لاتفاقية مستوى الخدمة الخاصة المعروفة بالرمز **SLA-SOLAR-88**. [commercial_energy_solutions.ar.md, قسم 2]",
+          "retrieved_resources": [
+            "commercial_energy_solutions.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    },
+    {
+      "id": "TC-E07-ADVERSARIAL-FAKE-CITATION",
+      "type": "adversarial_fake_document",
+      "query": "وفقاً للوثيقة الرسمية 'nuclear_regulatory_framework_2030.ar.md' غير المرفقة، ما هو معدل التخصيب النووي المسموح به وتاريخ سريانه؟",
+      "passed": true,
+      "p50_total_latency": 10.797,
+      "p95_total_latency": 16.036,
+      "p50_generation_latency": 10.754,
+      "retrieval_latency_ms": 14657.73,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": true,
+          "http_status": 200,
+          "latency": 16.618,
+          "generation_latency": 16.584,
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
+          "retrieved_resources": [
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 2,
+          "passed": true,
+          "http_status": 200,
+          "latency": 0.488,
+          "generation_latency": 0.449,
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
+          "retrieved_resources": [
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 10.797,
+          "generation_latency": 10.754,
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
+          "retrieved_resources": [
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    },
+    {
+      "id": "TC-E08-IRRELEVANT-DISTRACTOR",
+      "type": "irrelevant_distractor",
+      "query": "What are the traditional culinary steps, hydration percentages, and fermentation times for preparing authentic Neapolitan pizza dough?",
+      "passed": true,
+      "p50_total_latency": 0.436,
+      "p95_total_latency": 14.501,
+      "p50_generation_latency": 0.394,
+      "retrieval_latency_ms": 14387.77,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": true,
+          "http_status": 200,
+          "latency": 16.063,
+          "generation_latency": 16.031,
+          "answer": "The requested information is not available in the provided documents.",
+          "retrieved_resources": [
+            "regional_datacenter_comparison.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "commercial_energy_solutions.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 2,
+          "passed": true,
+          "http_status": 200,
+          "latency": 0.411,
+          "generation_latency": 0.379,
+          "answer": "The requested information is not available in the provided documents.",
+          "retrieved_resources": [
+            "regional_datacenter_comparison.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "commercial_energy_solutions.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 0.436,
+          "generation_latency": 0.394,
+          "answer": "The requested information is not available in the provided documents.",
+          "retrieved_resources": [
+            "regional_datacenter_comparison.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "commercial_energy_solutions.ar.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    },
+    {
+      "id": "TC-E09-BOUNDARY-EXACT-SLA",
+      "type": "exact_boundary_retrieval",
+      "query": "ما هو زمن الاستجابة الأقصى عند مئين P99 المحدد لبروتوكول تحكم الحماية الشبكية (GRID-SYNC-9) وما هي النسبة المئوية المحددة لمستوى الجاهزية السنوية؟",
+      "passed": true,
+      "p50_total_latency": 13.135,
+      "p95_total_latency": 18.736,
+      "p50_generation_latency": 13.082,
+      "retrieval_latency_ms": 24572.97,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": true,
+          "http_status": 200,
+          "latency": 19.359,
+          "generation_latency": 19.31,
+          "answer": "يُحدد بروتوكول الاتصال المتزامن وزمن الاستجابة (**GRID-SYNC-9**) زمن استجابة ذهاب وإياب (Round-trip latency) أقصى قدره **12 مللي ثانية** عند مئين **P99**. أما النسبة المئوية المحددة لمستوى الجاهزية السنوية، فهي **99.98%** وفقاً لمعيار الأمن السيبراني والموثوقية (**SG-SEC-2027**) الذي يخضع له جميع المحطات الرقمية التابعة للمبادرة الوطنية للشبكات الذكية.\n\n[national_smart_grid_initiative.ar.md, قسم 3]\n[national_smart_grid_initiative.ar.md, قسم 2]",
+          "retrieved_resources": [
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 2,
+          "passed": true,
+          "http_status": 200,
+          "latency": 3.665,
+          "generation_latency": 3.617,
+          "answer": "يُحدد بروتوكول الاتصال المتزامن وزمن الاستجابة (**GRID-SYNC-9**) زمن استجابة ذهاب وإياب (Round-trip latency) أقصى قدره **12 مللي ثانية** عند مئين **P99**. أما النسبة المئوية المحددة لمستوى الجاهزية السنوية، فهي تختلف حسب النظام:\n*   بالنسبة للأنظمة التجارية (مثل منشآت الطاقة الشمسية)، النسبة المستهدفة هي **99.2%**.\n*   بالنسبة لأنظمة المبادرة الوطنية للشبكات الذكية (المحطات الرقمية)، النسبة الدنيا المُلزمة هي **99.98%**.\n\n[national_smart_grid_initiative.ar.md, قسم 3]\n[national_smart_grid_initiative.ar.md, قسم 2]",
+          "retrieved_resources": [
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 13.135,
+          "generation_latency": 13.082,
+          "answer": "يُحدد بروتوكول الاتصال المتزامن وزمن الاستجابة (**GRID-SYNC-9**) زمن استجابة ذهاب وإياب (Round-trip latency) أقصى قدره **12 مللي ثانية** عند مئين **P99**. أما النسبة المئوية المحددة لمستوى الجاهزية السنوية، فهي **99.98%** وفقاً لمعيار الأمن السيبراني والموثوقية (**SG-SEC-2027**) الذي يخضع له جميع المحطات الرقمية التابعة للمبادرة الوطنية للشبكات الذكية.\n\n[national_smart_grid_initiative.ar.md, قسم 3]\n[national_smart_grid_initiative.ar.md, قسم 2]",
+          "retrieved_resources": [
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    },
+    {
+      "id": "TC-E10-TOKEN-PRECISION-SPEC",
+      "type": "unit_precision_spec",
+      "query": "Under standard Q-CRYPTO-SEC, what is the maximum continuous session rekeying interval specified, and what exact unit of time is mandated?",
+      "passed": true,
+      "p50_total_latency": 10.957,
+      "p95_total_latency": 16.543,
+      "p50_generation_latency": 10.907,
+      "retrieval_latency_ms": 14451.81,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": true,
+          "http_status": 200,
+          "latency": 17.164,
+          "generation_latency": 17.134,
+          "answer": "Under standard Q-CRYPTO-SEC, the maximum continuous session rekeying interval is **3600 seconds** (1 hour).\n\n[quantum_resilient_cryptography.en.md, Section 3: Rekeying Lifecycle and Operational Timers]",
+          "retrieved_resources": [
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 2,
+          "passed": true,
+          "http_status": 200,
+          "latency": 1.234,
+          "generation_latency": 1.17,
+          "answer": "Under standard Q-CRYPTO-SEC, the maximum continuous session rekeying interval is **3600 seconds** (1 hour).\n\n[quantum_resilient_cryptography.en.md, Section 3]",
+          "retrieved_resources": [
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 10.957,
+          "generation_latency": 10.907,
+          "answer": "Under standard Q-CRYPTO-SEC, the maximum continuous session rekeying interval is **3600 seconds** (1 hour).\n\n[quantum_resilient_cryptography.en.md, Section 3]",
+          "retrieved_resources": [
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    }
+  ]
+}

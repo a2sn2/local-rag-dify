@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-11-01T16:48:04Z",
+  "stage": "Stage E: Final Acceptance, Security Audit & Operational Handover",
+  "dataset": {
+    "type": "Held-Out Independent Acceptance Dataset",
+    "name": "Stage E Held-Out Knowledge Base",
+    "dataset_id": "4d4e7d4a-0970-475b-b8b3-f6b66b47d5f9",
+    "fixtures": [
+      "national_smart_grid_initiative.ar.md",
+      "quantum_resilient_cryptography.en.md",
+      "commercial_energy_solutions.ar.md"
+    ]
+  },
+  "gpu_hardware": {
+    "model": "NVIDIA GeForce RTX 3060 Laptop GPU (6GB VRAM)",
+    "vram_total_mb": 6144.0,
+    "peak_vram_mb": 4087.0,
+    "vram_headroom_mb": 2057.0,
+    "peak_temperature_celsius": 86.5
+  },
+  "applications": {
+    "chatbot": {
+      "name": "Local Bilingual RAG Assistant",
+      "app_id": "5fa6a5ae-ddf1-4a89-a8cd-57891ad5c244",
+      "mode": "chat",
+      "architecture": "Single-step Chatbot with multi-dataset retrieval",
+      "test_cases_passed": "10/10",
+      "test_case_pass_rate_pct": 100.0,
+      "iterations_passed": "30/30",
+      "iteration_pass_rate_pct": 100.0,
+      "failed_iterations_count": 0,
+      "factual_correctness_pct": 100.0,
+      "citation_accuracy_pct": 100.0,
+      "abstention_precision_pct": 100.0,
+      "p50_total_latency_seconds": 10.608,
+      "p95_total_latency_seconds": 19.29,
+      "p50_generation_latency_seconds": 10.564
+    },
+    "chatflow": {
+      "name": "Local Bilingual RAG Chatflow",
+      "app_id": "80a154cf-1787-4aae-8be9-8cd44193d30b",
+      "mode": "advanced-chat",
+      "architecture": "Visual DAG (Start -> Knowledge Retrieval -> Evidence Check -> LLM -> Answer)",
+      "test_cases_passed": "10/10",
+      "test_case_pass_rate_pct": 100.0,
+      "iterations_passed": "30/30",
+      "iteration_pass_rate_pct": 100.0,
+      "failed_iterations_count": 0,
+      "factual_correctness_pct": 100.0,
+      "citation_accuracy_pct": 100.0,
+      "abstention_precision_pct": 100.0,
+      "p50_total_latency_seconds": 14.751,
+      "p95_total_latency_seconds": 25.773,
+      "p50_generation_latency_seconds": 14.396
+    }
+  },
+  "acceptance_verdict": {
+    "factual_accuracy_gate": true,
+    "citation_integrity_gate": true,
+    "abstention_precision_gate": true,
+    "generalization_status": "CONFIRMED on unseen held-out corpus (100% pass across all 60 iterations)"
+  }
+}

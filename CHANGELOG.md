@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.0] — 2026-11-01
+
+### Added & Validated (Stage E — Final Acceptance, Security Audit & Operational Handover)
+- **Independent Held-Out Acceptance Dataset (`tests/rag-evaluation/held_out_dataset/`):**
+  - Created 3 new unseen fixtures labeled as fictional acceptance fixtures:
+    - `national_smart_grid_initiative.ar.md`: Sovereign smart grid automation (18 digital sub-stations, 450 MW, Q3 2027, SG-SEC-2027 standard, 99.98% uptime, GRID-SYNC-9 protocol with 12ms P99 latency).
+    - `quantum_resilient_cryptography.en.md`: Quantum-resilient cryptography architecture (ML-KEM-768, lattice N=256, Q=3329, NIST Category 3 / 128-bit margin, 1184-byte public key, 1088-byte ciphertext, 3600s rekeying).
+    - `commercial_energy_solutions.ar.md`: Commercial solar solutions report for ambiguity discrimination (6 commercial solar facilities, 120 MW in Yanbu/Rabigh, 99.2% uptime, SLA-SOLAR-88, non-sovereign, SG-SEC-2027 non-applicable).
+  - Ingested fixtures into dedicated "Stage E Held-Out Knowledge Base" (`4d4e7d4a-0970-475b-b8b3-f6b66b47d5f9`) indexed with BGE-M3 dense vector + BM25 keyword hybrid search.
+- **Independent Acceptance Evaluation Suite (`held_out_queries.json`):**
+  - Designed 10 comprehensive held-out test cases covering AR-AR, EN-EN, cross-lingual AR-EN, unsupported abstention, ambiguity discrimination, conflicting sources, adversarial fake document bait, irrelevant distractor, boundary SLA, and token precision.
+  - Achieved **100% pass rate** on both Chatbot (30/30 iterations passed) and Chatflow (30/30 iterations passed).
+  - Factual accuracy: **100%** on both applications.
+  - Source citation grounding: **100%** (zero placeholders, exact section and file references verified against retrieved chunks).
+  - Explicit abstention precision: **100%** (zero hallucinated figures on ungrounded queries).
+- **Service Resilience, Restart & Recovery Automation (`tests/integration/test-service-recovery.ps1`):**
+  - Validated persistence of `OLLAMA_MAX_LOADED_MODELS=1` in `HKCU:\Environment` across process restarts.
+  - Verified clean termination and recovery of native Ollama daemon and model re-registration.
+  - Verified container restart resilience for Dify core services (`dify-nginx-1`, `dify-api-1`, `dify-plugin_daemon-1`) with health recovery.
+  - Verified post-recovery end-to-end RAG inference returning HTTP 200 with grounded answers.
+- **Disaster Recovery Backup & Isolated Restoration Testing (`scripts/`):**
+  - `backup-local-rag.ps1`: Automated UTF-8 PostgreSQL database dump, Redis snapshot, Weaviate schema, and DSL workflow backups with SHA-256 verification manifests.
+  - `test-isolated-restore.ps1`: Automated non-destructive sandbox restoration in an ephemeral container on an isolated Docker network. Successfully verified 172 tables, 1 account, 2 datasets, 6 documents, 27 completed segments, and 3 applications (`restore_verification_report.json`).
+- **Production Operations Runbook (`docs/operations/operations-runbook.md`):**
+  - Detailed daily startup, graceful shutdown, backup, restore, update SOPs, and a 6-issue RCA troubleshooting matrix.
+- **Local Security & Privacy Audit:**
+  - Verified all published host ports strictly bound to `127.0.0.1` (ports 80, 443, 5003).
+  - Confirmed internal database and backend containers (PostgreSQL, Redis, Weaviate, API) have zero external port bindings.
+  - Verified air-gapped offline operation with zero external AI provider dependencies.
+
+---
+
 ## [0.6.0] — 2026-11-01
 
 ### Added & Hardened (Stage D.1 — Visual Chatflow DAG & Hardened Evaluation)

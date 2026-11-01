@@ -1,0 +1,15 @@
+﻿{
+    "timestamp":  "2026-11-01T15:56:04Z",
+    "status":  "PASSED",
+    "backup_tested":  "backup_20261101_185541",
+    "checksum_verified":  true,
+    "isolation_verified":  true,
+    "restored_metrics":  {
+                             "completed_segments_count":  27,
+                             "documents_count":  6,
+                             "datasets_count":  2,
+                             "apps_count":  3,
+                             "tables_count":  172,
+                             "accounts_count":  1
+                         }
+}

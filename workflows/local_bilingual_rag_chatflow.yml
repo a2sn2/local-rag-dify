@@ -52,46 +52,90 @@ workflow:
       voice: ''
   graph:
     edges:
-    - id: start-retrieval
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: knowledge-retrieval
+      id: start-retrieval
       source: start
       sourceHandle: source
       target: retrieval
       targetHandle: target
-    - id: retrieval-evidence_check
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: if-else
+      id: retrieval-evidence_check
       source: retrieval
       sourceHandle: source
       target: evidence_check
       targetHandle: target
-    - id: evidence_check-llm
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: evidence_check-llm
       source: evidence_check
       sourceHandle: 'true'
       target: llm
       targetHandle: target
-    - id: llm-answer_grounded
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: llm-answer_grounded
       source: llm
       sourceHandle: source
       target: answer_grounded
       targetHandle: target
-    - id: evidence_check-answer_abstain
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: evidence_check-answer_abstain
       source: evidence_check
       sourceHandle: 'false'
       target: answer_abstain
       targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
+        selected: false
         title: Start
         type: start
         variables: []
+      height: 72
       id: start
       position:
         x: 80
         y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
+      width: 242
+      zIndex: 0
     - data:
         dataset_ids:
         - em5J3A0erazlwFG1RBbdloG75aaem8yL6b6T6pRoeIupY/B6nNgjOlAK6CYGL57z
+        - S+CUHyWc+mxGf/kSr3ULvGxHsVinkZ9MWNdxRBq0wa7i4N1mcacUc6zploW9wKW7
         multiple_retrieval_config:
           reranking_enable: false
           reranking_mode: weighted_score
@@ -101,6 +145,7 @@ workflow:
         - sys
         - query
         retrieval_mode: single
+        selected: true
         single_retrieval_config:
           model:
             completion_params: {}
@@ -109,13 +154,20 @@ workflow:
             provider: langgenius/ollama/ollama
         title: Knowledge Retrieval
         type: knowledge-retrieval
+      height: 89
       id: retrieval
       position:
         x: 380
         y: 282
+      positionAbsolute:
+        x: 380
+        y: 282
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
+      width: 242
+      zIndex: 0
     - data:
         cases:
         - case_id: 'true'
@@ -126,22 +178,23 @@ workflow:
             - retrieval
             - result
           logical_operator: and
-        conditions:
-        - comparison_operator: not empty
-          value: ''
-          variable_selector:
-          - retrieval
-          - result
-        logical_operator: and
+        selected: false
         title: Evidence Check
         type: if-else
+      height: 123
       id: evidence_check
       position:
         x: 680
         y: 282
+      positionAbsolute:
+        x: 680
+        y: 282
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
+      width: 242
+      zIndex: 0
     - data:
         context:
           enabled: true
@@ -194,42 +247,70 @@ workflow:
             \ ذلك).\n\nالسياق المرفق:\n{{#context#}}\n"
         - role: user
           text: '{{#sys.query#}}'
+        selected: false
         title: LLM (Qwen3.5 4B)
         type: llm
         vision:
           enabled: false
+      height: 87
       id: llm
       position:
         x: 980
         y: 180
+      positionAbsolute:
+        x: 980
+        y: 180
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
+      width: 242
+      zIndex: 0
     - data:
         answer: '{{#llm.text#}}'
+        selected: false
         title: Answer (Grounded)
         type: answer
         variables: []
+      height: 102
       id: answer_grounded
       position:
         x: 1280
         y: 180
+      positionAbsolute:
+        x: 1280
+        y: 180
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
+      width: 242
+      zIndex: 0
     - data:
         answer: 'المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.
 
 
           The requested information is not available in the provided documents.'
+        selected: false
         title: Answer (Abstention)
         type: answer
         variables: []
+      height: 147
       id: answer_abstain
       position:
         x: 980
         y: 420
+      positionAbsolute:
+        x: 980
+        y: 420
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
+      width: 242
+      zIndex: 0
+    viewport:
+      x: 4.799742248324872
+      y: 148.26347600308532
+      zoom: 0.9264160388955993
   rag_pipeline_variables: []

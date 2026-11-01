@@ -131,8 +131,10 @@ brain/
 scratch/
 
 # ------------------------------------------------------------------------------
-# 8. Temporary Backup Files
+# 8. Temporary Backup Files & Local Archives
 # ------------------------------------------------------------------------------
+backups/
+backup_test/
 *.bak
 *.tmp
 *.temp

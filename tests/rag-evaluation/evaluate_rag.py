@@ -56,11 +56,14 @@ ABSTENTION_MARKERS = [
 ]
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Stage D.1 Hardened RAG Evaluation")
+    parser = argparse.ArgumentParser(description="Stage D.1/E Hardened RAG Evaluation")
     parser.add_argument('--app-name', type=str, default='Local Bilingual RAG Assistant', help="Name of Dify app to evaluate")
     parser.add_argument('--app-id', type=str, default=None, help="ID of Dify app to evaluate")
     parser.add_argument('--output', type=str, default='/tmp/evaluation_report.json', help="Path to output JSON report")
     parser.add_argument('--iterations', type=int, default=NUM_ITERATIONS, help="Number of benchmark iterations")
+    parser.add_argument('--queries', type=str, default=QUERIES_FILE, help="Path to test queries JSON file")
+    parser.add_argument('--dataset-id', type=str, default='8e29fd5b-9537-46ac-acde-191b457b793e', help="Dataset ID for standalone retrieval measurement")
+    parser.add_argument('--stage-tag', type=str, default='STAGE E ACCEPTANCE', help="Stage title for display and reporting")
     return parser.parse_args()
 
 def is_contradiction_present(answer: str, fc: str) -> bool:
@@ -144,16 +147,16 @@ def validate_iteration_answer(answer, metadata, tc):
         # Ambiguity / Attribution Check
         if attribution_checks:
             for ac in attribution_checks:
-                ent = ac['entity']
-                exp_facts = ac['expected_facts']
+                ent = ac.get('entity', '')
+                exp_facts = ac.get('expected_facts') or ([ac['expected_value']] if 'expected_value' in ac else [])
                 for ef in exp_facts:
-                    if ef not in answer:
+                    if ef and ef.lower() not in answer.lower():
                         reasons.append(f"Attribution check failed for entity '{ent}': Missing fact '{ef}'")
 
         # Unit Precision Check
         if unit_precision_check:
-            metric = unit_precision_check.get('metric')
-            forbidden_confusion = unit_precision_check.get('forbidden_confusion', [])
+            metric = unit_precision_check.get('metric', 'target_unit')
+            forbidden_confusion = unit_precision_check.get('forbidden_confusion') or unit_precision_check.get('forbidden_substitutions', [])
             for conf in forbidden_confusion:
                 if conf.lower() in answer.lower():
                     reasons.append(f"Unit precision failure: Confused metric '{metric}' with forbidden unit expression '{conf}'.")
@@ -185,18 +188,18 @@ def run_evaluation():
         APP_ID = app_model.id
         APP_NAME = app_model.name
         APP_MODE = app_model.mode
-        DATASET_ID = '8e29fd5b-9537-46ac-acde-191b457b793e'
+        DATASET_ID = args.dataset_id
         account = db.session.get(Account, ACCOUNT_ID)
         dataset = db.session.get(Dataset, DATASET_ID)
 
-    with open(QUERIES_FILE, 'r', encoding='utf-8') as f:
+    with open(args.queries, 'r', encoding='utf-8') as f:
         test_cases = json.load(f)
 
     print("=" * 80, flush=True)
-    print(f"STAGE D.1: HARDENED RAG EVALUATION SUITE — {APP_NAME}", flush=True)
+    print(f"{args.stage_tag}: HARDENED RAG EVALUATION SUITE — {APP_NAME}", flush=True)
     print(f"App ID: {APP_ID} | Mode: {APP_MODE} | Iterations: {args.iterations}", flush=True)
     print(f"Model: qwen3.5:4b (think:false) | Embedding: bge-m3:latest", flush=True)
-    print(f"Test Cases: {len(test_cases)}", flush=True)
+    print(f"Queries: {args.queries} | Test Cases: {len(test_cases)}", flush=True)
     print("=" * 80, flush=True)
 
     headers = {
