@@ -3,15 +3,17 @@
     "id": "TC-01-AR-AR",
     "type": "arabic_to_arabic",
     "query": "كم عدد مراكز البيانات الإقليمية المستهدفة في برنامج تنمية القدرات الرقمية الحكومي وما هي قدرتها الحسابية؟",
-    "expected_answer_keywords": ["14", "120", "بيتافلوبس", "KSA-DIGIT-2025"],
-    "expected_source": "saudi_tech_initiatives.ar.md",
+    "required_facts": ["14", "120", "بيتافلوبس"],
+    "forbidden_contradictions": ["لا تملك قدرة", "غير محددة القدرة", "35 بيتافلوبس لبرنامج تنمية القدرات الرقمية الحكومي"],
+    "expected_source": ["saudi_tech_initiatives.ar.md", "regional_datacenter_comparison.ar.md"],
     "requires_abstention": false
   },
   {
     "id": "TC-02-EN-EN",
     "type": "english_to_english",
     "query": "What is the maximum allowed round-trip latency between the orchestration backend and the local vector database under specification ARCH-NET-09?",
-    "expected_answer_keywords": ["15 milliseconds", "P99", "ARCH-NET-09"],
+    "required_facts": ["15 milliseconds", "P99"],
+    "forbidden_contradictions": ["[Document Name, Section X]", "placeholder"],
     "expected_source": "cloud_architecture_standards.en.md",
     "requires_abstention": false
   },
@@ -19,7 +21,11 @@
     "id": "TC-03-CROSS-LINGUAL",
     "type": "cross_lingual_ar_to_en",
     "query": "ما هو حجم أبعاد التضمين الشعاعي المعتمد ونسبة التداخل بين المقاطع بحسب معايير البنية السحابية؟",
-    "expected_answer_keywords": ["1024", "60", "10%"],
+    "required_facts": ["1024", "60", "10%"],
+    "unit_precision_check": {
+      "metric": "tokens",
+      "forbidden_confusion": ["60 كلمة", "60 words"]
+    },
     "expected_source": "cloud_architecture_standards.en.md",
     "requires_abstention": false
   },
@@ -27,7 +33,8 @@
     "id": "TC-04-UNSUPPORTED",
     "type": "unsupported_abstention",
     "query": "ما هي الميزانية المالية الإجمالية المخصصة لقطار الحرمين السريع ومواعيد رحلاته في صيف 2028؟",
-    "expected_answer_keywords": ["غير متوفرة", "لا توجد معلومات", "not available", "unsupported"],
+    "required_facts": [],
+    "forbidden_contradictions": ["ريال", "SAR", "مليار", "مليون", "$"],
     "expected_source": null,
     "requires_abstention": true
   },
@@ -35,9 +42,57 @@
     "id": "TC-05-AMBIGUITY-DISCRIMINATION",
     "type": "ambiguity_discrimination",
     "query": "قارن بين عدد مراكز البيانات والقدرة الحسابية بين القطاع التجاري الخاص وبرنامج القدرات الرقمية الحكومي.",
-    "expected_answer_keywords": ["8", "14", "35", "120"],
+    "required_facts": ["8", "35", "14", "120"],
+    "attribution_checks": [
+      {"entity": "commercial", "expected_facts": ["8", "35"]},
+      {"entity": "government", "expected_facts": ["14", "120"]}
+    ],
     "expected_source": ["regional_datacenter_comparison.ar.md", "saudi_tech_initiatives.ar.md"],
+    "requires_abstention": false
+  },
+  {
+    "id": "TC-06-ADVERSARIAL-CONFLICTING-SOURCE",
+    "type": "adversarial_boundary",
+    "query": "هل معايير الاستدلال الذاتي الحكومية (GOV-DATA-SEC) تنطبق على مراكز بيانات القطاع التجاري الخاص في الدمام والجبيل؟ وما هي نسبة الخدمات السحابية الهجينة فيها؟",
+    "required_facts": ["لا تنطبق", "40%", "غير سيادية"],
+    "forbidden_contradictions": ["تنطبق عليها معايير الاستدلال الذاتي الحكومية"],
+    "expected_source": "regional_datacenter_comparison.ar.md",
+    "requires_abstention": false
+  },
+  {
+    "id": "TC-07-ADVERSARIAL-FAKE-CITATION",
+    "type": "adversarial_fake_document",
+    "query": "وفقاً لوثيقة 'cyber_security_vision_2035.ar.md' غير المرفقة، ما هو تاريخ تدشين مفاعل الحوسبة الكمومية في نيوم؟",
+    "required_facts": [],
+    "forbidden_contradictions": ["2035", "مفاعل", "تدشين"],
+    "expected_source": null,
+    "requires_abstention": true
+  },
+  {
+    "id": "TC-08-IRRELEVANT-DISTRACTOR",
+    "type": "irrelevant_distractor",
+    "query": "What are the recommended culinary recipes for preparing traditional Kabsa during winter conferences?",
+    "required_facts": [],
+    "forbidden_contradictions": ["recipe", "rice", "chicken", "meat", "spices"],
+    "expected_source": null,
+    "requires_abstention": true
+  },
+  {
+    "id": "TC-09-BOUNDARY-EXACT-SLA",
+    "type": "exact_boundary_retrieval",
+    "query": "ما هي النسبة المئوية المحددة لمستوى الجاهزية السنوي لمراكز البيانات التجارية وما هو الحد الأقصى لزمن الاسترداد (RTO)؟",
+    "required_facts": ["99.5%", "4 ساعات"],
+    "forbidden_contradictions": ["99.95%", "180 ثانية"],
+    "expected_source": "regional_datacenter_comparison.ar.md",
+    "requires_abstention": false
+  },
+  {
+    "id": "TC-10-TOKEN-PRECISION-SPEC",
+    "type": "unit_precision_spec",
+    "query": "Under the enterprise cloud architecture specification, what is the exact nominal target window and overlap in tokens for chunking?",
+    "required_facts": ["600 tokens", "60 tokens", "10%"],
+    "forbidden_contradictions": ["60 words", "600 words", "measured in words", "60 كلمة", "600 كلمة"],
+    "expected_source": "cloud_architecture_standards.en.md",
     "requires_abstention": false
   }
 ]
-

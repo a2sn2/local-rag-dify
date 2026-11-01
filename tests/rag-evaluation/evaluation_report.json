@@ -1,9 +1,14 @@
 {
-  "suite": "Stage D RAG Evaluation",
-  "timestamp": "2026-11-01T11:10:10Z",
-  "total_tests": 5,
-  "passed_tests": 5,
+  "suite": "Stage D Hardened Bilingual RAG Evaluation Suite",
+  "timestamp": "2026-11-01T12:24:49Z",
+  "total_tests": 10,
+  "passed_tests": 10,
   "all_passed": true,
+  "metrics_aggregate": {
+    "median_total_latency_s": 14.616,
+    "p95_total_latency_s": 43.899,
+    "median_generation_latency_s": 14.562
+  },
   "results": [
     {
       "id": "TC-01-AR-AR",
@@ -11,29 +16,34 @@
       "query": "كم عدد مراكز البيانات الإقليمية المستهدفة في برنامج تنمية القدرات الرقمية الحكومي وما هي قدرتها الحسابية؟",
       "passed": true,
       "failure_reasons": [],
-      "answer": "في برنامج تنمية القدرات الرقمية الحكومي، يستهدف البرنامج **14 مركزاً** فقط، ولا تنطبق عليه القدرة الحسابية المذكورة في سياق المراكز التجارية.\n\nأما فيما يتعلق بالقدرة الحسابية، فإنها تبلغ **35 بيتافلوبس**، ولكن هذه المعلومة تخص المراكز التجارية وليس برنامج تنمية القدرات الرقمية الحكومي الذي لا ينطبق عليه هذا المعيار [اسم الوثيقة، رقم الفقرة / القسم].",
+      "answer": "يهدف برنامج تنمية القدرات الرقمية الحكومي إلى إنشاء **14 مركز بيانات إقليمي** فائق القدرة، وتبلغ القدرة الحسابية المجمعة لهذه المراكز **120 بيتافلوبس** (PFLOPS).\n\n[regional_datacenter_comparison.ar.md, قسم 1]",
       "retrieved_documents": [
         "saudi_tech_initiatives.ar.md",
         "regional_datacenter_comparison.ar.md"
       ],
-      "retriever_resources_count": 6,
-      "usage": {
-        "prompt_tokens": 871,
+      "performance": {
+        "iterations": 3,
+        "total_latency_median_s": 11.124,
+        "total_latency_p95_s": 11.35,
+        "generation_latency_median_s": 11.075,
+        "retrieval_latency_ms": 0
+      },
+      "tokens": {
+        "prompt_tokens": 1087,
         "prompt_unit_price": "0",
         "prompt_price_unit": "0",
         "prompt_price": "0",
-        "completion_tokens": 96,
+        "completion_tokens": 63,
         "completion_unit_price": "0",
         "completion_price_unit": "0",
         "completion_price": "0",
-        "total_tokens": 967,
+        "total_tokens": 1150,
         "total_price": "0",
         "currency": "USD",
-        "latency": 2.677921578000678,
+        "latency": 1.73918585699721,
         "time_to_first_token": null,
         "time_to_generate": null
-      },
-      "latency_seconds": 2.74
+      }
     },
     {
       "id": "TC-02-EN-EN",
@@ -41,29 +51,34 @@
       "query": "What is the maximum allowed round-trip latency between the orchestration backend and the local vector database under specification ARCH-NET-09?",
       "passed": true,
       "failure_reasons": [],
-      "answer": "The maximum allowed round-trip latency between the orchestration backend and the local vector database is **15 milliseconds** at the P99 percentile.\n\n[Document Name, Section X]",
+      "answer": "The maximum allowed round-trip latency between the orchestration backend and the local vector database is **15 milliseconds** at the P99 percentile. All database queries exceeding 25 milliseconds must trigger an automated diagnostic alert to prevent degraded user experiences during real-time bilingual chat sessions.\n\n[cloud_architecture_standards.en.md, Section 1]",
       "retrieved_documents": [
-        "regional_datacenter_comparison.ar.md",
-        "cloud_architecture_standards.en.md"
+        "cloud_architecture_standards.en.md",
+        "regional_datacenter_comparison.ar.md"
       ],
-      "retriever_resources_count": 6,
-      "usage": {
-        "prompt_tokens": 793,
+      "performance": {
+        "iterations": 3,
+        "total_latency_median_s": 11.717,
+        "total_latency_p95_s": 12.561,
+        "generation_latency_median_s": 11.681,
+        "retrieval_latency_ms": 0
+      },
+      "tokens": {
+        "prompt_tokens": 1083,
         "prompt_unit_price": "0",
         "prompt_price_unit": "0",
         "prompt_price": "0",
-        "completion_tokens": 39,
+        "completion_tokens": 71,
         "completion_unit_price": "0",
         "completion_price_unit": "0",
         "completion_price": "0",
-        "total_tokens": 832,
+        "total_tokens": 1154,
         "total_price": "0",
         "currency": "USD",
-        "latency": 11.306860110998969,
+        "latency": 12.600619518001622,
         "time_to_first_token": null,
         "time_to_generate": null
-      },
-      "latency_seconds": 11.35
+      }
     },
     {
       "id": "TC-03-CROSS-LINGUAL",
@@ -71,30 +86,35 @@
       "query": "ما هو حجم أبعاد التضمين الشعاعي المعتمد ونسبة التداخل بين المقاطع بحسب معايير البنية السحابية؟",
       "passed": true,
       "failure_reasons": [],
-      "answer": "حجم أبعاد التضمين الشعاعي (Embeddings) المعتمد في قواعد البيانات المتجهة المدمجة في بنية السحابة هو **1024 بعدة**، ونسبة التداخل بين المقاطع هي **10%** (مما يعادل 60 كلمة).\n\nهذه المعلومات مستندة إلى: [Vector Datastores in Enterprise RAG Topologies, Section 1].",
+      "answer": "حجم أبعاد التضمين الشعاعي (Vector Dimensions) المعتمد هو **1024 بعداً**، ونسبة التداخل بين المقاطع (Sliding Window Overlap) هي **60 رمزاً (Token)**، وهو ما يمثل 10% من حجم القطعة.\n\n[cloud_architecture_standards.en.md, Section 2]",
       "retrieved_documents": [
+        "cloud_architecture_standards.en.md",
         "saudi_tech_initiatives.ar.md",
-        "regional_datacenter_comparison.ar.md",
-        "cloud_architecture_standards.en.md"
+        "regional_datacenter_comparison.ar.md"
       ],
-      "retriever_resources_count": 8,
-      "usage": {
-        "prompt_tokens": 881,
+      "performance": {
+        "iterations": 3,
+        "total_latency_median_s": 16.247,
+        "total_latency_p95_s": 18.657,
+        "generation_latency_median_s": 16.167,
+        "retrieval_latency_ms": 0
+      },
+      "tokens": {
+        "prompt_tokens": 1166,
         "prompt_unit_price": "0",
         "prompt_price_unit": "0",
         "prompt_price": "0",
-        "completion_tokens": 87,
+        "completion_tokens": 77,
         "completion_unit_price": "0",
         "completion_price_unit": "0",
         "completion_price": "0",
-        "total_tokens": 968,
+        "total_tokens": 1243,
         "total_price": "0",
         "currency": "USD",
-        "latency": 12.716978405998816,
+        "latency": 15.38443047599867,
         "time_to_first_token": null,
         "time_to_generate": null
-      },
-      "latency_seconds": 12.79
+      }
     },
     {
       "id": "TC-04-UNSUPPORTED",
@@ -105,12 +125,17 @@
       "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
       "retrieved_documents": [
         "saudi_tech_initiatives.ar.md",
-        "regional_datacenter_comparison.ar.md",
-        "cloud_architecture_standards.en.md"
+        "regional_datacenter_comparison.ar.md"
       ],
-      "retriever_resources_count": 8,
-      "usage": {
-        "prompt_tokens": 904,
+      "performance": {
+        "iterations": 3,
+        "total_latency_median_s": 23.063,
+        "total_latency_p95_s": 24.282,
+        "generation_latency_median_s": 22.986,
+        "retrieval_latency_ms": 0
+      },
+      "tokens": {
+        "prompt_tokens": 1259,
         "prompt_unit_price": "0",
         "prompt_price_unit": "0",
         "prompt_price": "0",
@@ -118,14 +143,13 @@
         "completion_unit_price": "0",
         "completion_price_unit": "0",
         "completion_price": "0",
-        "total_tokens": 919,
+        "total_tokens": 1274,
         "total_price": "0",
         "currency": "USD",
-        "latency": 10.14874102900103,
+        "latency": 22.76623884700166,
         "time_to_first_token": null,
         "time_to_generate": null
-      },
-      "latency_seconds": 10.22
+      }
     },
     {
       "id": "TC-05-AMBIGUITY-DISCRIMINATION",
@@ -133,29 +157,210 @@
       "query": "قارن بين عدد مراكز البيانات والقدرة الحسابية بين القطاع التجاري الخاص وبرنامج القدرات الرقمية الحكومي.",
       "passed": true,
       "failure_reasons": [],
-      "answer": "بناءً على المعلومات الواردة في الوثيقة:\n\n**القطاع التجاري الخاص:**\n*   **عدد المراكز:** يمتلك **8 مراكز بيانات** فقط مخصصة للتجارة الإلكترونية والخدمات اللوجستية في المنطقة الشرقية (الدمام والجبيل). [دراسة مقارنة لمراكز البيانات السحابية التجارية والخاصة، القسم 1]\n*   **القدرة الحسابية:** تبلغ قدرتها **35 بيتافلوبس**. [دراسة مقارنة لمراكز البيانات السحابية التجارية والخاصة، القسم 1]\n\n**برنامج تنمية القدرات الرقمية الحكومي:**\n*   **عدد المراكز:** يستهدف **14 مركزاً**. [دراسة مقارنة لمراكز البيانات السحابية التجارية والخاصة، القسم 2]\n*   **القدرة الحسابية:** لم يتم ذكر رقم محدد للقدرة الحسابية في الوثيقة. [دراسة مقارنة لمراكز البيانات السحابية التجارية والخاصة، القسم 2]\n\n**ملاحظات إضافية من السياق:**\n*   تعتمد مراكز القطاع الخاص التجاري بنسبة 40% على خدمات سحابية هجينة غير سيادية، ولا تنطبق عليها معايير الاستدلال الذاتي الحكومية. [دراسة مقارنة لمراكز البيانات السحابية التجارية والخاصة، القسم 1]\n*   يهدف البرنامج الحكومي إلى إنشاء 14 مركز بيانات إقليمي فائق القدرة موزعة بين الرياض وجدة ونيوم بحلول شهر ديسمبر من عام 2026. [دراسة مقارنة لمراكز البيانات السحابية التجارية والخاصة، القسم 1]",
+      "answer": "يقارن السياق بين القطاع التجاري الخاص وبرنامج تنمية القدرات الرقمية الحكومي في النقاط التالية:\n\n**القطاع التجاري الخاص:**\n*   **عدد المراكز:** يمتلك 8 مراكز بيانات فقط مخصصة للتجارة الإلكترونية والخدمات اللوجستية في المنطقة الشرقية (الدمام والجبيل).\n*   **القدرة الحسابية:** تبلغ قدرته الحسابية **35 بيتافلوبس**.\n*   **المعايير:** لا تنطبق عليه معايير الاستدلال الذاتي الحكومية، ويعتمد بنسبة 40% على خدمات سحابية هجينة غير سيادية.\n\n**برنامج تنمية القدرات الرقمية الحكومي:**\n*   **عدد المراكز:** يستهدف إنشاء **14 مركز بيانات إقليمي** فائق القدرة موزعة بين الرياض وجدة ونيوم بحلول شهر ديسمبر من عام 2026.\n*   **القدرة الحسابية:** توفر قدرة معالجة حسابية مجمعة تصل إلى **120 بيتافلوبس**.\n*   **المعايير:** تعتمد هذه المراكز على طاقة شمسية بنسبة 100%، وهي مخصصة لتسريع بحوث الذكاء الاصطناعي ونماذج معالجة اللغات الطبيعية للغة العربية.\n\n[regional_datacenter_comparison.ar.md, قسم 1]\n[saudi_tech_initiatives.ar.md, قسم 1]",
       "retrieved_documents": [
         "saudi_tech_initiatives.ar.md",
         "regional_datacenter_comparison.ar.md"
       ],
-      "retriever_resources_count": 6,
-      "usage": {
-        "prompt_tokens": 786,
+      "performance": {
+        "iterations": 3,
+        "total_latency_median_s": 25.478,
+        "total_latency_p95_s": 27.212,
+        "generation_latency_median_s": 25.425,
+        "retrieval_latency_ms": 0
+      },
+      "tokens": {
+        "prompt_tokens": 1088,
         "prompt_unit_price": "0",
         "prompt_price_unit": "0",
         "prompt_price": "0",
-        "completion_tokens": 326,
+        "completion_tokens": 283,
         "completion_unit_price": "0",
         "completion_price_unit": "0",
         "completion_price": "0",
-        "total_tokens": 1112,
+        "total_tokens": 1371,
         "total_price": "0",
         "currency": "USD",
-        "latency": 14.290560467999967,
+        "latency": 27.306898908998846,
         "time_to_first_token": null,
         "time_to_generate": null
+      }
+    },
+    {
+      "id": "TC-06-ADVERSARIAL-CONFLICTING-SOURCE",
+      "type": "adversarial_boundary",
+      "query": "هل معايير الاستدلال الذاتي الحكومية (GOV-DATA-SEC) تنطبق على مراكز بيانات القطاع التجاري الخاص في الدمام والجبيل؟ وما هي نسبة الخدمات السحابية الهجينة فيها؟",
+      "passed": true,
+      "failure_reasons": [],
+      "answer": "لا، لا تنطبق معايير الاستدلال الذاتي الحكومية (GOV-DATA-SEC) على مراكز بيانات القطاع التجاري الخاص.\n\nتتميز هذه المراكز التجارية بأنها تعتمد بنسبة 40% على خدمات سحابية هجينة غير سيادية، ولا تخضع لنفس المعايير التي تستهدفها الحكومة في برامج تنمية القدرات الرقمية الخاصة بها.\n\n[regional_datacenter_comparison.ar.md, قسم 1]\n[saudi_tech_initiatives.ar.md, قسم 3]",
+      "retrieved_documents": [
+        "saudi_tech_initiatives.ar.md",
+        "regional_datacenter_comparison.ar.md"
+      ],
+      "performance": {
+        "iterations": 3,
+        "total_latency_median_s": 15.023,
+        "total_latency_p95_s": 43.313,
+        "generation_latency_median_s": 14.97,
+        "retrieval_latency_ms": 0
       },
-      "latency_seconds": 14.34
+      "tokens": {
+        "prompt_tokens": 1060,
+        "prompt_unit_price": "0",
+        "prompt_price_unit": "0",
+        "prompt_price": "0",
+        "completion_tokens": 107,
+        "completion_unit_price": "0",
+        "completion_price_unit": "0",
+        "completion_price": "0",
+        "total_tokens": 1167,
+        "total_price": "0",
+        "currency": "USD",
+        "latency": 46.41588010199848,
+        "time_to_first_token": null,
+        "time_to_generate": null
+      }
+    },
+    {
+      "id": "TC-07-ADVERSARIAL-FAKE-CITATION",
+      "type": "adversarial_fake_document",
+      "query": "وفقاً لوثيقة 'cyber_security_vision_2035.ar.md' غير المرفقة، ما هو تاريخ تدشين مفاعل الحوسبة الكمومية في نيوم؟",
+      "passed": true,
+      "failure_reasons": [],
+      "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
+      "retrieved_documents": [
+        "saudi_tech_initiatives.ar.md",
+        "regional_datacenter_comparison.ar.md"
+      ],
+      "performance": {
+        "iterations": 3,
+        "total_latency_median_s": 0.549,
+        "total_latency_p95_s": 38.628,
+        "generation_latency_median_s": 0.503,
+        "retrieval_latency_ms": 0
+      },
+      "tokens": {
+        "prompt_tokens": 1531,
+        "prompt_unit_price": "0",
+        "prompt_price_unit": "0",
+        "prompt_price": "0",
+        "completion_tokens": 15,
+        "completion_unit_price": "0",
+        "completion_price_unit": "0",
+        "completion_price": "0",
+        "total_tokens": 1546,
+        "total_price": "0",
+        "currency": "USD",
+        "latency": 42.80773255500026,
+        "time_to_first_token": null,
+        "time_to_generate": null
+      }
+    },
+    {
+      "id": "TC-08-IRRELEVANT-DISTRACTOR",
+      "type": "irrelevant_distractor",
+      "query": "What are the recommended culinary recipes for preparing traditional Kabsa during winter conferences?",
+      "passed": true,
+      "failure_reasons": [],
+      "answer": "The requested information is not available in the provided documents.",
+      "retrieved_documents": [
+        "cloud_architecture_standards.en.md",
+        "saudi_tech_initiatives.ar.md",
+        "regional_datacenter_comparison.ar.md"
+      ],
+      "performance": {
+        "iterations": 3,
+        "total_latency_median_s": 19.46,
+        "total_latency_p95_s": 29.071,
+        "generation_latency_median_s": 19.39,
+        "retrieval_latency_ms": 0
+      },
+      "tokens": {
+        "prompt_tokens": 1063,
+        "prompt_unit_price": "0",
+        "prompt_price_unit": "0",
+        "prompt_price": "0",
+        "completion_tokens": 12,
+        "completion_unit_price": "0",
+        "completion_price_unit": "0",
+        "completion_price": "0",
+        "total_tokens": 1075,
+        "total_price": "0",
+        "currency": "USD",
+        "latency": 11.556127675001335,
+        "time_to_first_token": null,
+        "time_to_generate": null
+      }
+    },
+    {
+      "id": "TC-09-BOUNDARY-EXACT-SLA",
+      "type": "exact_boundary_retrieval",
+      "query": "ما هي النسبة المئوية المحددة لمستوى الجاهزية السنوي لمراكز البيانات التجارية وما هو الحد الأقصى لزمن الاسترداد (RTO)؟",
+      "passed": true,
+      "failure_reasons": [],
+      "answer": "النسبة المئوية المحددة لمستوى الجاهزية السنوي لمراكز البيانات التجارية هي **99.5%**، والحد الأقصى لزمن الاسترداد (RTO) هو **4 ساعات**.\n\n[regional_datacenter_comparison.ar.md, قسم 2: قيود الاعتمادية ومستويات الخدمة التجارية (المعيار: SLA-COM-99)]",
+      "retrieved_documents": [
+        "cloud_architecture_standards.en.md",
+        "saudi_tech_initiatives.ar.md",
+        "regional_datacenter_comparison.ar.md"
+      ],
+      "performance": {
+        "iterations": 3,
+        "total_latency_median_s": 12.931,
+        "total_latency_p95_s": 44.378,
+        "generation_latency_median_s": 12.884,
+        "retrieval_latency_ms": 0
+      },
+      "tokens": {
+        "prompt_tokens": 1371,
+        "prompt_unit_price": "0",
+        "prompt_price_unit": "0",
+        "prompt_price": "0",
+        "completion_tokens": 78,
+        "completion_unit_price": "0",
+        "completion_price_unit": "0",
+        "completion_price": "0",
+        "total_tokens": 1449,
+        "total_price": "0",
+        "currency": "USD",
+        "latency": 47.824206033001246,
+        "time_to_first_token": null,
+        "time_to_generate": null
+      }
+    },
+    {
+      "id": "TC-10-TOKEN-PRECISION-SPEC",
+      "type": "unit_precision_spec",
+      "query": "Under the enterprise cloud architecture specification, what is the exact nominal target window and overlap in tokens for chunking?",
+      "passed": true,
+      "failure_reasons": [],
+      "answer": "Under the enterprise cloud architecture specification, the nominal target window for chunking is **600 tokens**, with a sliding window overlap of **60 tokens (10%)**. These measurements are strictly based on tokens, not words.\n\n[cloud_architecture_standards.en.md, Section 2: Vector Indexing Specifications]",
+      "retrieved_documents": [
+        "cloud_architecture_standards.en.md"
+      ],
+      "performance": {
+        "iterations": 3,
+        "total_latency_median_s": 14.209,
+        "total_latency_p95_s": 38.675,
+        "generation_latency_median_s": 14.155,
+        "retrieval_latency_ms": 0
+      },
+      "tokens": {
+        "prompt_tokens": 1141,
+        "prompt_unit_price": "0",
+        "prompt_price_unit": "0",
+        "prompt_price": "0",
+        "completion_tokens": 67,
+        "completion_unit_price": "0",
+        "completion_price_unit": "0",
+        "completion_price": "0",
+        "total_tokens": 1208,
+        "total_price": "0",
+        "currency": "USD",
+        "latency": 41.337018834001356,
+        "time_to_first_token": null,
+        "time_to_generate": null
+      }
     }
   ]
 }

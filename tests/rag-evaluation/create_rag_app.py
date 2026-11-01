@@ -14,6 +14,7 @@ import app
 from extensions.ext_database import db
 from models.account import Account, Tenant
 from models.model import App, AppMode, AppModelConfig, ApiToken
+from models.dataset import Dataset
 from models.enums import ApiTokenType
 from services.app_service import AppService
 from services.entities.app_entities import CreateAppParams
@@ -28,20 +29,22 @@ ACCOUNT_ID = '5c7a6fd3-2624-4d5a-9256-081444e787c6'
 DATASET_ID = '8e29fd5b-9537-46ac-acde-191b457b793e'
 APP_NAME = 'Local Bilingual RAG Assistant'
 
-SYSTEM_PROMPT = """أنت مساعد تقني مؤسسي ذكي ثنائي اللغة (العربية والإنجليزية) متخصص في الإجابة على الاستفسارات الفنية بدقة وموثوقية عالية.
+SYSTEM_PROMPT = """أنت مساعد تقني مؤسسي ذكي ثنائي اللغة (العربية والإنجليزية) متخصص في الإجابة على الاستفسارات الفنية بدقة وموثوقية عالية استناداً حصراً إلى الوثائق التقنية المرفقة.
 
 القواعد الصارمة الملزمة:
-1. الالتزام المطلق بالسياق (Strict Grounding): اعتمد حصراً وبشكل صارم على المعلومات الواردة في الوثائق المرفقة (Context). لا تقدم أي إجابة بناءً على معرفتك الخارجية المسبقة.
-2. منع الهلوسة الصارم (Anti-Hallucination): يُحظر تماماً التخمين، أو افتراض حقائق غير موجودة، أو تأليف أي أرقام، تواريخ، مواصفات أو ميزانيات.
+1. الالتزام المطلق بالسياق (Strict Grounding): اعتمد حصراً وبشكل صارم على المعلومات والحقائق الواردة في نصوص الوثائق المرفقة (Context). لا تقدم أي إجابة بناءً على معرفتك الخارجية المسبقة أو تخميناتك.
+2. منع الهلوسة الصارم (Anti-Hallucination): يُحظر تماماً التخمين، أو افتراض حقائق غير موجودة، أو تأليف أي أرقام، ميزانيات، جداول رحلات، تواريخ، أو مواصفات غير مذكورة نصاً.
 3. التوثيق والاقتباس الداخلي الصريح (Inline Citations):
-   - عند الإجابة باللغة العربية: اذكر دائماً اسم الوثيقة ورقم الفقرة أو القسم بصيغة: [اسم الوثيقة، رقم الفقرة / القسم].
-   - When answering in English: Always cite the source document and section in the format: [Document Name, Section X].
-4. الامتناع الصريح في حال عدم التوفر (Explicit Abstention):
-   - إذا كان سؤال المستخدم يتعلق بموضوع أو حقائق غير موجودة إطلاقاً في الوثائق المرفقة، يجب عليك الامتناع عن الإجابة فوراً، والرد بالصيغة المحددة التالية بدقة:
+   - يجب في نهاية كل معلومة أو إجابة كتابة اسم ملف الوثيقة الفعلي وعنوان القسم المقتبس منه بدقة، مثل: [saudi_tech_initiatives.ar.md, قسم 1] أو [cloud_architecture_standards.en.md, Section 2].
+   - تحذير صارم: يُحظر نهائياً وبشكل قاطع استخدام نصوص بديلة (Placeholders) أو عبارات عامة مثل "[اسم الوثيقة]" أو "[رقم الفقرة]" أو "[Document Name]" أو "[Section X]" أو "[السياق]". اكتب دائماً اسم الملف الحقيقي من السياق.
+4. الامتناع الصريح في حال عدم التوفر أو الاستفسارات المضللة (Explicit Abstention):
+   - إذا كان سؤال المستخدم يتعلق بموضوع غير مدعوم، أو حقائق غير موجودة، أو يستند إلى وثيقة مزيفة/غير مرفقة، أو يسأل عن مواضيع عامة لا علاقة لها بالوثائق (مثل الطبخ أو الميزانيات غير المذكورة)، يجب الامتناع فوراً وبصيغة حاسمة:
      - بالعربية: "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة."
      - بالإنجليزية: "The requested information is not available in the provided documents."
    - لا تحاول أبداً تقديم إجابات عامة أو تخمينية عن الأسئلة غير المدعومة.
-5. مطابقة لغة السؤال (Language Consistency): أجب باللغة العربية إذا كان السؤال بالعربية، وأجب بالإنجليزية إذا كان السؤال بالإنجليزية. في الأسئلة العابرة للغات، قدم الإجابة بلغة السؤال مستنداً إلى الوثيقة المرجعية واذكر المصدر بدقة."""
+5. الدقة الفنية للمصطلحات والوحدات (Technical & Unit Precision):
+   - فرّق بدقة بين الرموز/التوكنز (Tokens) والكلمات (Words)؛ التداخل هو 60 رمزاً (Tokens) وليس 60 كلمة.
+   - أجب باللغة العربية إذا كان السؤال بالعربية، وبالإنجليزية إذا كان السؤال بالإنجليزية، مع الحفاظ الدقيق على الأرقام والوحدات الفنية (مثل: 120 بيتافلوبس PFLOPS، 1024 بعداً، 15 مللي ثانية عند P99)."""
 
 OPENING_STATEMENT = "مرحباً بك! أنا المساعد التقني ثنائي اللغة المبني محلياً. كيف يمكنني مساعدتك اليوم استناداً إلى الوثائق التقنية المعتمدة؟\n\nWelcome! I am your local bilingual technical assistant. How can I assist you today based on verified technical documentation?"
 
@@ -82,6 +85,16 @@ with flask_app.app_context():
         app_model = existing_app
         print(f"Found existing app with ID: {app_model.id}")
 
+    # Update Dataset top_k to 6 for comprehensive context coverage
+    dataset = db.session.get(Dataset, DATASET_ID)
+    if dataset:
+        rm = dataset.retrieval_model or {}
+        if isinstance(rm, str):
+            rm = json.loads(rm)
+        rm['top_k'] = 6
+        dataset.retrieval_model = rm
+        db.session.commit()
+
     # Prepare model configuration payload
     config_dict = {
         "model": {
@@ -101,6 +114,7 @@ with flask_app.app_context():
         "opening_statement": OPENING_STATEMENT,
         "dataset_configs": {
             "retrieval_model": "single",
+            "top_k": 6,
             "datasets": {
                 "strategy": "router",
                 "datasets": [

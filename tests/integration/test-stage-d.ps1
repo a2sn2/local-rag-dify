@@ -168,12 +168,12 @@ with flask_app.app_context():
     $kbOutput = docker exec dify-api-1 python -c $kbCheckScript
     Write-Host "  Knowledge Base Status: $kbOutput" -ForegroundColor Gray
 
-    if ($kbOutput -notmatch "DOCS:3/3" -or $kbOutput -notmatch "SEGMENTS:27") {
+    if ($kbOutput -notmatch "DOCS:3/3" -or $kbOutput -notmatch "SEGMENTS:12") {
         throw "Dataset indexing incomplete: $kbOutput"
     }
 
-    Write-Host "  [PASS] Knowledge Base contains 3 completed documents and 27 indexed chunks." -ForegroundColor Green
-    $testResults["4_Knowledge_Base_Indexing"] = "PASS (3 docs, 27 chunks)"
+    Write-Host "  [PASS] Knowledge Base contains 3 completed documents and 12 indexed cohesive chunks." -ForegroundColor Green
+    $testResults["4_Knowledge_Base_Indexing"] = "PASS (3 docs, 12 chunks)"
 } catch {
     Write-Host "  [FAIL] Knowledge Base check failed: $_" -ForegroundColor Red
     $testResults["4_Knowledge_Base_Indexing"] = "FAIL: $_"
@@ -235,9 +235,9 @@ with flask_app.app_context():
 }
 
 # ------------------------------------------------------------------------------
-# 6. Full Functional Evaluation Suite (TC-01 through TC-05)
+# 6. Hardened 10-Case Functional Evaluation Suite (TC-01 through TC-10)
 # ------------------------------------------------------------------------------
-Write-Host "`n[6/6] Executing Comprehensive Bilingual RAG Evaluation Suite..." -ForegroundColor Yellow
+Write-Host "`n[6/6] Executing Comprehensive Bilingual RAG Evaluation Suite (10 Test Cases)..." -ForegroundColor Yellow
 try {
     $evalPyPath = Join-Path $WorkspaceDir "tests\rag-evaluation\evaluate_rag.py"
     $queriesJsonPath = Join-Path $WorkspaceDir "tests\rag-evaluation\dataset\test_queries.json"
@@ -245,19 +245,19 @@ try {
     docker cp $queriesJsonPath "dify-api-1:/tmp/dataset/test_queries.json"
     docker cp $evalPyPath "dify-api-1:/tmp/evaluate_rag.py"
 
-    $evalOutput = docker exec dify-api-1 python /tmp/evaluate_rag.py
+    $evalOutput = docker exec dify-api-1 python -u /tmp/evaluate_rag.py
     Write-Host ($evalOutput -join "`n") -ForegroundColor Gray
 
     $outString = $evalOutput -join "`n"
-    if ($outString -notmatch "EVALUATION COMPLETE: 5/5 PASSED \(all_passed=True\)") {
+    if ($outString -notmatch "EVALUATION COMPLETE: 10/10 PASSED \(all_passed=True\)") {
         throw "RAG evaluation suite failed: $outString"
     }
 
     # Copy report back
     docker cp "dify-api-1:/tmp/evaluation_report.json" (Join-Path $WorkspaceDir "tests\rag-evaluation\evaluation_report.json")
 
-    Write-Host "  [PASS] All 5 evaluation test cases (AR-AR, EN-EN, Cross-Lingual, Abstention, Ambiguity) PASSED completely." -ForegroundColor Green
-    $testResults["6_Functional_RAG_Evaluation"] = "PASS (5/5 Cases Passed)"
+    Write-Host "  [PASS] All 10 evaluation test cases (AR-AR, EN-EN, Cross-Lingual, Abstention, Ambiguity, Adversarial, Distractor, Boundary SLA, Token Precision) PASSED completely." -ForegroundColor Green
+    $testResults["6_Functional_RAG_Evaluation"] = "PASS (10/10 Cases Passed)"
 } catch {
     Write-Host "  [FAIL] Functional evaluation suite failed: $_" -ForegroundColor Red
     $testResults["6_Functional_RAG_Evaluation"] = "FAIL: $_"

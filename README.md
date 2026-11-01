@@ -152,10 +152,13 @@ This project adheres to an isolated phased deployment protocol requiring explici
   - Full 16-container Dify v1.18.0 stack deployed, Alembic DB migrations completed, loopback-only binding (`127.0.0.1:80`), and Web console verified operational.
 - [x] **Stage C: Ollama Networking & Embedding Model Configuration** *(Completed & Verified — Commit: `e71f444`)*
   - Container-to-host model networking (`host.docker.internal:11434`), official `langgenius/ollama` plugin (v1.0.3), `bge-m3:latest` (1024-dim text embedding), and `qwen3.5:4b` (4096 context LLM) integrated as workspace defaults. Sequential model execution (`OLLAMA_MAX_LOADED_MODELS=1`) verified with 1,980 MiB safe VRAM headroom.
-- [x] **Stage D: Knowledge Base Indexing & Bilingual RAG Application** *(Completed & Verified)*
-  - Bilingual test corpus ingested into Dify Knowledge Base (`8e29fd5b-9537-46ac-acde-191b457b793e`) with hybrid search (Weaviate dense vectors + BM25 keyword search, 27 indexed chunks).
-  - Built grounded chatbot application (`Local Bilingual RAG Assistant`, ID: `5fa6a5ae-ddf1-4a89-a8cd-57891ad5c244`) with `qwen3.5:4b`, `think: false` low-latency tuning, and prompt hardening enforcing inline citations and explicit abstention.
-  - 100% pass rate across all 5 evaluation test cases (AR-AR, EN-EN, cross-lingual AR->EN, unsupported abstention with zero hallucination, and ambiguity discrimination).
+- [x] **Stage D: Knowledge Base Indexing & Bilingual RAG Application** *(Completed, Remediated & Verified)*
+  - Controlled synthetic benchmark dataset labeled with `[!NOTE] FICTIONAL TEST FIXTURE` warnings across Arabic and English fixtures.
+  - Semantic paragraph chunking with 12 cohesive segments indexed in Dify Knowledge Base (`8e29fd5b-9537-46ac-acde-191b457b793e`) using Weaviate hybrid search.
+  - Built grounded chatbot application (`Local Bilingual RAG Assistant`, ID: `5fa6a5ae-ddf1-4a89-a8cd-57891ad5c244`) with `qwen3.5:4b` (`think: false`).
+  - Source citation integrity hardened: Banned placeholder citations `[Document Name, Section X]` across prompt and evaluation suite; enforced exact source document references matching retrieved metadata.
+  - Non-destructive, idempotent indexing operations with synchronized vector deletion (`ingest_corpus.py --force-reindex`).
+  - Hardened 10-case evaluation suite (AR-AR, EN-EN, cross-lingual, abstention, ambiguity discrimination, conflicting sources, fake document bait, distractor queries, exact SLAs, token precision) achieved **100% pass rate (10/10 PASSED)**.
   - Exported application DSL to `workflows/local_bilingual_rag_assistant.yml`.
 - [ ] **Stage E: Functional, Security & Performance Acceptance Testing** *(Pending Authorization)*
   - End-to-end acceptance verification, offline network audit, extended concurrency benchmarks, and final operational signoff.

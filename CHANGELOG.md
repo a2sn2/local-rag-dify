@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.5.1] — 2026-11-01
+
+### Fixed & Remediated (Stage D Quality & Evaluation Remediation)
+- **Evaluation False Positives Fixed:**
+  - `TC-01-AR-AR`: Enforced strict conjunct assertions requiring both **14 centers** AND **120 PFLOPS** for the government program, preventing false passes on single-number mentions.
+  - `TC-05-AMBIGUITY-DISCRIMINATION`: Implemented strict entity-attribution assertions validating private commercial sector figures (**8 centers**, **35 PFLOPS**) and government program figures (**14 centers**, **120 PFLOPS**), preventing ungrounded attribution swaps.
+- **Source Citation Integrity Hardened:**
+  - Banned citation placeholder patterns (e.g. `[Document Name, Section X]`, `[اسم الوثيقة]`, `[رقم الفقرة]`) across the system prompt and automated test harness.
+  - Replaced placeholders with mandatory real document filenames (e.g. `[saudi_tech_initiatives.ar.md, قسم 1]`, `[cloud_architecture_standards.en.md, Section 2]`).
+  - Verified inline citations against actual document metadata in Dify's native `retriever_resources`.
+- **Cross-Lingual Unit Precision Enforced:**
+  - Explicitly distinguished tokens from words across documents, prompts, and evaluation assertions: sliding window overlap is strictly **60 tokens (10%)**, not 60 words.
+- **Safe & Idempotent Indexing Operations:**
+  - Refactored `tests/rag-evaluation/ingest_corpus.py` to be non-destructive and idempotent by default: skips existing healthy indexed documents.
+  - Implemented explicit `--force-reindex` gate utilizing Dify's `DocumentService.delete_document()` to trigger `document_was_deleted` signals, ensuring clean vector removal in Weaviate without orphaned index nodes.
+  - Refactored segmentation to use semantic paragraph splitting (`\n\n`), yielding **12 cohesive chunks** (5 in `saudi_tech_initiatives.ar.md`, 4 in `cloud_architecture_standards.en.md`, 3 in `regional_datacenter_comparison.ar.md`).
+- **Synthetic Benchmark Data Labeled:**
+  - Added explicit `[!NOTE] FICTIONAL TEST FIXTURE` warning headers to all 3 test dataset documents to guarantee they cannot be mistaken for real operational data.
+- **Expanded 10-Case Evaluation Suite:**
+  - Expanded `tests/rag-evaluation/dataset/test_queries.json` and `evaluate_rag.py` from 5 to 10 test cases:
+    - `TC-01-AR-AR`: Sovereign government program metrics (14 centers, 120 PFLOPS).
+    - `TC-02-EN-EN`: Interconnect latency specification (15ms P99 under ARCH-NET-09).
+    - `TC-03-CROSS-LINGUAL`: Multilingual vector dimensions (1024-dim, 60-token overlap).
+    - `TC-04-UNSUPPORTED`: Explicit abstention on unanswerable financial data (Haramain train budget).
+    - `TC-05-AMBIGUITY-DISCRIMINATION`: Strict entity attribution (8/35 private vs 14/120 government).
+    - `TC-06-ADVERSARIAL-CONFLICTING-SOURCE`: Boundary sovereignty rules (GOV-DATA-SEC non-applicability to commercial 40% hybrid cloud).
+    - `TC-07-ADVERSARIAL-FAKE-CITATION`: Rejection of unprovided fake document bait (`cyber_security_vision_2035.ar.md`).
+    - `TC-08-IRRELEVANT-DISTRACTOR`: Clean abstention on culinary recipe distractor query.
+    - `TC-09-BOUNDARY-EXACT-SLA`: Commercial SLA boundary extraction (99.5% availability, 4-hour RTO).
+    - `TC-10-TOKEN-PRECISION-SPEC`: Chunking window nominal target (600 tokens, 60 tokens, strictly tokens).
+  - Multi-run benchmarking (3 iterations per case): **10/10 PASSED (100% pass rate)**.
+  - Measured latency aggregate: Total Median = **14.62s**, Total P95 = **43.90s**, Generation Median = **14.56s**.
+- **Updated Acceptance Test Runner:**
+  - Updated `tests/integration/test-stage-d.ps1` to validate the 12 cohesive segments and 10/10 evaluation pass gate.
+
 ## [0.5.0] — 2026-11-01
 
 ### Added

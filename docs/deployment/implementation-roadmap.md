@@ -128,28 +128,40 @@ flowchart TD
 
 ---
 
-### Stage D: Knowledge Base Indexing & Bilingual RAG Application (Completed)
-- **Status:** **COMPLETED & FULLY VERIFIED**
+### Stage D: Knowledge Base Indexing & Bilingual RAG Application (Completed & Remediated)
+- **Status:** **COMPLETED, REMEDIATED & FULLY VERIFIED**
 - **Objective:** Ingest controlled bilingual dataset, index into Weaviate with hybrid retrieval, construct grounded bilingual RAG chatbot with prompt hardening, and validate factual accuracy, citations, and abstention.
 - **Verified Deliverables & Metrics:**
   - **Controlled Bilingual Corpus (`tests/rag-evaluation/dataset/`):**
+    - Marked all documents with `[!NOTE] FICTIONAL TEST FIXTURE` warning headers to prevent mistaking fixtures for real operational data.
     - `saudi_tech_initiatives.ar.md`: Sovereign cloud/AI report (14 regional centers, 120 PFLOPS, Dec 2026, Saudi-Bench-v2 94.8% retrieval, GOV-DATA-SEC).
     - `cloud_architecture_standards.en.md`: Enterprise cloud specs (ARCH-NET-09 <=15ms P99 round-trip latency, VEC-DIM-1024 1024-dim vectors, 600 token chunk / 60 token 10% overlap, zero data loss WAL, 99.95% uptime).
     - `regional_datacenter_comparison.ar.md`: Commercial sector comparison document for ambiguity discrimination (8 data centers in Dammam/Jubail, 35 PFLOPS, 40% non-sovereign hybrid cloud, SLA-COM-99 99.5% uptime, 4-hour RTO).
-    - `test_queries.json`: Standardized test queries for AR-AR, EN-EN, AR-EN cross-lingual, unsupported abstention, and ambiguity discrimination.
+    - `test_queries.json`: Standardized test queries expanded to 10 test cases covering AR-AR, EN-EN, AR-EN cross-lingual, unsupported abstention, ambiguity discrimination, conflicting sources, fake document baits, distractor queries, exact SLAs, and token precision.
   - **Dify Knowledge Base Dataset (`8e29fd5b-9537-46ac-acde-191b457b793e`):**
     - High-quality indexing with `bge-m3:latest` (1024 dimensions).
     - Hybrid retrieval (Dense Vector + BM25 keyword search).
-    - 27 chunks successfully indexed into Weaviate vector store (`dify-weaviate-1`).
+    - Semantic paragraph chunking with **12 cohesive chunks** indexed into Weaviate vector store (`dify-weaviate-1`).
+    - Safe idempotent indexing operations with synchronized vector deletion (`ingest_corpus.py --force-reindex`).
   - **Grounded Bilingual RAG Chatbot Application (`Local Bilingual RAG Assistant`, ID: `5fa6a5ae-ddf1-4a89-a8cd-57891ad5c244`):**
-    - LLM: `qwen3.5:4b` with `think: false` (eliminates runaway reasoning loops, reducing turn latency from 31+ seconds down to 1.5–2.9s).
-    - Prompt hardening: strict context grounding, mandatory inline citations `[اسم الوثيقة، رقم الفقرة]` / `[Document Name, Section]`, and explicit abstention ("المعلومة المطلوبة غير متوفرة في الوثائق المرفقة." / "The requested information is not available in the provided documents.").
+    - LLM: `qwen3.5:4b` with `think: false` (eliminates runaway reasoning loops, reducing turn latency from 31+ seconds down to 11–16s per full multi-turn generation).
+    - Prompt hardening: strict context grounding, mandatory inline citations `[اسم الوثيقة، رقم القسم]` / `[Document Name, Section]`, elimination of placeholder citations `[Document Name, Section X]`, and explicit abstention ("المعلومة المطلوبة غير متوفرة في الوثائق المرفقة." / "The requested information is not available in the provided documents.").
     - Exported DSL: `workflows/local_bilingual_rag_assistant.yml`.
   - **Acceptance Automation & Evaluation:**
     - `tests/integration/test-stage-d.ps1`: Full 6-step automated acceptance test runner.
-    - `tests/rag-evaluation/evaluate_rag.py`: Functional test harness verifying TC-01 through TC-05.
-    - 100% pass rate (5/5 evaluation cases passed): TC-01 (AR-AR: 14 centers, 2.74s), TC-02 (EN-EN: 15ms at P99), TC-03 (Cross-Lingual AR->EN: 1024-d, 10% overlap), TC-04 (Abstention: zero hallucination), TC-05 (Ambiguity discrimination: 8 centers/35 PFLOPS vs 14 centers).
-    - Safe VRAM headroom verified under full load: ~1,909 MiB free (well above the 1,200 MiB threshold).
+    - `tests/rag-evaluation/evaluate_rag.py`: Hardened 10-test functional test harness verifying TC-01 through TC-10 with multi-run benchmarking (3 iterations per case).
+    - **100% pass rate (10/10 evaluation cases passed)**:
+      - TC-01 (AR-AR: 14 centers AND 120 PFLOPS conjunct assertion).
+      - TC-02 (EN-EN: 15ms at P99 under ARCH-NET-09).
+      - TC-03 (Cross-Lingual AR->EN: 1024-d, 10% overlap, unit precision).
+      - TC-04 (Abstention: zero hallucination on train budget).
+      - TC-05 (Ambiguity discrimination: strict entity attribution for 8/35 commercial vs 14/120 government).
+      - TC-06 (Adversarial conflicting source: GOV-DATA-SEC non-applicability to 40% hybrid cloud).
+      - TC-07 (Adversarial fake citation: rejection of fake document bait).
+      - TC-08 (Irrelevant distractor: clean abstention on recipe query).
+      - TC-09 (Boundary exact SLA: 99.5% availability, 4-hour RTO).
+      - TC-10 (Token precision spec: 600 tokens window, 60 tokens overlap, strictly tokens).
+    - Safe VRAM headroom verified under full load: ~1,874 MiB free (well above the 1,200 MiB threshold).
   - **Verification Gate Results:** All 6 acceptance test sections passed completely.
 
 ---
