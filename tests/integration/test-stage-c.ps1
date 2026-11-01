@@ -109,39 +109,61 @@ try {
 
     Write-Host "  VRAM Usage: $usedVram MiB / $totalVram MiB (Temp: $gpuTemp C, Util: $gpuUtil %)" -ForegroundColor Gray
 
-    if ($usedVram -gt $totalVram) {
-        throw "VRAM exhausted: $usedVram MiB exceeds $totalVram MiB"
+    $freeVram = $totalVram - $usedVram
+    $minSafeHeadroomMiB = 1200
+
+    if ($freeVram -lt $minSafeHeadroomMiB) {
+        throw "VRAM headroom ($freeVram MiB) is below minimum safe threshold ($minSafeHeadroomMiB MiB). Check model concurrency."
     }
 
-    $freeVram = $totalVram - $usedVram
-    Write-Host "  [PASS] GPU VRAM within safe limits (Free Headroom: $freeVram MiB)." -ForegroundColor Green
-    $testResults["4_GPU_Memory_Boundaries"] = "PASS ($usedVram / $totalVram MiB)"
+    Write-Host "  [PASS] GPU VRAM within safe limits (Used: $usedVram MiB, Free Headroom: $freeVram MiB >= $minSafeHeadroomMiB MiB)." -ForegroundColor Green
+    $testResults["4_GPU_Memory_Boundaries"] = "PASS ($usedVram / $totalVram MiB, Headroom: $freeVram MiB)"
 } catch {
-    Write-Host "  [WARN] GPU query warning: $_" -ForegroundColor Yellow
-    $testResults["4_GPU_Memory_Boundaries"] = "WARN: $_"
+    Write-Host "  [FAIL] GPU VRAM safety threshold failed: $_" -ForegroundColor Red
+    $testResults["4_GPU_Memory_Boundaries"] = "FAIL: $_"
+    exit 1
 }
 
 # ------------------------------------------------------------------------------
 # 5. Dify Container Port Containment Audit
 # ------------------------------------------------------------------------------
-Write-Host "`n[5/6] Auditing Dify Port Containment (Strict Loopback Only)..." -ForegroundColor Yellow
+Write-Host "`n[5/6] Auditing Dify Port Containment (Strict Loopback Allowlist)..." -ForegroundColor Yellow
 try {
     $portsRaw = docker ps --format "{{.Names}}: {{.Ports}}"
+    if ($LASTEXITCODE -ne 0) { throw "docker ps command failed with exit code $LASTEXITCODE" }
+
     $lines = $portsRaw -split "`n"
-    $unauthorized = @()
+    $allowedPatterns = @(
+        '^dify-nginx-1:\s*127\.0\.0\.1:80->80/tcp,\s*127\.0\.0\.1:443->443/tcp$',
+        '^dify-plugin_daemon-1:\s*127\.0\.0\.1:5003->5003/tcp$'
+    )
 
     foreach ($line in $lines) {
-        if ([string]::IsNullOrWhiteSpace($line)) { continue }
-        if ($line -match "0\.0\.0\.0:\d+" -or $line -match "\[::\]:\d+") {
-            $unauthorized += $line
+        $trimmed = $line.Trim()
+        if ([string]::IsNullOrWhiteSpace($trimmed)) { continue }
+
+        # Extract name and ports
+        if ($trimmed -match '^([^:]+):\s*(.*)$') {
+            $cName = $matches[1].Trim()
+            $cPorts = $matches[2].Trim()
+
+            # If container has host-published ports (contains ->)
+            if ($cPorts -match '->') {
+                $isAllowed = $false
+                foreach ($pattern in $allowedPatterns) {
+                    if ($trimmed -match $pattern) {
+                        $isAllowed = $true
+                        break
+                    }
+                }
+                if (-not $isAllowed) {
+                    throw "Unauthorized host port mapping on $cName: '$cPorts'. Must match explicit loopback allowlist."
+                }
+            }
         }
     }
 
-    if ($unauthorized.Count -gt 0) {
-        throw "Detected container port published on public interface: $($unauthorized -join '; ')"
-    }
-
-    Write-Host "  [PASS] All published container ports are strictly bound to 127.0.0.1 (Loopback)." -ForegroundColor Green
+    Write-Host "  [PASS] All published container ports strictly match loopback allowlist (127.0.0.1:80, 443, 5003)." -ForegroundColor Green
     $testResults["5_Port_Containment"] = "PASS"
 } catch {
     Write-Host "  [FAIL] Port containment audit failed: $_" -ForegroundColor Red

@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.5.0] — 2026-11-01
+
+### Added
+- Successfully completed and verified **Stage D (Bilingual Knowledge Base & Grounded RAG Chat Application)**.
+- Created controlled bilingual test dataset (`tests/rag-evaluation/dataset/`):
+  - `saudi_tech_initiatives.ar.md`: Sovereign cloud and AI infrastructure report with verified factual anchors (14 regional data centers, 120 PFLOPS, Dec 2026 target, Saudi-Bench-v2 94.8% retrieval benchmark, GOV-DATA-SEC standard).
+  - `cloud_architecture_standards.en.md`: Enterprise cloud specifications (ARCH-NET-09 <=15ms P99 round-trip latency, VEC-DIM-1024 1024-dim vectors, 600 token chunk / 60 token 10% overlap, zero data loss WAL, 99.95% uptime).
+  - `regional_datacenter_comparison.ar.md`: Commercial sector comparison document for ambiguity discrimination (8 data centers in Dammam/Jubail, 35 PFLOPS, 40% non-sovereign hybrid cloud, SLA-COM-99 99.5% uptime, 4-hour RTO).
+  - `test_queries.json`: Standardized test query suite covering AR-AR, EN-EN, cross-lingual AR-EN, unsupported abstention, and ambiguity discrimination.
+- Created and indexed Dify Knowledge Base (`8e29fd5b-9537-46ac-acde-191b457b793e`):
+  - Indexing mode: High Quality with `bge-m3:latest` (1024-dimension embedding).
+  - Retrieval method: Hybrid Search (Dense Vector + BM25 keyword search).
+  - Semantic chunking: 600 max tokens per chunk, 60 tokens (10%) sliding overlap.
+  - Successfully indexed all 3 documents into 27 segments in Weaviate vector store (`dify-weaviate-1`).
+- Built and hardened Grounded RAG Chatbot Application (`Local Bilingual RAG Assistant`, ID: `5fa6a5ae-ddf1-4a89-a8cd-57891ad5c244`):
+  - Primary LLM: `qwen3.5:4b` via `langgenius/ollama/ollama`.
+  - Configured `think: false` in model completion parameters to eliminate runaway reasoning loops, slashing response latency from 31+ seconds down to 1.5–2.9 seconds per turn.
+  - Prompt engineering: Hardened bilingual system prompt enforcing strict context grounding, anti-hallucination, mandatory inline citations `[اسم الوثيقة، رقم الفقرة]` / `[Document Name, Section]`, and explicit abstention ("المعلومة المطلوبة غير متوفرة في الوثائق المرفقة." / "The requested information is not available in the provided documents.").
+  - Linked directly to Knowledge Base dataset and enabled retriever resource citations.
+  - Exported complete application DSL to `workflows/local_bilingual_rag_assistant.yml`.
+- Executed Comprehensive Automated Acceptance Suite (`tests/integration/test-stage-d.ps1` & `tests/rag-evaluation/evaluate_rag.py`):
+  - 100% pass rate (5/5 evaluation cases passed):
+    - `TC-01-AR-AR`: Verified 14 centers, cited `saudi_tech_initiatives.ar.md`, 2.74s latency.
+    - `TC-02-EN-EN`: Verified 15ms latency at P99 under ARCH-NET-09, cited `cloud_architecture_standards.en.md`.
+    - `TC-03-CROSS-LINGUAL`: Arabic query correctly retrieved English document, extracted 1024 dimensions and 10% overlap, answered in Arabic citing source.
+    - `TC-04-UNSUPPORTED`: Model strictly abstained ("المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.") with zero fabricated data or hallucinations.
+    - `TC-05-AMBIGUITY-DISCRIMINATION`: Perfectly contrasted private commercial sector (8 centers / 35 PFLOPS) vs government sovereign program (14 centers), citing both documents and sections.
+  - Resource safety audited: Verified >= 1,200 MiB safe VRAM headroom maintained under full load (measured free headroom: ~1,909 MiB, temperature stable at ~71°C).
+  - Security containment verified: Strict localhost port binding (`127.0.0.1:80`, `443`, `5003`) with zero unauthorized external exposure.
+
 ## [0.4.0] — 2026-11-01
 
 ### Added

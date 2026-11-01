@@ -1,0 +1,161 @@
+{
+  "suite": "Stage D RAG Evaluation",
+  "timestamp": "2026-11-01T11:10:10Z",
+  "total_tests": 5,
+  "passed_tests": 5,
+  "all_passed": true,
+  "results": [
+    {
+      "id": "TC-01-AR-AR",
+      "type": "arabic_to_arabic",
+      "query": "كم عدد مراكز البيانات الإقليمية المستهدفة في برنامج تنمية القدرات الرقمية الحكومي وما هي قدرتها الحسابية؟",
+      "passed": true,
+      "failure_reasons": [],
+      "answer": "في برنامج تنمية القدرات الرقمية الحكومي، يستهدف البرنامج **14 مركزاً** فقط، ولا تنطبق عليه القدرة الحسابية المذكورة في سياق المراكز التجارية.\n\nأما فيما يتعلق بالقدرة الحسابية، فإنها تبلغ **35 بيتافلوبس**، ولكن هذه المعلومة تخص المراكز التجارية وليس برنامج تنمية القدرات الرقمية الحكومي الذي لا ينطبق عليه هذا المعيار [اسم الوثيقة، رقم الفقرة / القسم].",
+      "retrieved_documents": [
+        "saudi_tech_initiatives.ar.md",
+        "regional_datacenter_comparison.ar.md"
+      ],
+      "retriever_resources_count": 6,
+      "usage": {
+        "prompt_tokens": 871,
+        "prompt_unit_price": "0",
+        "prompt_price_unit": "0",
+        "prompt_price": "0",
+        "completion_tokens": 96,
+        "completion_unit_price": "0",
+        "completion_price_unit": "0",
+        "completion_price": "0",
+        "total_tokens": 967,
+        "total_price": "0",
+        "currency": "USD",
+        "latency": 2.677921578000678,
+        "time_to_first_token": null,
+        "time_to_generate": null
+      },
+      "latency_seconds": 2.74
+    },
+    {
+      "id": "TC-02-EN-EN",
+      "type": "english_to_english",
+      "query": "What is the maximum allowed round-trip latency between the orchestration backend and the local vector database under specification ARCH-NET-09?",
+      "passed": true,
+      "failure_reasons": [],
+      "answer": "The maximum allowed round-trip latency between the orchestration backend and the local vector database is **15 milliseconds** at the P99 percentile.\n\n[Document Name, Section X]",
+      "retrieved_documents": [
+        "regional_datacenter_comparison.ar.md",
+        "cloud_architecture_standards.en.md"
+      ],
+      "retriever_resources_count": 6,
+      "usage": {
+        "prompt_tokens": 793,
+        "prompt_unit_price": "0",
+        "prompt_price_unit": "0",
+        "prompt_price": "0",
+        "completion_tokens": 39,
+        "completion_unit_price": "0",
+        "completion_price_unit": "0",
+        "completion_price": "0",
+        "total_tokens": 832,
+        "total_price": "0",
+        "currency": "USD",
+        "latency": 11.306860110998969,
+        "time_to_first_token": null,
+        "time_to_generate": null
+      },
+      "latency_seconds": 11.35
+    },
+    {
+      "id": "TC-03-CROSS-LINGUAL",
+      "type": "cross_lingual_ar_to_en",
+      "query": "ما هو حجم أبعاد التضمين الشعاعي المعتمد ونسبة التداخل بين المقاطع بحسب معايير البنية السحابية؟",
+      "passed": true,
+      "failure_reasons": [],
+      "answer": "حجم أبعاد التضمين الشعاعي (Embeddings) المعتمد في قواعد البيانات المتجهة المدمجة في بنية السحابة هو **1024 بعدة**، ونسبة التداخل بين المقاطع هي **10%** (مما يعادل 60 كلمة).\n\nهذه المعلومات مستندة إلى: [Vector Datastores in Enterprise RAG Topologies, Section 1].",
+      "retrieved_documents": [
+        "saudi_tech_initiatives.ar.md",
+        "regional_datacenter_comparison.ar.md",
+        "cloud_architecture_standards.en.md"
+      ],
+      "retriever_resources_count": 8,
+      "usage": {
+        "prompt_tokens": 881,
+        "prompt_unit_price": "0",
+        "prompt_price_unit": "0",
+        "prompt_price": "0",
+        "completion_tokens": 87,
+        "completion_unit_price": "0",
+        "completion_price_unit": "0",
+        "completion_price": "0",
+        "total_tokens": 968,
+        "total_price": "0",
+        "currency": "USD",
+        "latency": 12.716978405998816,
+        "time_to_first_token": null,
+        "time_to_generate": null
+      },
+      "latency_seconds": 12.79
+    },
+    {
+      "id": "TC-04-UNSUPPORTED",
+      "type": "unsupported_abstention",
+      "query": "ما هي الميزانية المالية الإجمالية المخصصة لقطار الحرمين السريع ومواعيد رحلاته في صيف 2028؟",
+      "passed": true,
+      "failure_reasons": [],
+      "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
+      "retrieved_documents": [
+        "saudi_tech_initiatives.ar.md",
+        "regional_datacenter_comparison.ar.md",
+        "cloud_architecture_standards.en.md"
+      ],
+      "retriever_resources_count": 8,
+      "usage": {
+        "prompt_tokens": 904,
+        "prompt_unit_price": "0",
+        "prompt_price_unit": "0",
+        "prompt_price": "0",
+        "completion_tokens": 15,
+        "completion_unit_price": "0",
+        "completion_price_unit": "0",
+        "completion_price": "0",
+        "total_tokens": 919,
+        "total_price": "0",
+        "currency": "USD",
+        "latency": 10.14874102900103,
+        "time_to_first_token": null,
+        "time_to_generate": null
+      },
+      "latency_seconds": 10.22
+    },
+    {
+      "id": "TC-05-AMBIGUITY-DISCRIMINATION",
+      "type": "ambiguity_discrimination",
+      "query": "قارن بين عدد مراكز البيانات والقدرة الحسابية بين القطاع التجاري الخاص وبرنامج القدرات الرقمية الحكومي.",
+      "passed": true,
+      "failure_reasons": [],
+      "answer": "بناءً على المعلومات الواردة في الوثيقة:\n\n**القطاع التجاري الخاص:**\n*   **عدد المراكز:** يمتلك **8 مراكز بيانات** فقط مخصصة للتجارة الإلكترونية والخدمات اللوجستية في المنطقة الشرقية (الدمام والجبيل). [دراسة مقارنة لمراكز البيانات السحابية التجارية والخاصة، القسم 1]\n*   **القدرة الحسابية:** تبلغ قدرتها **35 بيتافلوبس**. [دراسة مقارنة لمراكز البيانات السحابية التجارية والخاصة، القسم 1]\n\n**برنامج تنمية القدرات الرقمية الحكومي:**\n*   **عدد المراكز:** يستهدف **14 مركزاً**. [دراسة مقارنة لمراكز البيانات السحابية التجارية والخاصة، القسم 2]\n*   **القدرة الحسابية:** لم يتم ذكر رقم محدد للقدرة الحسابية في الوثيقة. [دراسة مقارنة لمراكز البيانات السحابية التجارية والخاصة، القسم 2]\n\n**ملاحظات إضافية من السياق:**\n*   تعتمد مراكز القطاع الخاص التجاري بنسبة 40% على خدمات سحابية هجينة غير سيادية، ولا تنطبق عليها معايير الاستدلال الذاتي الحكومية. [دراسة مقارنة لمراكز البيانات السحابية التجارية والخاصة، القسم 1]\n*   يهدف البرنامج الحكومي إلى إنشاء 14 مركز بيانات إقليمي فائق القدرة موزعة بين الرياض وجدة ونيوم بحلول شهر ديسمبر من عام 2026. [دراسة مقارنة لمراكز البيانات السحابية التجارية والخاصة، القسم 1]",
+      "retrieved_documents": [
+        "saudi_tech_initiatives.ar.md",
+        "regional_datacenter_comparison.ar.md"
+      ],
+      "retriever_resources_count": 6,
+      "usage": {
+        "prompt_tokens": 786,
+        "prompt_unit_price": "0",
+        "prompt_price_unit": "0",
+        "prompt_price": "0",
+        "completion_tokens": 326,
+        "completion_unit_price": "0",
+        "completion_price_unit": "0",
+        "completion_price": "0",
+        "total_tokens": 1112,
+        "total_price": "0",
+        "currency": "USD",
+        "latency": 14.290560467999967,
+        "time_to_first_token": null,
+        "time_to_generate": null
+      },
+      "latency_seconds": 14.34
+    }
+  ]
+}

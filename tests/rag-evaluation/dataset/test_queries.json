@@ -1,0 +1,43 @@
+[
+  {
+    "id": "TC-01-AR-AR",
+    "type": "arabic_to_arabic",
+    "query": "كم عدد مراكز البيانات الإقليمية المستهدفة في برنامج تنمية القدرات الرقمية الحكومي وما هي قدرتها الحسابية؟",
+    "expected_answer_keywords": ["14", "120", "بيتافلوبس", "KSA-DIGIT-2025"],
+    "expected_source": "saudi_tech_initiatives.ar.md",
+    "requires_abstention": false
+  },
+  {
+    "id": "TC-02-EN-EN",
+    "type": "english_to_english",
+    "query": "What is the maximum allowed round-trip latency between the orchestration backend and the local vector database under specification ARCH-NET-09?",
+    "expected_answer_keywords": ["15 milliseconds", "P99", "ARCH-NET-09"],
+    "expected_source": "cloud_architecture_standards.en.md",
+    "requires_abstention": false
+  },
+  {
+    "id": "TC-03-CROSS-LINGUAL",
+    "type": "cross_lingual_ar_to_en",
+    "query": "ما هو حجم أبعاد التضمين الشعاعي المعتمد ونسبة التداخل بين المقاطع بحسب معايير البنية السحابية؟",
+    "expected_answer_keywords": ["1024", "60", "10%"],
+    "expected_source": "cloud_architecture_standards.en.md",
+    "requires_abstention": false
+  },
+  {
+    "id": "TC-04-UNSUPPORTED",
+    "type": "unsupported_abstention",
+    "query": "ما هي الميزانية المالية الإجمالية المخصصة لقطار الحرمين السريع ومواعيد رحلاته في صيف 2028؟",
+    "expected_answer_keywords": ["غير متوفرة", "لا توجد معلومات", "not available", "unsupported"],
+    "expected_source": null,
+    "requires_abstention": true
+  },
+  {
+    "id": "TC-05-AMBIGUITY-DISCRIMINATION",
+    "type": "ambiguity_discrimination",
+    "query": "قارن بين عدد مراكز البيانات والقدرة الحسابية بين القطاع التجاري الخاص وبرنامج القدرات الرقمية الحكومي.",
+    "expected_answer_keywords": ["8", "14", "35", "120"],
+    "expected_source": ["regional_datacenter_comparison.ar.md", "saudi_tech_initiatives.ar.md"],
+    "requires_abstention": false
+  }
+]
+

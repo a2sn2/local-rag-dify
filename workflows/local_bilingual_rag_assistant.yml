@@ -1,0 +1,105 @@
+app:
+  description: Local bilingual Arabic/English grounded RAG assistant powered by Qwen3.5:4b
+    and BGE-M3 on native Ollama.
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: chat
+  name: Local Bilingual RAG Assistant
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/ollama:1.0.3@1086758302d98263d5b7881de8ba95fc219351fdf97831d18a7807378674d203
+    version: null
+kind: app
+model_config:
+  agent_mode:
+    enabled: false
+    strategy: router
+    tools: []
+  annotation_reply:
+    enabled: false
+  chat_prompt_config: {}
+  completion_prompt_config: {}
+  dataset_configs:
+    datasets:
+      datasets:
+      - dataset:
+          enabled: true
+          id: 8e29fd5b-9537-46ac-acde-191b457b793e
+      strategy: router
+    retrieval_model: single
+  dataset_query_variable: null
+  external_data_tools: []
+  file_upload:
+    enabled: false
+  model:
+    completion_params:
+      max_tokens: 512
+      stop: []
+      temperature: 0.1
+      think: false
+      top_p: 0.9
+    mode: chat
+    name: qwen3.5:4b
+    provider: langgenius/ollama/ollama
+  more_like_this:
+    enabled: false
+  opening_statement: 'مرحباً بك! أنا المساعد التقني ثنائي اللغة المبني محلياً. كيف
+    يمكنني مساعدتك اليوم استناداً إلى الوثائق التقنية المعتمدة؟
+
+
+    Welcome! I am your local bilingual technical assistant. How can I assist you today
+    based on verified technical documentation?'
+  pre_prompt: "أنت مساعد تقني مؤسسي ذكي ثنائي اللغة (العربية والإنجليزية) متخصص في\
+    \ الإجابة على الاستفسارات الفنية بدقة وموثوقية عالية.\n\nالقواعد الصارمة الملزمة:\n\
+    1. الالتزام المطلق بالسياق (Strict Grounding): اعتمد حصراً وبشكل صارم على المعلومات\
+    \ الواردة في الوثائق المرفقة (Context). لا تقدم أي إجابة بناءً على معرفتك الخارجية\
+    \ المسبقة.\n2. منع الهلوسة الصارم (Anti-Hallucination): يُحظر تماماً التخمين،\
+    \ أو افتراض حقائق غير موجودة، أو تأليف أي أرقام، تواريخ، مواصفات أو ميزانيات.\n\
+    3. التوثيق والاقتباس الداخلي الصريح (Inline Citations):\n   - عند الإجابة باللغة\
+    \ العربية: اذكر دائماً اسم الوثيقة ورقم الفقرة أو القسم بصيغة: [اسم الوثيقة، رقم\
+    \ الفقرة / القسم].\n   - When answering in English: Always cite the source document\
+    \ and section in the format: [Document Name, Section X].\n4. الامتناع الصريح في\
+    \ حال عدم التوفر (Explicit Abstention):\n   - إذا كان سؤال المستخدم يتعلق بموضوع\
+    \ أو حقائق غير موجودة إطلاقاً في الوثائق المرفقة، يجب عليك الامتناع عن الإجابة\
+    \ فوراً، والرد بالصيغة المحددة التالية بدقة:\n     - بالعربية: \"المعلومة المطلوبة\
+    \ غير متوفرة في الوثائق المرفقة.\"\n     - بالإنجليزية: \"The requested information\
+    \ is not available in the provided documents.\"\n   - لا تحاول أبداً تقديم إجابات\
+    \ عامة أو تخمينية عن الأسئلة غير المدعومة.\n5. مطابقة لغة السؤال (Language Consistency):\
+    \ أجب باللغة العربية إذا كان السؤال بالعربية، وأجب بالإنجليزية إذا كان السؤال\
+    \ بالإنجليزية. في الأسئلة العابرة للغات، قدم الإجابة بلغة السؤال مستنداً إلى الوثيقة\
+    \ المرجعية واذكر المصدر بدقة."
+  prompt_type: simple
+  retriever_resource:
+    enabled: true
+  sensitive_word_avoidance:
+    enabled: false
+  speech_to_text:
+    enabled: false
+  suggested_questions: []
+  suggested_questions_after_answer:
+    enabled: false
+  text_to_speech:
+    enabled: false
+    language: ''
+    voice: ''
+  user_input_form: []
+site:
+  chat_color_theme: null
+  chat_color_theme_inverted: false
+  copyright: null
+  custom_disclaimer: ''
+  default_language: ar-TN
+  description: null
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  input_placeholder: null
+  privacy_policy: null
+  show_workflow_steps: true
+  title: Local Bilingual RAG Assistant
+  use_icon_as_answer_icon: false
+version: 0.7.0

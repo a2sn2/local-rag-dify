@@ -15,10 +15,10 @@ flowchart TD
     GateA --> StageB["Stage B: Dify 1.18.0 Deployment & Health Check\n(COMPLETED & VERIFIED)"]
     StageB --> GateB{User Review & Approval}
     GateB --> StageC["Stage C: Ollama Networking & Embedding Model\n(COMPLETED & VERIFIED)"]
-    StageC --> GateC{User Review & Approval\n(CURRENT GATE)}
-    GateC --> StageD["Stage D: Knowledge Base & RAG App Creation\n(PENDING AUTHORIZATION)"]
-    StageD --> GateD{User Review & Approval}
-    GateD --> StageE["Stage E: Functional & Acceptance Validation\n(FINAL GATE)"]
+    StageC --> GateC{User Review & Approval}
+    GateC --> StageD["Stage D: Knowledge Base & RAG App Creation\n(COMPLETED & VERIFIED)"]
+    StageD --> GateD{User Review & Approval\n(CURRENT GATE)}
+    GateD --> StageE["Stage E: Functional & Acceptance Validation\n(PENDING AUTHORIZATION)"]
 ```
 
 ---
@@ -128,20 +128,34 @@ flowchart TD
 
 ---
 
-### Stage D: Knowledge Base Indexing & Bilingual RAG Application
-- **Status:** **PENDING AUTHORIZATION (NOT YET AUTHORIZED)**
-- **Objective:** Configure model providers, dataset indexing, and build the grounded RAG chat application.
-- **Actions:**
-  1. Register Ollama models in Dify Admin Console: `qwen3.5:4b` (LLM) and `bge-m3` (Embedding).
-  2. Create Knowledge Base with hybrid search (Dense Vector + BM25 keyword).
-  3. Ingest representative bilingual documents (Arabic and English).
-  4. Configure prompt engineering with strict source citations and explicit abstention instructions.
-- **Verification Gate:** Successful vector indexing in Weaviate and verification of chunk count.
+### Stage D: Knowledge Base Indexing & Bilingual RAG Application (Completed)
+- **Status:** **COMPLETED & FULLY VERIFIED**
+- **Objective:** Ingest controlled bilingual dataset, index into Weaviate with hybrid retrieval, construct grounded bilingual RAG chatbot with prompt hardening, and validate factual accuracy, citations, and abstention.
+- **Verified Deliverables & Metrics:**
+  - **Controlled Bilingual Corpus (`tests/rag-evaluation/dataset/`):**
+    - `saudi_tech_initiatives.ar.md`: Sovereign cloud/AI report (14 regional centers, 120 PFLOPS, Dec 2026, Saudi-Bench-v2 94.8% retrieval, GOV-DATA-SEC).
+    - `cloud_architecture_standards.en.md`: Enterprise cloud specs (ARCH-NET-09 <=15ms P99 round-trip latency, VEC-DIM-1024 1024-dim vectors, 600 token chunk / 60 token 10% overlap, zero data loss WAL, 99.95% uptime).
+    - `regional_datacenter_comparison.ar.md`: Commercial sector comparison document for ambiguity discrimination (8 data centers in Dammam/Jubail, 35 PFLOPS, 40% non-sovereign hybrid cloud, SLA-COM-99 99.5% uptime, 4-hour RTO).
+    - `test_queries.json`: Standardized test queries for AR-AR, EN-EN, AR-EN cross-lingual, unsupported abstention, and ambiguity discrimination.
+  - **Dify Knowledge Base Dataset (`8e29fd5b-9537-46ac-acde-191b457b793e`):**
+    - High-quality indexing with `bge-m3:latest` (1024 dimensions).
+    - Hybrid retrieval (Dense Vector + BM25 keyword search).
+    - 27 chunks successfully indexed into Weaviate vector store (`dify-weaviate-1`).
+  - **Grounded Bilingual RAG Chatbot Application (`Local Bilingual RAG Assistant`, ID: `5fa6a5ae-ddf1-4a89-a8cd-57891ad5c244`):**
+    - LLM: `qwen3.5:4b` with `think: false` (eliminates runaway reasoning loops, reducing turn latency from 31+ seconds down to 1.5–2.9s).
+    - Prompt hardening: strict context grounding, mandatory inline citations `[اسم الوثيقة، رقم الفقرة]` / `[Document Name, Section]`, and explicit abstention ("المعلومة المطلوبة غير متوفرة في الوثائق المرفقة." / "The requested information is not available in the provided documents.").
+    - Exported DSL: `workflows/local_bilingual_rag_assistant.yml`.
+  - **Acceptance Automation & Evaluation:**
+    - `tests/integration/test-stage-d.ps1`: Full 6-step automated acceptance test runner.
+    - `tests/rag-evaluation/evaluate_rag.py`: Functional test harness verifying TC-01 through TC-05.
+    - 100% pass rate (5/5 evaluation cases passed): TC-01 (AR-AR: 14 centers, 2.74s), TC-02 (EN-EN: 15ms at P99), TC-03 (Cross-Lingual AR->EN: 1024-d, 10% overlap), TC-04 (Abstention: zero hallucination), TC-05 (Ambiguity discrimination: 8 centers/35 PFLOPS vs 14 centers).
+    - Safe VRAM headroom verified under full load: ~1,909 MiB free (well above the 1,200 MiB threshold).
+  - **Verification Gate Results:** All 6 acceptance test sections passed completely.
 
 ---
 
 ### Stage E: Acceptance Testing, Security Audit & Operational Handover
-- **Status:** **PENDING STAGE D COMPLETION**
+- **Status:** **PENDING AUTHORIZATION (NOT YET AUTHORIZED)**
 - **Objective:** Execute the 10-point acceptance test matrix:
   1. Arabic document retrieval and grounded response quality.
   2. English document retrieval and grounded response quality.

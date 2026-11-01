@@ -150,13 +150,15 @@ This project adheres to an isolated phased deployment protocol requiring explici
   - WSL2 kernel 6.18.54.1-1, Docker Desktop v4.97.0 per-user setup, and .wslconfig resource allocation.
 - [x] **Stage B: Dify 1.18.0 Deployment & Container Health Check** *(Completed & Verified — Commit: `d9a61f0`)*
   - Full 16-container Dify v1.18.0 stack deployed, Alembic DB migrations completed, loopback-only binding (`127.0.0.1:80`), and Web console verified operational.
-- [x] **Stage C: Ollama Networking & Embedding Model Configuration** *(Completed & Verified)*
+- [x] **Stage C: Ollama Networking & Embedding Model Configuration** *(Completed & Verified — Commit: `e71f444`)*
   - Container-to-host model networking (`host.docker.internal:11434`), official `langgenius/ollama` plugin (v1.0.3), `bge-m3:latest` (1024-dim text embedding), and `qwen3.5:4b` (4096 context LLM) integrated as workspace defaults. Sequential model execution (`OLLAMA_MAX_LOADED_MODELS=1`) verified with 1,980 MiB safe VRAM headroom.
-- [ ] **Stage D: Knowledge Base Indexing & Bilingual RAG Application** *(Pending Authorization)*
-  - Document ingestion, semantic chunking (600 tokens / 10% overlap), and hybrid search tuning.
-  - Document ingestion, semantic chunking (600 tokens / 10% overlap), and hybrid search tuning.
-- [ ] **Stage E: Functional, Security & Performance Acceptance Testing**
-  - Evaluating bilingual retrieval accuracy, cross-lingual queries, anti-hallucination abstention, and offline isolation.
+- [x] **Stage D: Knowledge Base Indexing & Bilingual RAG Application** *(Completed & Verified)*
+  - Bilingual test corpus ingested into Dify Knowledge Base (`8e29fd5b-9537-46ac-acde-191b457b793e`) with hybrid search (Weaviate dense vectors + BM25 keyword search, 27 indexed chunks).
+  - Built grounded chatbot application (`Local Bilingual RAG Assistant`, ID: `5fa6a5ae-ddf1-4a89-a8cd-57891ad5c244`) with `qwen3.5:4b`, `think: false` low-latency tuning, and prompt hardening enforcing inline citations and explicit abstention.
+  - 100% pass rate across all 5 evaluation test cases (AR-AR, EN-EN, cross-lingual AR->EN, unsupported abstention with zero hallucination, and ambiguity discrimination).
+  - Exported application DSL to `workflows/local_bilingual_rag_assistant.yml`.
+- [ ] **Stage E: Functional, Security & Performance Acceptance Testing** *(Pending Authorization)*
+  - End-to-end acceptance verification, offline network audit, extended concurrency benchmarks, and final operational signoff.
 
 ---
 
