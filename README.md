@@ -144,13 +144,13 @@ local-rag-dify/
 
 This project adheres to an isolated phased deployment protocol requiring explicit validation before moving to the next gate:
 
-- [x] **Stage 0: GitHub Integration & Project Initialization** *(Completed)*
+- [x] **Stage 0: GitHub Integration & Project Initialization** *(Completed — Commit: `3d4b9fe`)*
   - Remote repository setup, directory scaffolding, security exclusions, and public documentation.
-- [ ] **Stage A: WSL2 and Docker Desktop Prerequisites** *(In Progress)*
-  - Enabling WSL2 Linux kernel and installing Docker Desktop with WSL2 backend.
-- [ ] **Stage B: Dify 1.18.0 Deployment & Container Health Check**
-  - Pinned stable release checkout, secret generation, loopback binding, and service verification.
-- [ ] **Stage C: Ollama Networking & Embedding Model Configuration**
+- [x] **Stage A: WSL2 and Docker Desktop Prerequisites** *(Completed — Commit: `a974088`)*
+  - WSL2 kernel 6.18.54.1-1, Docker Desktop v4.97.0 per-user setup, and .wslconfig resource allocation.
+- [x] **Stage B: Dify 1.18.0 Deployment & Container Health Check** *(Completed & Verified)*
+  - Full 16-container Dify v1.18.0 stack deployed, Alembic DB migrations completed, loopback-only binding (`127.0.0.1:80`), and Web console verified operational.
+- [ ] **Stage C: Ollama Networking & Embedding Model Configuration** *(Next Gate)*
   - Host gateway connectivity verification, `bge-m3` benchmarking, and memory sizing.
 - [ ] **Stage D: Knowledge Base Indexing & Bilingual RAG Application**
   - Document ingestion, semantic chunking (600 tokens / 10% overlap), and hybrid search tuning.

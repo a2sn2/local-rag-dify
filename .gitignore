@@ -38,6 +38,7 @@ auth_token.txt
 volumes/
 docker/volumes/
 **/volumes/
+docker/dify/nginx/conf.d/default.conf
 *.vhdx
 *.vdi
 *.vmdk

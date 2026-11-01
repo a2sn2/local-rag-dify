@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.0] — 2026-11-01
+
+### Added
+- Successfully completed and verified **Stage B (Dify v1.18.0 Local Deployment & Health Check)**.
+- Deployed full Dify v1.18.0 container stack (16 containers total: API, Web, Celery Worker, Worker Beat, Websocket, PostgreSQL 15, Redis 6, Weaviate 1.39.13, Code Sandbox, Local Agent Sandbox, Agent Backend, Agent SSRF Proxy, Squid SSRF Proxy, Plugin Daemon, Nginx, Init Permissions).
+- Enforced strict local loopback binding: Nginx reverse proxy mapped strictly to `127.0.0.1:80` and `127.0.0.1:443`; Plugin Daemon debugging port mapped strictly to `127.0.0.1:5003` via `docker-compose.override.yaml`.
+- Validated zero host exposure for all internal services (PostgreSQL 5432, Redis 6379, Weaviate 8080/50051, Sandboxes 8194/5004, API 5001, Web 3000, Agent Backend 5050).
+- Generated cryptographically secure tokens for `SECRET_KEY` (64-hex), `SANDBOX_API_KEY` (32-alphanumeric), `DIFY_AGENT_LOCAL_SANDBOX_AUTH_TOKEN` (32-alphanumeric), `DIFY_AGENT_SERVER_SECRET_KEY` (unpadded Base64Url), and random database passwords.
+- Configured Celery broker authentication (`CELERY_BROKER_URL`) and SSRF proxy allowlists (`host.docker.internal` and local subnets) for low-latency host Ollama connectivity.
+- Executed Alembic database migrations cleanly on PostgreSQL.
+- Verified Web UI operational at `http://127.0.0.1/` with administrator account creation and verified dashboard session.
+- Measured container memory footprint at ~2.43 GiB total (~15.5% of WSL 16GB allocation), preserving 24+ GB RAM for host Windows and Ollama CUDA inference.
+- Added reproducible automated provisioning script `scripts/provision-stage-b.ps1`.
+
 ## [0.2.0] — 2026-10-30
 
 ### Added
