@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.6.0] — 2026-11-01
+
+### Added & Hardened (Stage D.1 — Visual Chatflow DAG & Hardened Evaluation)
+- **Visual Advanced-Chat Chatflow Application (`Local Bilingual RAG Chatflow`):**
+  - Created separate Dify application using `advanced-chat` mode (`AppMode.ADVANCED_CHAT`, App ID: `80a154cf-1787-4aae-8be9-8cd44193d30b`).
+  - Constructed real editable 5-node directed acyclic graph (DAG):
+    - **START Node** (`start`): Receives bilingual user query `sys.query`.
+    - **Knowledge Retrieval Node** (`knowledge-retrieval`): Executes hybrid search (dense BGE-M3 vector + BM25 keyword) against the bilingual Knowledge Base (`8e29fd5b-9537-46ac-acde-191b457b793e`).
+    - **If-Else Evidence Gate** (`if-else`): Evaluates retrieval evidence count (`count(result) >= 1`).
+    - **LLM Synthesis Node** (`llm`): Invokes local `qwen3.5:4b` with `think: false` and strict citation prompt (`[Document Name, Section]`).
+    - **Answer Nodes** (`answer`): Grounded response route for supported facts; explicit abstention branch returning standardized refusal ("المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.") without fabricating sources when evidence is missing.
+  - Verified visual accessibility and live editing in Dify Studio (`http://127.0.0.1/app/80a154cf-1787-4aae-8be9-8cd44193d30b/workflow`).
+  - Exported complete portable Chatflow DSL to `workflows/local_bilingual_rag_chatflow.yml`.
+- **Corpus Ingestion Protection & Content Hashing:**
+  - Hardened `tests/rag-evaluation/ingest_corpus.py` to prevent accidental index wipes: requires explicit `--force-reindex --confirm-destroy` flags.
+  - Added `--fixtures` parameter to restrict destructive operations to explicitly specified fixture files.
+  - Implemented SHA-256 source hashing in document metadata (`doc_metadata['sha256']`) to detect file changes and avoid redundant indexing.
+- **Independent Iteration & Latency Hardening:**
+  - Refactored `tests/rag-evaluation/evaluate_rag.py` to independently evaluate every benchmark iteration (status, latency, facts, citations, placeholders, unit precision).
+  - Explicitly flags HTTP error responses and empty model answers as failed iterations.
+  - Measures standalone retrieval latency using `HitTestingService.retrieve` without invoking LLM, reporting `None` when unmeasured (never substitutes `0ms`).
+  - Directly computes median (P50) and 95th percentile (P95) latencies from all raw successful request timings.
+- **Automated Comparative Benchmark (`tests/rag-evaluation/compare_rag_apps.py`):**
+  - Head-to-head comparison between single-step Chatbot (`chat`) and multi-node Chatflow (`advanced-chat`).
+  - Confirmed 100% test case pass rate, 100% iteration pass rate, and zero citation placeholders across both applications.
+  - Generated comprehensive comparison report at `tests/rag-evaluation/comparison_report.json`.
+- **Comprehensive Acceptance Test Suite (`tests/integration/test-stage-d.ps1`):**
+  - Updated acceptance test script to validate both applications, verify Chatflow DSL integrity, and enforce comparative benchmark gates across 7 automated stages.
+
+---
+
 ## [0.5.1] — 2026-11-01
 
 ### Fixed & Remediated (Stage D Quality & Evaluation Remediation)

@@ -1,10 +1,11 @@
 """
-Stage D Document Ingestion & Indexing Script (Hardened & Idempotent)
-Ingests controlled bilingual dataset into Dify Knowledge Base:
-- bge-m3:latest embeddings (1024 dims)
-- 600 max tokens per chunk, 60 tokens (10%) overlap
-- Semantic paragraph segmentation (separator="\n\n")
-- Idempotent and non-destructive: preserves existing documents unless explicit --force-reindex flag is passed
+Stage D.1 Hardened Document Ingestion & Indexing Script
+Features:
+- Enforces safety confirmation: --force-reindex requires --confirm-destroy
+- Restricts force-reindex to explicitly selected test fixtures (--fixtures)
+- SHA-256 content hashing to detect changed documents without silently skipping updates
+- Semantic paragraph segmentation (separator="\\n\\n", 600 max tokens, 60 tokens overlap)
+- High-quality hybrid indexing with BGE-M3 embeddings
 - Verifies vector-index consistency across Weaviate and PostgreSQL
 """
 
@@ -12,6 +13,7 @@ import sys
 import os
 import time
 import hashlib
+import argparse
 
 if '/app/api' not in sys.path:
     sys.path.insert(0, '/app/api')
@@ -33,7 +35,18 @@ DATASET_ID = '8e29fd5b-9537-46ac-acde-191b457b793e'
 TENANT_ID = 'b30587b8-f547-461e-bfdf-59e8cb4b1bbb'
 ACCOUNT_ID = '5c7a6fd3-2624-4d5a-9256-081444e787c6'
 
-force_reindex = '--force-reindex' in sys.argv or '--reindex' in sys.argv
+parser = argparse.ArgumentParser(description="Stage D.1 Hardened Knowledge Base Ingestion")
+parser.add_argument('--force-reindex', action='store_true', help="Force reindexing of documents")
+parser.add_argument('--confirm-destroy', action='store_true', help="Required safety confirmation for --force-reindex")
+parser.add_argument('--fixtures', type=str, default="all", help="Comma-separated list of fixture filenames to process or 'all'")
+
+args = parser.parse_args()
+
+# Rule 6: Safety check for force-reindex
+if args.force_reindex and not args.confirm_destroy:
+    sys.exit("ERROR: Safety violation. --force-reindex requires explicit --confirm-destroy flag to proceed.")
+
+selected_fixtures = [f.strip() for f in args.fixtures.split(',')] if args.fixtures != "all" else "all"
 
 _, flask_app = app.create_app()
 with flask_app.app_context():
@@ -45,11 +58,18 @@ with flask_app.app_context():
     if not dataset:
         raise RuntimeError(f"Dataset {DATASET_ID} not found.")
 
-    files_to_ingest = [
+    all_fixtures = [
         ('saudi_tech_initiatives.ar.md', 'Arabic Technical Initiatives Document (Synthetic Fixture)'),
         ('cloud_architecture_standards.en.md', 'Enterprise Cloud Architecture Standards (Synthetic Fixture)'),
         ('regional_datacenter_comparison.ar.md', 'Regional Commercial Datacenter Comparison (Synthetic Fixture)')
     ]
+
+    if selected_fixtures == "all":
+        fixtures_to_process = all_fixtures
+    else:
+        fixtures_to_process = [f for f in all_fixtures if f[0] in selected_fixtures]
+        if not fixtures_to_process:
+            sys.exit(f"ERROR: No valid fixtures found matching --fixtures={args.fixtures}")
 
     existing_docs = {
         d.name: d for d in db.session.query(Document).filter(
@@ -57,17 +77,15 @@ with flask_app.app_context():
         ).all()
     }
 
-    if force_reindex:
-        print("[WARN] Explicit --force-reindex requested. Safely replacing existing dataset documents and vector embeddings...")
-        for name, ed in existing_docs.items():
-            DocumentService.delete_document(ed, session=db.session)
-        db.session.commit()
-        existing_docs = {}
-
     file_service = FileService(session_factory=db.engine)
     newly_created_docs = []
 
-    for fname, desc in files_to_ingest:
+    print("=" * 80)
+    print("STAGE D.1: HARDENED KNOWLEDGE INGESTION & CONTENT HASH AUDIT")
+    print(f"Dataset ID: {DATASET_ID} | Force Reindex: {args.force_reindex} | Fixtures: {[f[0] for f in fixtures_to_process]}")
+    print("=" * 80)
+
+    for fname, desc in fixtures_to_process:
         fpath = os.path.join(DATASET_DIR, fname)
         if not os.path.exists(fpath):
             raise FileNotFoundError(f"Source file not found: {fpath}")
@@ -77,20 +95,41 @@ with flask_app.app_context():
 
         content_hash = hashlib.sha256(content.encode('utf-8')).hexdigest()
 
+        # Check existing document
         if fname in existing_docs:
             doc = existing_docs[fname]
-            segs = db.session.query(DocumentSegment).filter(
-                DocumentSegment.document_id == doc.id
-            ).all()
-            if doc.indexing_status == 'completed' and len(segs) > 0:
-                print(f"[OK] Document '{fname}' is already indexed and healthy (ID: {doc.id}, Segments: {len(segs)}). Skipping duplicate ingestion.")
-                continue
-            else:
-                print(f"[RECOVER] Document '{fname}' exists in incomplete status '{doc.indexing_status}'. Re-indexing...")
+            meta = doc.doc_metadata or {}
+            stored_hash = meta.get('sha256') if isinstance(meta, dict) else None
+
+            # Check if force reindex is targeting this specific fixture
+            if args.force_reindex:
+                print(f"[REINDEX] Explicit --force-reindex targeting fixture '{fname}'. Safely replacing document and vector embeddings...")
                 DocumentService.delete_document(doc, session=db.session)
                 db.session.commit()
+            elif stored_hash and stored_hash != content_hash:
+                print(f"[UPDATE] Content changed for '{fname}' (Stored SHA: {stored_hash[:8]} -> New SHA: {content_hash[:8]}). Re-indexing...")
+                DocumentService.delete_document(doc, session=db.session)
+                db.session.commit()
+            else:
+                segs = db.session.query(DocumentSegment).filter(
+                    DocumentSegment.document_id == doc.id
+                ).all()
+                if doc.indexing_status == 'completed' and len(segs) > 0:
+                    # Backfill hash in doc_metadata if absent
+                    if not stored_hash:
+                        meta = dict(meta) if isinstance(meta, dict) else {}
+                        meta['sha256'] = content_hash
+                        doc.doc_metadata = meta
+                        db.session.commit()
+                    print(f"[SKIP] Document '{fname}' is unchanged (SHA-256: {content_hash[:8]}..., ID: {doc.id}, Segments: {len(segs)}). Skipping duplicate ingestion.")
+                    continue
+                else:
+                    print(f"[RECOVER] Document '{fname}' exists in incomplete status '{doc.indexing_status}'. Re-indexing...")
+                    DocumentService.delete_document(doc, session=db.session)
+                    db.session.commit()
 
-        print(f"Ingesting '{fname}' (SHA256: {content_hash[:8]}...)...")
+        # Ingestion step
+        print(f"Ingesting '{fname}' (SHA-256: {content_hash[:8]}...)...")
         upload_file = file_service.upload_text(
             text=content,
             text_name=fname,
@@ -133,6 +172,15 @@ with flask_app.app_context():
             created_from="web",
             session=db.session
         )
+
+        # Attach content hash to document metadata
+        for d in documents:
+            d_meta = d.doc_metadata or {}
+            d_meta = dict(d_meta) if isinstance(d_meta, dict) else {}
+            d_meta['sha256'] = content_hash
+            d.doc_metadata = d_meta
+        db.session.commit()
+
         newly_created_docs.extend(documents)
         print(f"Dispatched indexing for '{fname}', Batch ID: {batch}")
 
@@ -165,6 +213,8 @@ with flask_app.app_context():
     print(f"- Total Active Segments: {total_segments}")
     for d in all_docs:
         d_segs = db.session.query(DocumentSegment).filter(DocumentSegment.document_id == d.id).count()
-        print(f"  * {d.name}: {d_segs} segments (status: {d.indexing_status})")
+        meta = d.doc_metadata or {}
+        shash = meta.get('sha256', 'unknown')[:8] if isinstance(meta, dict) else 'none'
+        print(f"  * {d.name}: {d_segs} segments | SHA: {shash} | status: {d.indexing_status}")
 
     print("\nSUCCESS: Knowledge Base indexing verified.")

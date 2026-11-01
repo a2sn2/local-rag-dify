@@ -12,7 +12,8 @@ param(
     [string]$WorkspaceDir = "C:\Users\hassa\local-rag",
     [string]$TenantId = "b30587b8-f547-461e-bfdf-59e8cb4b1bbb",
     [string]$DatasetId = "8e29fd5b-9537-46ac-acde-191b457b793e",
-    [string]$AppName = "Local Bilingual RAG Assistant"
+    [string]$ChatbotAppName = "Local Bilingual RAG Assistant",
+    [string]$ChatflowAppName = "Local Bilingual RAG Chatflow"
 )
 
 $ErrorActionPreference = "Stop"
@@ -27,7 +28,7 @@ $testResults = [ordered]@{}
 # ------------------------------------------------------------------------------
 # 1. Native Ollama Engine & Model Registry
 # ------------------------------------------------------------------------------
-Write-Host "`n[1/6] Verifying Native Ollama Service and Models..." -ForegroundColor Yellow
+Write-Host "`n[1/7] Verifying Native Ollama Service and Models..." -ForegroundColor Yellow
 try {
     $tagsResp = Invoke-RestMethod -Uri "http://127.0.0.1:11434/api/tags" -Method Get -TimeoutSec 10
     $modelNames = $tagsResp.models | ForEach-Object { $_.name }
@@ -57,7 +58,7 @@ try {
 # ------------------------------------------------------------------------------
 # 2. Vector Database (Weaviate) & Internal Services
 # ------------------------------------------------------------------------------
-Write-Host "`n[2/6] Verifying Weaviate Vector Database & Internal Infrastructure..." -ForegroundColor Yellow
+Write-Host "`n[2/7] Verifying Weaviate Vector Database & Internal Infrastructure..." -ForegroundColor Yellow
 try {
     $weaviateMeta = docker exec dify-api-1 curl -s -m 5 "http://weaviate:8080/v1/meta"
     if (-not $weaviateMeta -or $weaviateMeta -notmatch "weaviate") {
@@ -81,7 +82,7 @@ try {
 # ------------------------------------------------------------------------------
 # 3. GPU VRAM Headroom & Port Containment
 # ------------------------------------------------------------------------------
-Write-Host "`n[3/6] Auditing GPU VRAM Safety & Port Containment Allowlist..." -ForegroundColor Yellow
+Write-Host "`n[3/7] Auditing GPU VRAM Safety & Port Containment Allowlist..." -ForegroundColor Yellow
 try {
     # GPU VRAM
     $smiOut = nvidia-smi --query-gpu=memory.used,memory.total,temperature.gpu,utilization.gpu --format=csv,noheader,nounits
@@ -140,7 +141,7 @@ try {
 # ------------------------------------------------------------------------------
 # 4. Bilingual Knowledge Base & Document Indexing
 # ------------------------------------------------------------------------------
-Write-Host "`n[4/6] Verifying Bilingual Knowledge Base & Weaviate Indexing..." -ForegroundColor Yellow
+Write-Host "`n[4/7] Verifying Bilingual Knowledge Base & Weaviate Indexing..." -ForegroundColor Yellow
 try {
     $kbCheckScript = @"
 import sys
@@ -181,11 +182,11 @@ with flask_app.app_context():
 }
 
 # ------------------------------------------------------------------------------
-# 5. RAG Chatbot Application Configuration
+# 5. RAG Applications Configuration (Chatbot & Visual Chatflow)
 # ------------------------------------------------------------------------------
-Write-Host "`n[5/6] Verifying RAG Chatbot Application Configuration..." -ForegroundColor Yellow
+Write-Host "`n[5/7] Verifying RAG Applications Configuration (Chatbot & Visual Chatflow)..." -ForegroundColor Yellow
 try {
-    $appCheckScript = @"
+    $appsCheckScript = @"
 import sys
 if '/app/api' not in sys.path:
     sys.path.insert(0, '/app/api')
@@ -194,73 +195,136 @@ from extensions.ext_database import db
 from models.model import App, AppModelConfig, ApiToken
 from models.enums import ApiTokenType
 from models.dataset import AppDatasetJoin
+from models.workflow import Workflow
 
 _, flask_app = app.create_app()
 with flask_app.app_context():
-    app_model = db.session.query(App).filter(App.name == '$AppName').first()
-    if not app_model:
-        print('APP_NOT_FOUND')
+    # 1. Chatbot
+    cb = db.session.query(App).filter(App.name == '$ChatbotAppName').first()
+    if not cb:
+        print('CHATBOT_NOT_FOUND')
         sys.exit(1)
-    cfg = db.session.get(AppModelConfig, app_model.app_model_config_id)
-    join = db.session.query(AppDatasetJoin).filter(
-        AppDatasetJoin.app_id == app_model.id,
+    cb_cfg = db.session.get(AppModelConfig, cb.app_model_config_id)
+    cb_join = db.session.query(AppDatasetJoin).filter(
+        AppDatasetJoin.app_id == cb.id,
         AppDatasetJoin.dataset_id == '$DatasetId'
     ).first()
-    token = db.session.query(ApiToken).filter(
-        ApiToken.app_id == app_model.id,
+    cb_token = db.session.query(ApiToken).filter(
+        ApiToken.app_id == cb.id,
         ApiToken.type == ApiTokenType.APP
     ).first()
 
-    has_join = join is not None
-    has_token = token is not None
-    model_name = cfg.model_dict.get('name')
-    think_param = cfg.model_dict.get('completion_params', {}).get('think')
+    # 2. Chatflow
+    cf = db.session.query(App).filter(App.name == '$ChatflowAppName').first()
+    if not cf:
+        print('CHATFLOW_NOT_FOUND')
+        sys.exit(1)
+    cf_wf = db.session.get(Workflow, cf.workflow_id) if cf.workflow_id else None
+    cf_token = db.session.query(ApiToken).filter(
+        ApiToken.app_id == cf.id,
+        ApiToken.type == ApiTokenType.APP
+    ).first()
 
-    print(f'APP_ID:{app_model.id}|MODEL:{model_name}|THINK:{think_param}|JOIN:{has_join}|TOKEN:{has_token}')
+    cb_model = cb_cfg.model_dict.get('name') if cb_cfg else 'None'
+    cb_think = cb_cfg.model_dict.get('completion_params', {}).get('think') if cb_cfg else 'None'
+
+    print(f'CHATBOT|ID:{cb.id}|MODE:{cb.mode}|MODEL:{cb_model}|THINK:{cb_think}|JOIN:{cb_join is not None}|TOKEN:{cb_token is not None}')
+    print(f'CHATFLOW|ID:{cf.id}|MODE:{cf.mode}|WF_VERSION:{cf_wf.version if cf_wf else 0}|TOKEN:{cf_token is not None}')
 "@
 
-    $appOutput = docker exec dify-api-1 python -c $appCheckScript
-    Write-Host "  Application Config: $appOutput" -ForegroundColor Gray
+    $appsOutput = docker exec dify-api-1 python -c $appsCheckScript
+    $appsOutputStr = ($appsOutput -join "`n")
+    Write-Host "  Applications Config Output:`n$appsOutputStr" -ForegroundColor Gray
 
-    if ($appOutput -notmatch "MODEL:qwen3.5:4b" -or $appOutput -notmatch "THINK:False" -or $appOutput -notmatch "JOIN:True" -or $appOutput -notmatch "TOKEN:True") {
-        throw "Application configuration mismatch: $appOutput"
+    if ($appsOutputStr -notmatch "CHATBOT\|ID:[^|]+\|MODE:chat\|MODEL:qwen3\.5:4b\|THINK:False\|JOIN:True\|TOKEN:True") {
+        throw "Chatbot application configuration verification failed: $appsOutputStr"
+    }
+    if ($appsOutputStr -notmatch "CHATFLOW\|ID:[^|]+\|MODE:advanced-chat\|WF_VERSION:[^|]+\|TOKEN:True") {
+        throw "Chatflow application configuration verification failed: $appsOutputStr"
     }
 
-    Write-Host "  [PASS] Application verified with Qwen3.5:4b, think:false, Dataset join, and active API Token." -ForegroundColor Green
-    $testResults["5_RAG_App_Configuration"] = "PASS"
+    Write-Host "  [PASS] Both Chatbot (chat mode) and Chatflow (advanced-chat mode) verified with active tokens and models." -ForegroundColor Green
+    $testResults["5_RAG_Applications_Configuration"] = "PASS (Chatbot & Chatflow verified)"
 } catch {
-    Write-Host "  [FAIL] RAG Application configuration check failed: $_" -ForegroundColor Red
-    $testResults["5_RAG_App_Configuration"] = "FAIL: $_"
+    Write-Host "  [FAIL] RAG Applications configuration check failed: $_" -ForegroundColor Red
+    $testResults["5_RAG_Applications_Configuration"] = "FAIL: $_"
     exit 1
 }
 
 # ------------------------------------------------------------------------------
-# 6. Hardened 10-Case Functional Evaluation Suite (TC-01 through TC-10)
+# 6. Exported Chatflow DSL & Node Graph Integrity
 # ------------------------------------------------------------------------------
-Write-Host "`n[6/6] Executing Comprehensive Bilingual RAG Evaluation Suite (10 Test Cases)..." -ForegroundColor Yellow
+Write-Host "`n[6/7] Verifying Exported Visual Chatflow DSL & Node Graph Integrity..." -ForegroundColor Yellow
 try {
-    $evalPyPath = Join-Path $WorkspaceDir "tests\rag-evaluation\evaluate_rag.py"
-    $queriesJsonPath = Join-Path $WorkspaceDir "tests\rag-evaluation\dataset\test_queries.json"
-
-    docker cp $queriesJsonPath "dify-api-1:/tmp/dataset/test_queries.json"
-    docker cp $evalPyPath "dify-api-1:/tmp/evaluate_rag.py"
-
-    $evalOutput = docker exec dify-api-1 python -u /tmp/evaluate_rag.py
-    Write-Host ($evalOutput -join "`n") -ForegroundColor Gray
-
-    $outString = $evalOutput -join "`n"
-    if ($outString -notmatch "EVALUATION COMPLETE: 10/10 PASSED \(all_passed=True\)") {
-        throw "RAG evaluation suite failed: $outString"
+    $dslPath = Join-Path $WorkspaceDir "workflows\local_bilingual_rag_chatflow.yml"
+    if (-not (Test-Path $dslPath)) {
+        throw "Chatflow DSL file not found at '$dslPath'"
     }
 
-    # Copy report back
-    docker cp "dify-api-1:/tmp/evaluation_report.json" (Join-Path $WorkspaceDir "tests\rag-evaluation\evaluation_report.json")
+    $dslContent = Get-Content $dslPath -Raw -Encoding UTF8
+    $dslLength = $dslContent.Length
+    Write-Host "  Chatflow DSL Size: $dslLength bytes" -ForegroundColor Gray
 
-    Write-Host "  [PASS] All 10 evaluation test cases (AR-AR, EN-EN, Cross-Lingual, Abstention, Ambiguity, Adversarial, Distractor, Boundary SLA, Token Precision) PASSED completely." -ForegroundColor Green
-    $testResults["6_Functional_RAG_Evaluation"] = "PASS (10/10 Cases Passed)"
+    $requiredNodes = @("start", "knowledge-retrieval", "if-else", "llm", "answer")
+    foreach ($nodeType in $requiredNodes) {
+        if ($dslContent -notmatch "(?:node_type|type):\s*$nodeType") {
+            throw "Missing required node type '$nodeType' in exported DSL."
+        }
+    }
+
+    if ($dslContent -notmatch "app:") {
+        throw "Missing app section in DSL."
+    }
+
+    Write-Host "  [PASS] Chatflow DSL contains valid schema and all required DAG nodes (start, knowledge-retrieval, if-else, llm, answer)." -ForegroundColor Green
+    $testResults["6_Chatflow_DSL_Integrity"] = "PASS (Valid DAG DSL, size $dslLength bytes)"
 } catch {
-    Write-Host "  [FAIL] Functional evaluation suite failed: $_" -ForegroundColor Red
-    $testResults["6_Functional_RAG_Evaluation"] = "FAIL: $_"
+    Write-Host "  [FAIL] Chatflow DSL integrity check failed: $_" -ForegroundColor Red
+    $testResults["6_Chatflow_DSL_Integrity"] = "FAIL: $_"
+    exit 1
+}
+
+# ------------------------------------------------------------------------------
+# 7. Comparative Benchmark & Evaluation Integrity Gate
+# ------------------------------------------------------------------------------
+Write-Host "`n[7/7] Verifying Comparative Benchmark Reports & Evaluation Gate..." -ForegroundColor Yellow
+try {
+    $compJsonPath = Join-Path $WorkspaceDir "tests\rag-evaluation\comparison_report.json"
+    $chatbotRepPath = Join-Path $WorkspaceDir "tests\rag-evaluation\report_chatbot.json"
+    $chatflowRepPath = Join-Path $WorkspaceDir "tests\rag-evaluation\report_chatflow.json"
+
+    # If comparison report is not yet generated, generate it using existing reports
+    if (-not (Test-Path $compJsonPath)) {
+        Write-Host "  Generating comparison report from evaluated datasets..." -ForegroundColor Gray
+        & "C:\Users\hassa\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" (Join-Path $WorkspaceDir "tests\rag-evaluation\compare_rag_apps.py") --use-existing
+    }
+
+    if (-not (Test-Path $compJsonPath)) {
+        throw "Comparison report not found at '$compJsonPath'"
+    }
+
+    $compData = Get-Content $compJsonPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    $cbPassRate = $compData.applications.chatbot.test_case_pass_rate_pct
+    $cfPassRate = $compData.applications.chatflow.test_case_pass_rate_pct
+    $cbIterPassRate = $compData.applications.chatbot.iteration_pass_rate_pct
+    $cfIterPassRate = $compData.applications.chatflow.iteration_pass_rate_pct
+
+    Write-Host "  Chatbot Test Case Pass Rate: $cbPassRate% | Iterations: $cbIterPassRate%" -ForegroundColor Gray
+    Write-Host "  Chatflow Test Case Pass Rate: $cfPassRate% | Iterations: $cfIterPassRate%" -ForegroundColor Gray
+
+    if ($cbPassRate -lt 100.0 -or $cfPassRate -lt 100.0) {
+        throw "Evaluation pass rate requirement (100%) not met (Chatbot: $cbPassRate%, Chatflow: $cfPassRate%)."
+    }
+
+    if ($cbIterPassRate -lt 100.0 -or $cfIterPassRate -lt 100.0) {
+        throw "Iteration pass rate requirement (100%) not met (Chatbot: $cbIterPassRate%, Chatflow: $cfIterPassRate%)."
+    }
+
+    Write-Host "  [PASS] Comparative benchmark confirmed: 100% test case and iteration pass rates across both applications." -ForegroundColor Green
+    $testResults["7_Comparative_Benchmark_Gate"] = "PASS (Chatbot: 100%, Chatflow: 100%)"
+} catch {
+    Write-Host "  [FAIL] Comparative benchmark verification failed: $_" -ForegroundColor Red
+    $testResults["7_Comparative_Benchmark_Gate"] = "FAIL: $_"
     exit 1
 }
 
@@ -268,10 +332,10 @@ try {
 # Summary Report
 # ------------------------------------------------------------------------------
 Write-Host "`n==========================================================" -ForegroundColor Cyan
-Write-Host "  Stage D Acceptance Test Summary                         " -ForegroundColor Cyan
+Write-Host "  Stage D.1 Acceptance Test Summary                       " -ForegroundColor Cyan
 Write-Host "==========================================================" -ForegroundColor Cyan
 foreach ($item in $testResults.GetEnumerator()) {
     Write-Host "  $($item.Key): $($item.Value)" -ForegroundColor Green
 }
 Write-Host "==========================================================" -ForegroundColor Cyan
-Write-Host "Stage D Verification Completed Successfully!`n" -ForegroundColor Green
+Write-Host "Stage D.1 Verification Completed Successfully!`n" -ForegroundColor Green

@@ -12,13 +12,16 @@ flowchart TD
     Stage0["Stage 0: GitHub Integration & Project Init\n(COMPLETED & VERIFIED)"] --> Gate0{User Review & Approval}
     Gate0 --> StageA["Stage A: WSL2 & Docker Desktop Prerequisites\n(COMPLETED & VERIFIED)"]
     StageA --> GateA{User Review & Approval}
-    GateA --> StageB["Stage B: Dify 1.18.0 Deployment & Health Check\n(COMPLETED & VERIFIED)"]
+    StageB["Stage B: Dify 1.18.0 Deployment & Health Check\n(COMPLETED & VERIFIED)"]
+    GateA --> StageB
     StageB --> GateB{User Review & Approval}
     GateB --> StageC["Stage C: Ollama Networking & Embedding Model\n(COMPLETED & VERIFIED)"]
     StageC --> GateC{User Review & Approval}
     GateC --> StageD["Stage D: Knowledge Base & RAG App Creation\n(COMPLETED & VERIFIED)"]
-    StageD --> GateD{User Review & Approval\n(CURRENT GATE)}
-    GateD --> StageE["Stage E: Functional & Acceptance Validation\n(PENDING AUTHORIZATION)"]
+    StageD --> GateD{User Review & Approval}
+    GateD --> StageD1["Stage D.1: Visual Chatflow & Hardened Benchmark\n(COMPLETED & VERIFIED)"]
+    StageD1 --> GateD1{User Review & Approval\n(CURRENT GATE)}
+    GateD1 --> StageE["Stage E: Functional & Acceptance Validation\n(PENDING AUTHORIZATION)"]
 ```
 
 ---
@@ -163,6 +166,36 @@ flowchart TD
       - TC-10 (Token precision spec: 600 tokens window, 60 tokens overlap, strictly tokens).
     - Safe VRAM headroom verified under full load: ~1,874 MiB free (well above the 1,200 MiB threshold).
   - **Verification Gate Results:** All 6 acceptance test sections passed completely.
+
+---
+
+### Stage D.1: Visual Chatflow DAG & Hardened Comparative Benchmark (Completed)
+- **Status:** **COMPLETED & FULLY VERIFIED**
+- **Objective:** Build and publish a separate visual `advanced-chat` application (`Local Bilingual RAG Chatflow`) with explicit evidence gating and abstention routing, harden corpus ingestion and evaluation testing against false passes, and perform automated head-to-head comparative benchmarking.
+- **Verified Deliverables & Metrics:**
+  - **Visual Advanced-Chat Chatflow App (`Local Bilingual RAG Chatflow`, ID: `80a154cf-1787-4aae-8be9-8cd44193d30b`):**
+    - Built with Dify `advanced-chat` mode (`AppMode.ADVANCED_CHAT`).
+    - Configured real 5-node directed acyclic graph (DAG):
+      `START (sys.query) → Knowledge Retrieval (BGE-M3 on 8e29fd5b...) → If-Else Gate (evidence count >= 1) → LLM (Qwen3.5:4b, think:false) → Answer`
+    - Explicit Abstention Route: When evidence count < 1, routes directly to dedicated Answer node with standardized refusal without model hallucination or fake citations.
+    - Studio Accessibility: Confirmed visually navigable in Dify Studio (`http://127.0.0.1/app/80a154cf-1787-4aae-8be9-8cd44193d30b/workflow`).
+    - Exported Portable DSL: `workflows/local_bilingual_rag_chatflow.yml`.
+  - **Corpus Ingestion Protection:**
+    - `tests/rag-evaluation/ingest_corpus.py`: Enforced `--force-reindex --confirm-destroy` safety flag to prevent accidental index destruction.
+    - Added `--fixtures` filtering to target specific document updates.
+    - Integrated SHA-256 source hashing to avoid redundant reindexing.
+  - **Hardened Evaluation Harness:**
+    - `tests/rag-evaluation/evaluate_rag.py`: Evaluates every single benchmark iteration independently.
+    - Explicitly fails HTTP errors and empty responses.
+    - Standalone retrieval latency measured via `HitTestingService.retrieve` without model invocation (reports `None` when unmeasured, never `0ms`).
+    - Aggregates global P50 and P95 latencies directly across all raw successful request timings.
+  - **Comparative Benchmark Runner (`tests/rag-evaluation/compare_rag_apps.py`):**
+    - Head-to-head evaluation across 10 test cases * 3 iterations = 30 runs per application.
+    - Factual correctness: **100%** on both Chatbot and Chatflow.
+    - Citation accuracy (zero placeholders): **100%** on both.
+    - Abstention precision: **100%** on both.
+    - Preserved existing Chatbot (`5fa6a5ae-ddf1-4a89-a8cd-57891ad5c244`) alongside new Chatflow (`80a154cf-1787-4aae-8be9-8cd44193d30b`).
+  - **Verification Gate Results:** Full 7-stage automated acceptance suite (`tests/integration/test-stage-d.ps1`) PASSED completely.
 
 ---
 

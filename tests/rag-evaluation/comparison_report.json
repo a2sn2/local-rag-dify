@@ -1,0 +1,70 @@
+{
+  "timestamp": "2026-11-01T15:28:44Z",
+  "stage": "Stage D.1 — Finish Visual Chatflow and Hardened Comparative Evaluation",
+  "gpu_hardware": {
+    "model": "NVIDIA GeForce RTX 3060 Laptop GPU (6GB VRAM)",
+    "initial_state": {
+      "vram_used_mb": 283.0,
+      "vram_total_mb": 6144.0,
+      "gpu_utilization_pct": 1.0,
+      "temperature_celsius": 69.47
+    },
+    "mid_state": {
+      "vram_used_mb": 283.0,
+      "vram_total_mb": 6144.0,
+      "gpu_utilization_pct": 1.0,
+      "temperature_celsius": 69.47
+    },
+    "final_state": {
+      "vram_used_mb": 283.0,
+      "vram_total_mb": 6144.0,
+      "gpu_utilization_pct": 1.0,
+      "temperature_celsius": 69.47
+    },
+    "peak_vram_mb": 283.0
+  },
+  "applications": {
+    "chatbot": {
+      "name": "Local Bilingual RAG Assistant",
+      "app_id": "5fa6a5ae-ddf1-4a89-a8cd-57891ad5c244",
+      "mode": "chat",
+      "architecture": "Single-step Chatbot with dataset router",
+      "test_cases_passed": "10/10",
+      "test_case_pass_rate_pct": 100.0,
+      "iterations_passed": "30/30",
+      "iteration_pass_rate_pct": 100.0,
+      "failed_iterations_count": 0,
+      "factual_correctness_pct": 100.0,
+      "citation_accuracy_pct": 100.0,
+      "abstention_precision_pct": 100.0,
+      "p50_total_latency_seconds": 10.475,
+      "p95_total_latency_seconds": 17.646,
+      "p50_generation_latency_seconds": 10.432,
+      "total_run_duration_seconds": 0.0
+    },
+    "chatflow": {
+      "name": "Local Bilingual RAG Chatflow",
+      "app_id": "80a154cf-1787-4aae-8be9-8cd44193d30b",
+      "mode": "advanced-chat",
+      "architecture": "Visual DAG (Start -> Knowledge Retrieval -> Evidence Check -> LLM -> Answer)",
+      "test_cases_passed": "10/10",
+      "test_case_pass_rate_pct": 100.0,
+      "iterations_passed": "30/30",
+      "iteration_pass_rate_pct": 100.0,
+      "failed_iterations_count": 0,
+      "factual_correctness_pct": 100.0,
+      "citation_accuracy_pct": 100.0,
+      "abstention_precision_pct": 100.0,
+      "p50_total_latency_seconds": 19.218,
+      "p95_total_latency_seconds": 25.539,
+      "p50_generation_latency_seconds": 18.745,
+      "total_run_duration_seconds": 0.0
+    }
+  },
+  "verdict": {
+    "chatflow_parity": true,
+    "abstention_integrity": true,
+    "citation_integrity": true,
+    "latency_overhead_seconds": 8.743
+  }
+}

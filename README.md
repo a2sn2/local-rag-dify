@@ -160,6 +160,14 @@ This project adheres to an isolated phased deployment protocol requiring explici
   - Non-destructive, idempotent indexing operations with synchronized vector deletion (`ingest_corpus.py --force-reindex`).
   - Hardened 10-case evaluation suite (AR-AR, EN-EN, cross-lingual, abstention, ambiguity discrimination, conflicting sources, fake document bait, distractor queries, exact SLAs, token precision) achieved **100% pass rate (10/10 PASSED)**.
   - Exported application DSL to `workflows/local_bilingual_rag_assistant.yml`.
+- [x] **Stage D.1: Visual Chatflow DAG & Hardened Comparative Benchmark** *(Completed & Fully Verified)*
+  - Built separate visual advanced-chat application (`Local Bilingual RAG Chatflow`, ID: `80a154cf-1787-4aae-8be9-8cd44193d30b`) in Dify `advanced-chat` mode.
+  - Constructed editable 5-node directed acyclic graph (DAG): `START → Knowledge Retrieval → Evidence Check → LLM → Answer` with explicit abstention route when retrieval yields zero evidence.
+  - Studio accessibility verified: Node graph is visually navigable and editable in Dify Studio (`http://127.0.0.1/app/80a154cf-1787-4aae-8be9-8cd44193d30b/workflow`).
+  - Exported portable Chatflow DSL to `workflows/local_bilingual_rag_chatflow.yml`.
+  - Ingestion hardened with `--confirm-destroy` safety confirmation and SHA-256 source hashing.
+  - Evaluation suite hardened with independent per-iteration validation, standalone retrieval latency via `HitTestingService.retrieve` (never substituting 0ms), and raw P50/P95 latency percentiles.
+  - Automated comparative runner (`compare_rag_apps.py`) confirmed 100% test case pass rate, 100% iteration pass rate, and zero placeholders across both Chatbot and Chatflow apps.
 - [ ] **Stage E: Functional, Security & Performance Acceptance Testing** *(Pending Authorization)*
   - End-to-end acceptance verification, offline network audit, extended concurrency benchmarks, and final operational signoff.
 
