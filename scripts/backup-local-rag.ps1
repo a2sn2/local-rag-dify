@@ -277,6 +277,52 @@ try {
         }
     }
 
+    # Archive Ollama Model Manifests and Reproducible Instructions
+    Write-Host "  Exporting Ollama Model Manifests & Configurations..." -ForegroundColor Gray
+    try {
+        $ollamaVer = (& ollama --version 2>&1)
+        $qwenModelfile = (& ollama show qwen3.5:4b --modelfile 2>&1 | Out-String)
+        $bgeModelfile = (& ollama show bge-m3:latest --modelfile 2>&1 | Out-String)
+
+        $ollamaMeta = [ordered]@{
+            "ollama_version" = $ollamaVer
+            "models" = @(
+                [ordered]@{
+                    "name" = "qwen3.5:4b"
+                    "role" = "Chat LLM (Generation)"
+                    "pull_command" = "ollama pull qwen3.5:4b"
+                    "parameters" = "presence_penalty 1.5, temperature 1, top_k 20, top_p 0.95"
+                    "modelfile" = $qwenModelfile
+                },
+                [ordered]@{
+                    "name" = "bge-m3:latest"
+                    "role" = "Text Embedding (1024-dim)"
+                    "pull_command" = "ollama pull bge-m3:latest"
+                    "modelfile" = $bgeModelfile
+                }
+            )
+        }
+        $ollamaMetaPath = Join-Path $tempBackupDir "ollama_models_manifest.json"
+        $ollamaMeta | ConvertTo-Json -Depth 5 | Out-File -FilePath $ollamaMetaPath -Encoding utf8
+        $manifest["components"]["ollama"] = @{
+            "manifest_file" = "ollama_models_manifest.json"
+            "models" = @("qwen3.5:4b", "bge-m3:latest")
+            "sha256" = (Get-FileHash -Path $ollamaMetaPath -Algorithm SHA256).Hash
+        }
+    } catch {
+        Write-Warning "Ollama manifest export warning: $_"
+    }
+
+    # Archive Runtime Environment Configuration (.env)
+    $envSource = Join-Path $WorkspaceDir "docker\dify\.env"
+    if (Test-Path $envSource) {
+        Copy-Item -Path $envSource -Destination (Join-Path $tempBackupDir ".env") -Force
+        $manifest["components"]["environment"] = @{
+            "file" = ".env"
+            "sha256" = (Get-FileHash -Path $envSource -Algorithm SHA256).Hash
+        }
+    }
+
     # Save manifest inside the package
     $manifestPath = Join-Path $tempBackupDir "backup_manifest.json"
     $manifest | ConvertTo-Json -Depth 6 | Out-File -FilePath $manifestPath -Encoding utf8
