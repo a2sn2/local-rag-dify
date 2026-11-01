@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.4.0] — 2026-11-01
+
+### Added
+- Successfully completed and verified **Stage C (Local Ollama Networking & Embedding Integration)**.
+- Established low-latency container-to-host model networking using `http://host.docker.internal:11434`, verified from both `dify-api` and `dify-plugin_daemon`.
+- Installed official Dify Marketplace model provider plugin `langgenius/ollama` (v1.0.3) via Dify Plugin Daemon.
+- Configured and validated `bge-m3:latest` as primary Text Embedding model (1024-dimension vector output for Arabic and English text, verified with 110ms warm latency).
+- Configured and validated `qwen3.5:4b` as primary Chat LLM (4096 context window, chat completion mode with reasoning support).
+- Set `qwen3.5:4b` and `bge-m3:latest` as workspace default models for LLM and Embedding within workspace `b30587b8-f547-461e-bfdf-59e8cb4b1bbb`.
+- Implemented sequential model swapping strategy using `OLLAMA_MAX_LOADED_MODELS=1` in the native Windows Ollama environment:
+  - When embedding runs: `bge-m3:latest` consumes ~657 MB VRAM (total system VRAM: 1,167 MiB, ~4,977 MiB free).
+  - When chat inference runs: `qwen3.5:4b` consumes ~2,995 MB VRAM (total system VRAM: 4,164 MiB, ~1,980 MiB free headroom).
+  - Guarantees zero VRAM oversubscription on the NVIDIA RTX 3060 6GB Laptop GPU with comfortable thermal and memory margins.
+- Verified end-to-end bilingual model execution through Dify model runtime:
+  - English prompt test returned verified output `Riyadh`.
+  - Arabic prompt test returned verified output `الرياض`.
+- Added reproducible automated acceptance test suite `tests/integration/test-stage-c.ps1` and in-container validator `tests/integration/verify_stage_c.py`.
+- Added reproducible Stage C provisioning automation `scripts/provision-stage-c.ps1`.
+- Verified strict network port isolation: 100% loopback containment (`127.0.0.1`), zero external port exposure.
+
 ## [0.3.0] — 2026-11-01
 
 ### Added

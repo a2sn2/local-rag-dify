@@ -148,11 +148,12 @@ This project adheres to an isolated phased deployment protocol requiring explici
   - Remote repository setup, directory scaffolding, security exclusions, and public documentation.
 - [x] **Stage A: WSL2 and Docker Desktop Prerequisites** *(Completed — Commit: `a974088`)*
   - WSL2 kernel 6.18.54.1-1, Docker Desktop v4.97.0 per-user setup, and .wslconfig resource allocation.
-- [x] **Stage B: Dify 1.18.0 Deployment & Container Health Check** *(Completed & Verified)*
+- [x] **Stage B: Dify 1.18.0 Deployment & Container Health Check** *(Completed & Verified — Commit: `d9a61f0`)*
   - Full 16-container Dify v1.18.0 stack deployed, Alembic DB migrations completed, loopback-only binding (`127.0.0.1:80`), and Web console verified operational.
-- [ ] **Stage C: Ollama Networking & Embedding Model Configuration** *(Next Gate)*
-  - Host gateway connectivity verification, `bge-m3` benchmarking, and memory sizing.
-- [ ] **Stage D: Knowledge Base Indexing & Bilingual RAG Application**
+- [x] **Stage C: Ollama Networking & Embedding Model Configuration** *(Completed & Verified)*
+  - Container-to-host model networking (`host.docker.internal:11434`), official `langgenius/ollama` plugin (v1.0.3), `bge-m3:latest` (1024-dim text embedding), and `qwen3.5:4b` (4096 context LLM) integrated as workspace defaults. Sequential model execution (`OLLAMA_MAX_LOADED_MODELS=1`) verified with 1,980 MiB safe VRAM headroom.
+- [ ] **Stage D: Knowledge Base Indexing & Bilingual RAG Application** *(Pending Authorization)*
+  - Document ingestion, semantic chunking (600 tokens / 10% overlap), and hybrid search tuning.
   - Document ingestion, semantic chunking (600 tokens / 10% overlap), and hybrid search tuning.
 - [ ] **Stage E: Functional, Security & Performance Acceptance Testing**
   - Evaluating bilingual retrieval accuracy, cross-lingual queries, anti-hallucination abstention, and offline isolation.

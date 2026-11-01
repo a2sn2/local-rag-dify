@@ -13,10 +13,10 @@ flowchart TD
     Gate0 --> StageA["Stage A: WSL2 & Docker Desktop Prerequisites\n(COMPLETED & VERIFIED)"]
     StageA --> GateA{User Review & Approval}
     GateA --> StageB["Stage B: Dify 1.18.0 Deployment & Health Check\n(COMPLETED & VERIFIED)"]
-    StageB --> GateB{User Review & Approval\n(CURRENT GATE)}
-    GateB --> StageC["Stage C: Ollama Networking & Embedding Model\n(NOT YET AUTHORIZED)"]
-    StageC --> GateC{User Review & Approval}
-    GateC --> StageD["Stage D: Knowledge Base & RAG App Creation\n(PENDING STAGE C)"]
+    StageB --> GateB{User Review & Approval}
+    GateB --> StageC["Stage C: Ollama Networking & Embedding Model\n(COMPLETED & VERIFIED)"]
+    StageC --> GateC{User Review & Approval\n(CURRENT GATE)}
+    GateC --> StageD["Stage D: Knowledge Base & RAG App Creation\n(PENDING AUTHORIZATION)"]
     StageD --> GateD{User Review & Approval}
     GateD --> StageE["Stage E: Functional & Acceptance Validation\n(FINAL GATE)"]
 ```
@@ -97,19 +97,39 @@ flowchart TD
 
 ---
 
-### Stage C: Ollama Host Networking & Embedding Model Setup
-- **Status:** **PENDING STAGE B COMPLETION**
-- **Objective:** Establish low-latency loopback communication between Dify containers and Ollama host engine.
-- **Actions:**
-  1. Verify container-to-host connectivity: probe `http://host.docker.internal:11434` from inside `dify-api`.
-  2. Pull and benchmark the bilingual embedding model `bge-m3` (`ollama pull bge-m3`).
-  3. Verify concurrent GPU memory headroom against `qwen3.5:4b`.
-- **Verification Gate:** Successful embedding generation for sample Arabic and English sentences via cURL from Dify API container.
+### Stage C: Ollama Host Networking & Embedding Model Setup (Completed)
+- **Status:** **COMPLETED & FULLY VERIFIED**
+- **Objective:** Establish low-latency loopback communication between Dify containers and the native Ollama host engine, install the official provider plugin, and register verified models.
+- **Verified Deliverables & Metrics:**
+  - **Container-to-Host Gateway Networking:**
+    - Probed and verified `http://host.docker.internal:11434/api/tags` from inside `dify-api` and `dify-plugin_daemon`.
+    - Zero external network routing; communication restricted to internal Docker virtual network bridge (`192.168.65.254`).
+  - **Official Ollama Provider Plugin:**
+    - Installed official Dify Marketplace plugin `langgenius/ollama` (v1.0.3) via Dify Plugin Daemon.
+    - Verified registration and schema loading under tenant `b30587b8-f547-461e-bfdf-59e8cb4b1bbb`.
+  - **Text Embedding Integration (`bge-m3:latest`):**
+    - Configured with base URL `http://host.docker.internal:11434` and registered as workspace default embedding model.
+    - Output vector dimension verified: **1024** for both Arabic and English text.
+    - Warm embedding latency: **~110 ms**; cold swap latency: **~2.8 s**.
+  - **Chat LLM Integration (`qwen3.5:4b`):**
+    - Configured with base URL `http://host.docker.internal:11434`, context window **4096**, chat mode, and reasoning support.
+    - End-to-end verified through Dify model runtime: English returned `Riyadh`, Arabic returned `الرياض`.
+  - **GPU Memory Safety & Sequential Model Swapping (`OLLAMA_MAX_LOADED_MODELS=1`):**
+    - Configured sequential model swapping in native Ollama environment:
+      - Baseline system VRAM (OS & desktop apps): **397 MiB**.
+      - `bge-m3:latest` resident VRAM: **657 MB** (Total: **1,167 MiB**, Headroom: **4,977 MiB**).
+      - `qwen3.5:4b` resident VRAM: **2,995 MB** (Total: **4,164 MiB**, Headroom: **1,980 MiB**).
+    - Guarantees >32% safe VRAM headroom on the NVIDIA RTX 3060 6GB Laptop GPU with stable thermal operating range (64–69°C).
+  - **Acceptance Automation:**
+    - `tests/integration/test-stage-c.ps1`: Full 6-stage acceptance test suite.
+    - `tests/integration/verify_stage_c.py`: In-container Dify model runtime validator.
+    - `scripts/provision-stage-c.ps1`: Reproducible Stage C provisioning automation.
+  - **Verification Gate Results:** All 6 acceptance tests passed completely (`1_Ollama_Service`, `2_Container_Gateway_Networking`, `3_Dify_Model_Runtime`, `4_GPU_Memory_Boundaries`, `5_Port_Containment`, `6_Dify_Health_Endpoints`).
 
 ---
 
 ### Stage D: Knowledge Base Indexing & Bilingual RAG Application
-- **Status:** **PENDING STAGE C COMPLETION**
+- **Status:** **PENDING AUTHORIZATION (NOT YET AUTHORIZED)**
 - **Objective:** Configure model providers, dataset indexing, and build the grounded RAG chat application.
 - **Actions:**
   1. Register Ollama models in Dify Admin Console: `qwen3.5:4b` (LLM) and `bge-m3` (Embedding).
