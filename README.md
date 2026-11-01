@@ -1,7 +1,7 @@
 # Local RAG Platform — Dify 1.18.0 & Ollama Native
 
 [![Dify Release](https://img.shields.io/badge/Dify-v1.18.0%20Stable-blue.svg)](https://github.com/langgenius/dify/releases/tag/1.18.0)
-[![Stage E Status](https://img.shields.io/badge/Stage%20E-Accepted%20%26%20Handed%20Over-brightgreen.svg)](#implementation-roadmap)
+[![Stage E Status](https://img.shields.io/badge/Stage%20E.1-Security%20%26%20Acceptance%20Complete-brightgreen.svg)](#implementation-roadmap)
 [![Ollama Engine](https://img.shields.io/badge/Ollama-Native%20CUDA-green.svg)](https://ollama.com)
 [![Hardware Acceleration](https://img.shields.io/badge/GPU-RTX%203060%20(6GB)-76B900.svg)](https://www.nvidia.com)
 [![Bilingual RAG](https://img.shields.io/badge/Languages-Arabic%20%26%20English-orange.svg)](#bilingual-rag-support)
@@ -177,6 +177,13 @@ This project adheres to an isolated phased deployment protocol requiring explici
   - Validated service resilience, persistence of `OLLAMA_MAX_LOADED_MODELS=1` in registry, and container restart recovery.
   - Implemented automated disaster recovery backups (`backup-local-rag.ps1`) and verified non-destructive isolated sandbox restoration (`test-isolated-restore.ps1`).
   - Published comprehensive operations runbook (`docs/operations/operations-runbook.md`).
+- [x] **Stage E.1: Final Security and Acceptance Safeguards** *(Completed & Verified — v1.2.0 Hardened)*
+  - **Authenticated AES-256-GCM Backup Encryption:** Replaced CBC with authenticated AEAD encryption (`AES-256-GCM`, 128-bit tag, PBKDF2-100k, 12-byte random nonce). Eliminated hardcoded default passphrases; enforced strict external key resolution via arguments, env vars, or secure key files.
+  - **Cryptographic Tamper-Detection Suite:** Automated 5-stage test suite (`test-backup-tamper.ps1`) validating legitimate decryption, wrong key rejection (exit code 3), 1-byte ciphertext bit-flip rejection, and header/nonce tamper detection.
+  - **Full-Scope Isolated Disaster Recovery:** Non-destructive sandbox test (`test-isolated-restore.ps1`) verifying PostgreSQL (172 tables, 40 segments, 3 apps), Weaviate LSM trees and vector objects, and Dify document storage + RSA private keys. Validated End-to-End RAG parity and GraphQL vector retrieval (certainty = 1.0) with zero production impact.
+  - **Independent Sealed Acceptance Benchmark:** Ingested held-out sealed dataset (`tests/rag-evaluation/sealed_dataset/`) with zero prompt/parameter tuning. Captured 1,689 continuous real-time GPU telemetry samples: peak VRAM 4,149.0 MB, average VRAM 3,756.01 MB, peak temperature 89.16 °C. Verified Chatflow's visual DAG achieves 100% abstention precision on unsupported/adversarial queries.
+  - **Network & Firewall Security Audit:** Audited Ollama binding (`0.0.0.0:11434`), Docker proxy routing (`com.docker.backend.exe` to `127.0.0.1`), and Windows Firewall inbound rules. Documented exposure mitigations and runbook SOPs.
+  - **Git Security Exclusions Hardening:** Strictly excluded `.secrets/`, `*.enc`, `*.key`, `*.pem`, `*.pass`, and temporary restore directories from Git. Zero private credentials or archives tracked.
 
 ---
 

@@ -1,0 +1,1226 @@
+{
+  "timestamp": "2026-11-01T17:32:56Z",
+  "app_id": "5fa6a5ae-ddf1-4a89-a8cd-57891ad5c244",
+  "app_name": "Local Bilingual RAG Assistant",
+  "app_mode": "chat",
+  "model": "qwen3.5:4b",
+  "embedding": "bge-m3:latest",
+  "total_test_cases": 10,
+  "passed_test_cases": 1,
+  "pass_rate_percentage": 10.0,
+  "total_iterations_run": 30,
+  "total_iterations_passed": 4,
+  "total_iterations_failed": 26,
+  "iteration_pass_rate_percentage": 13.33,
+  "aggregate_p50_total_latency_seconds": 11.67,
+  "aggregate_p95_total_latency_seconds": 21.534,
+  "aggregate_p50_generation_latency_seconds": 11.62,
+  "all_passed": false,
+  "results": [
+    {
+      "id": "TC-S01",
+      "type": "arabic_factual_satellite",
+      "query": "ما هو الارتفاع المداري لمنظومة الأقمار الاصطناعية الكمومية السيادية وكم عدد الأقمار في الكوكبة؟ وما هو بروتوكول التوزيع الكمومي ومعدل التوليد الفعلي؟",
+      "passed": false,
+      "p50_total_latency": 10.751,
+      "p95_total_latency": 16.792,
+      "p50_generation_latency": 10.68,
+      "retrieval_latency_ms": 707.63,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 17.464,
+          "generation_latency": 17.373,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "تتألف منظومة الأقمار الاصطناعية الكمومية السيادية من **32 قمراً اصطناعياً نانوياً** تعمل في المدار الأرضي المنخفض (LEO) على ارتفاع ثابت مقداره **550 كيلومتراً**. وتعتمد المنظومة بروتوكول توزيع المفاتيح الكمومية الاستقطابي المتقدم `BB84-POLAR`، مع معدل توليد مفاتيح كمومية فعلي مستقر يبلغ **2.4 كيلوبت في الثانية (2.4 kbps)** لكل وصلة اتصال فضائية أرضية مباشرة.\n\n[1, 2]",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "cloud_architecture_standards.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "commercial_energy_solutions.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": [
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 2.552,
+          "generation_latency": 2.475,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "تتألف منظومة الأقمار الاصطناعية الكمومية السيادية من **32 قمراً اصطناعياً نانوياً** تعمل في المدار الأرضي المنخفض (LEO) على ارتفاع ثابت مقداره **550 كيلومتراً**. وتعتمد المنظومة بروتوكول توزيع المفاتيح الكمومية الاستقطابي المتقدم `BB84-POLAR`، مع معدل توليد مفاتيح كمومية فعلي مستقر يبلغ **2.4 كيلوبت في الثانية (2.4 kbps)** لكل وصلة اتصال فضائية أرضية مباشرة.\n\n[1, 2]",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "cloud_architecture_standards.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "commercial_energy_solutions.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": [
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 10.751,
+          "generation_latency": 10.68,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "saudi_tech_initiatives.ar.md"
+          ],
+          "answer": "تتألف منظومة الأقمار الاصطناعية الكمومية السيادية من **32 قمراً اصطناعياً نانوياً** تعمل في المدار الأرضي المنخفض (LEO) على ارتفاع ثابت مقداره **550 كيلومتراً**. وتعتمد المنظومة بروتوكول توزيع المفاتيح الكمومية الاستقطابي المتقدم `BB84-POLAR`، مع معدل توليد مفاتيح كمومية فعلي مستقر يبلغ **2.4 كيلوبت في الثانية (2.4 kbps)** لكل وصلة اتصال فضائية أرضية مباشرة [saudi_tech_initiatives.ar.md, قسم 1].",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "cloud_architecture_standards.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "commercial_energy_solutions.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": [
+            "Semantic citation failure: Retrieved passages for 'saudi_tech_initiatives.ar.md' do not support claimed facts.",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S02",
+      "type": "arabic_factual_ground_stations",
+      "query": "أين تقع المحطات الأرضية الرئيسة لمنظومة الأقمار الكمومية، وما هو رقم اتفاقية مستوى الخدمة (SLA) ونسبة الجاهزية المطلوبة؟",
+      "passed": false,
+      "p50_total_latency": 10.07,
+      "p95_total_latency": 17.032,
+      "p50_generation_latency": 10.015,
+      "retrieval_latency_ms": 12193.46,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 17.805,
+          "generation_latency": 17.758,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "commercial_energy_solutions.ar.md"
+          ],
+          "answer": "تقع المحطات الأرضية الرئيسة لمنظومة الأقمار الاصطناعية الكمومية في:\n1. **الطائف**: وتُعرف بـ \"محطة الهدا الكمومية\"، وهي مجهزة بتلسكوب استقبال قطره 1.2 متر وتبلغ ارتفاعها 2100 مترًا [commercial_energy_solutions.ar.md, قسم 2].\n2. **نجد**: وتُعرف بـ \"محطة ظلم المركزية\"، وهي تعمل كمشروع مساندة ومحور رئيسي للربط مع شبكة الألياف الوطنية [commercial_energy_solutions.ar.md, قسم 2].\n\nتخضع هذه المنظومة لاتفاقية مستوى الخدمة المعروفة بالرمز **Q-SAT-SEC-99**، والتي تفرض جاهزية تشغيلية مستمرة لا تقل عن **99.99%** للتزامن التشفيري الكمومي، مع زمن تأخير طرفي في طبقة المزامنة لا يتجاوز **8 مللي ثانية (8 ms P99)** بين المحطتين [commercial_energy_solutions.ar.md, قسم 2].",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "failure_reasons": [
+            "Semantic citation failure: Retrieved passages for 'commercial_energy_solutions.ar.md' do not support claimed facts.",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 3.657,
+          "generation_latency": 3.601,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "q_sat_sec_99.ar.md",
+            "ground_sync_sat.ar.md"
+          ],
+          "answer": "تقع المحطات الأرضية الرئيسة لمنظومة الأقمار الاصطناعية الكمومية في:\n1. **الطائف** (محطة الهدا الكمومية)، وهي مجهزة بتلسكوب استقبال قطره 1.2 متر على ارتفاع 2100 مترًا.\n2. **نجد** (محطة ظلم المركزية)، وهي تعمل كمشروع مساندة ومحور رئيسي للربط مع شبكة الألياف الوطنية.\n\nتخضع هذه المنظومة لاتفاقية مستوى الخدمة المعروفة بالرمز **Q-SAT-SEC-99**، والتي تحدد نسبة جاهزية تشغيلية مستهدفة لا تقل عن **99.99%**، مع زمن تأخير طرفي في طبقة المزامنة لا يتجاوز **8 مللي ثانية (8 ms P99)** بين المحطتين.\n\n[ground_sync_sat.ar.md, قسم 3]\n[q_sat_sec_99.ar.md, قسم 2]",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "failure_reasons": [
+            "Semantic citation failure: Cited document 'q_sat_sec_99.ar.md' was not present in retrieved context.",
+            "Semantic citation failure: Cited document 'ground_sync_sat.ar.md' was not present in retrieved context.",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 10.07,
+          "generation_latency": 10.015,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "q_sat_sec_99.ar.md",
+            "ground_sync_sat.ar.md"
+          ],
+          "answer": "تقع المحطات الأرضية الرئيسة لمنظومة الأقمار الاصطناعية الكمومية في **الطائف** (محطة الهدا الكمومية) و**نجد** (محطة ظلم المركزية). تخضع هذه المنظومة لاتفاقية مستوى الخدمة المعروفة بالرمز **Q-SAT-SEC-99**، والتي تفرض نسبة جاهزية تشغيلية مستهدفة لا تقل عن **99.99%** للتزامن التشفيري الكمومي.\n\n[ground_sync_sat.ar.md, قسم 3]\n[q_sat_sec_99.ar.md, قسم 2]",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "failure_reasons": [
+            "Semantic citation failure: Cited document 'q_sat_sec_99.ar.md' was not present in retrieved context.",
+            "Semantic citation failure: Cited document 'ground_sync_sat.ar.md' was not present in retrieved context.",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S03",
+      "type": "english_factual_edge_telemetry",
+      "query": "How many edge sensor clusters are deployed in Project EdgeGrid-Telemetry-v4, what is the aggregate telemetry bandwidth, and which serialization format is used?",
+      "passed": false,
+      "p50_total_latency": 9.628,
+      "p95_total_latency": 15.052,
+      "p50_generation_latency": 9.567,
+      "retrieval_latency_ms": 12145.53,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 15.655,
+          "generation_latency": 15.609,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "project_edgegrid_telemetry_v4.en.md",
+            "cbor_quic_transport.en.md"
+          ],
+          "answer": "In **Project EdgeGrid-Telemetry-v4**, there are **64 edge sensor clusters** deployed. The aggregate distributed telemetry bandwidth across these clusters reaches **180 Gigabits per second (180 Gbps)** under full telemetry load. To minimize bandwidth overhead and resist packet loss, all telemetry payloads are serialized using **Concise Binary Object Representation (CBOR)**.\n\n[project_edgegrid_telemetry_v4.en.md, Section 1]  \n[cbor_quic_transport.en.md, Section 2]",
+          "retrieved_resources": [
+            "autonomous_edge_telemetry_protocols.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "failure_reasons": [
+            "Semantic citation failure: Cited document 'project_edgegrid_telemetry_v4.en.md' was not present in retrieved context.",
+            "Semantic citation failure: Cited document 'cbor_quic_transport.en.md' was not present in retrieved context.",
+            "Answer cited source, but did not match expected source document: ['autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 2.108,
+          "generation_latency": 2.031,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "project_edgegrid_telemetry_v4.en.md",
+            "cbor_quic_transport.en.md"
+          ],
+          "answer": "In **Project EdgeGrid-Telemetry-v4**, there are **64 edge sensor clusters** deployed. The aggregate distributed telemetry bandwidth across these clusters reaches **180 Gigabits per second (180 Gbps)** under full telemetry load. To minimize bandwidth overhead and resist packet loss, all telemetry payloads are serialized using **Concise Binary Object Representation (CBOR)**.\n\n[project_edgegrid_telemetry_v4.en.md, Network Topology and Scale]  \n[cbor_quic_transport.en.md, Serialization and Transport Protocols]",
+          "retrieved_resources": [
+            "autonomous_edge_telemetry_protocols.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "failure_reasons": [
+            "Semantic citation failure: Cited document 'project_edgegrid_telemetry_v4.en.md' was not present in retrieved context.",
+            "Semantic citation failure: Cited document 'cbor_quic_transport.en.md' was not present in retrieved context.",
+            "Answer cited source, but did not match expected source document: ['autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 9.628,
+          "generation_latency": 9.567,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "project_edgegrid_telemetry_v4.en.md",
+            "cbor_quic_transport.en.md"
+          ],
+          "answer": "In **Project EdgeGrid-Telemetry-v4**, there are **64 edge sensor clusters** deployed. The aggregate distributed telemetry bandwidth across these clusters reaches **180 Gigabits per second (180 Gbps)** under full telemetry load. To minimize bandwidth overhead and resist packet loss, all telemetry payloads are serialized using **Concise Binary Object Representation (CBOR)**.\n\n[project_edgegrid_telemetry_v4.en.md, Section 1]  \n[cbor_quic_transport.en.md, Section 2]",
+          "retrieved_resources": [
+            "autonomous_edge_telemetry_protocols.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "failure_reasons": [
+            "Semantic citation failure: Cited document 'project_edgegrid_telemetry_v4.en.md' was not present in retrieved context.",
+            "Semantic citation failure: Cited document 'cbor_quic_transport.en.md' was not present in retrieved context.",
+            "Answer cited source, but did not match expected source document: ['autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S04",
+      "type": "english_factual_jitter_and_heartbeat",
+      "query": "What is the maximum network jitter allowed for the edge telemetry system and what is the heartbeat synchronization interval?",
+      "passed": false,
+      "p50_total_latency": 9.102,
+      "p95_total_latency": 14.997,
+      "p50_generation_latency": 9.047,
+      "retrieval_latency_ms": 12220.66,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 15.652,
+          "generation_latency": 15.597,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "The maximum tolerable network jitter for the edge telemetry system is capped at **4.2 milliseconds (4.2 ms P99)**. The autonomous edge node heartbeat synchronization interval is strictly configured to **1800 seconds** (30 minutes).\n\n[EDGE-LAT-JITTER, Specification: EDGE-LAT-JITTER]",
+          "retrieved_resources": [
+            "autonomous_edge_telemetry_protocols.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "cloud_architecture_standards.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "cloud_architecture_standards.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md"
+          ],
+          "failure_reasons": [
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 1.356,
+          "generation_latency": 1.307,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "The maximum tolerable network jitter for the edge telemetry system is capped at **4.2 milliseconds (4.2 ms P99)**. The autonomous edge node heartbeat synchronization interval is strictly configured to **1800 seconds** (30 minutes).\n\n[EDGE-LAT-JITTER, Specification: EDGE-LAT-JITTER]",
+          "retrieved_resources": [
+            "autonomous_edge_telemetry_protocols.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "cloud_architecture_standards.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "cloud_architecture_standards.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md"
+          ],
+          "failure_reasons": [
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 9.102,
+          "generation_latency": 9.047,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "The maximum tolerable network jitter for the edge telemetry system is capped at **4.2 milliseconds (4.2 ms P99)**. The autonomous edge node heartbeat synchronization interval is strictly configured to **1800 seconds** (30 minutes).\n\n[EDGE-LAT-JITTER, Specification: EDGE-LAT-JITTER]",
+          "retrieved_resources": [
+            "autonomous_edge_telemetry_protocols.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "cloud_architecture_standards.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "cloud_architecture_standards.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md"
+          ],
+          "failure_reasons": [
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S05",
+      "type": "cross_lingual_quantum_ground_sync",
+      "query": "What are the names of the two primary optical ground stations for the sovereign quantum satellite system, and what is the maximum latency between them?",
+      "passed": false,
+      "p50_total_latency": 12.257,
+      "p95_total_latency": 17.9,
+      "p50_generation_latency": 12.207,
+      "retrieval_latency_ms": 12296.58,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 18.527,
+          "generation_latency": 18.487,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "quantum_resilient_cryptography.en.md"
+          ],
+          "answer": "The two primary optical ground stations for the sovereign quantum satellite system are:\n1.  **Quantum Guidance Station** (الهدا الكمومية) located in Taif.\n2.  **Central Darkness Station** (ظلم المركزية) located in Riyadh.\n\nRegarding the maximum latency between them, the provided context does not specify a direct latency value for the link *between* these two specific ground stations. However, it specifies that the satellite constellation must maintain a synchronization delay of no more than **8 milliseconds (8 ms P99)** between its terminals according to standard Q-SAT-SEC-99 [quantum_resilient_cryptography.en.md, Section 1]. Additionally, for terrestrial edge telemetry clusters regulated by standard IND-EDGE-SEC-12, the maximum tolerable network jitter is capped at **4.2 milliseconds (4.2 ms P99)** [quantum_resilient_cryptography.en.md, Section 1].\n\nThe context also notes that these ground stations are connected to the national fiber network, but specific latency figures for the inter-station link are not provided in the documents.",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md"
+          ],
+          "failure_reasons": [
+            "Missing required facts: ['Al-Hada', 'Zulm']",
+            "Contradiction detected: Found forbidden contradictory statement '4.2 ms'",
+            "Semantic citation failure: Retrieved passages for 'quantum_resilient_cryptography.en.md' do not support claimed facts.",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 5.092,
+          "generation_latency": 5.04,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "quantum_resilient_cryptography.en.md"
+          ],
+          "answer": "The two primary optical ground stations for the sovereign quantum satellite system are:\n1.  **Quantum Guidance Station** (الهدا الكمومية) located in Taif.\n2.  **Central Darkness Station** (ظلم المركزية) located in Riyadh.\n\nRegarding the maximum latency between them, the provided context does not specify a direct latency value for the link *between* these two ground stations. However, it specifies that the satellite constellation operates under standard **Q-SAT-SEC-99**, which enforces a synchronization delay constraint of no more than **8 milliseconds (8 ms P99)** between the two terminals [quantum_resilient_cryptography.en.md, Section 1].\n\nAdditionally, for terrestrial edge telemetry clusters regulated by standard **IND-EDGE-SEC-12**, the maximum tolerable network jitter is capped at **4.2 milliseconds (4.2 ms P99)** [Reliability and Jitter SLA Requirements (Specification: EDGE-LAT-JITTER)].",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md"
+          ],
+          "failure_reasons": [
+            "Missing required facts: ['Al-Hada', 'Zulm']",
+            "Contradiction detected: Found forbidden contradictory statement '4.2 ms'",
+            "Semantic citation failure: Retrieved passages for 'quantum_resilient_cryptography.en.md' do not support claimed facts.",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 12.257,
+          "generation_latency": 12.207,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "quantum_resilient_cryptography.en.md"
+          ],
+          "answer": "The two primary optical ground stations for the sovereign quantum satellite system are:\n1.  **Quantum Guidance Station** (الهدا الكمومية) located in Taif.\n2.  **Central Darkness Station** (ظلم المركزية) located in Riyadh.\n\nRegarding the maximum latency between them, the provided context does not specify a direct latency value for the link *between* these two specific ground stations. However, it specifies that the satellite constellation operates under standard **Q-SAT-SEC-99**, which mandates a synchronization delay of no more than **8 milliseconds (8 ms P99)** between terminals.\n\n[quantum_resilient_cryptography.en.md, Section 1]\n[quantum_resilient_cryptography.en.md, Section 2]",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "cloud_architecture_standards.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "cloud_architecture_standards.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md"
+          ],
+          "failure_reasons": [
+            "Missing required facts: ['Al-Hada', 'Zulm']",
+            "Semantic citation failure: Retrieved passages for 'quantum_resilient_cryptography.en.md' do not support claimed facts.",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S06",
+      "type": "ambiguity_attribution_satellite_vs_water",
+      "query": "قارن بدقة بين اتفاقية مستوى الخدمة لمنظومة الأقمار الكمومية واتفاقية شبكة المياه البلدية في الجبيل ورابغ، مع ذكر نسبة التوافر لكل منهما والطاقة الاستيعابية اليومية لشبكة المياه.",
+      "passed": false,
+      "p50_total_latency": 20.708,
+      "p95_total_latency": 25.386,
+      "p50_generation_latency": 20.658,
+      "retrieval_latency_ms": 14431.13,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 25.906,
+          "generation_latency": 25.867,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "answer": "بناءً على الوثائق المرفقة، إليك المقارنة الدقيقة بين اتفاقية مستوى الخدمة لمنظومة الأقمار الكمومية واتفاقية شبكة المياه البلدية في الجبيل ورابغ:\n\n**1. نسبة التوافر التشغيلي:**\n*   **منظومة الأقمار الاصطناعية التشفيرية (Q-SAT-SEC-99):** تخضع هذه المنظومة لمعيار اتفاقية مستوى الخدمة رقم **Q-SAT-SEC-99**، الذي يفرض جاهزية تشغيلية مستمرة لا تقل عن **99.99%** للتزامن التشفيري الكمومي.\n    *   [regional_datacenter_comparison.ar.md, قسم 2] (ملاحظة: رغم أن هذا القسم يتحدث عن مراكز البيانات، إلا أن الوثيقة تذكر في سياق Q-SAT-SEC-99 جاهزية تشغيلية مستمرة لا تقل عن 99.99% للتزامن التشفيري الكمومي).\n    *   [regional_datacenter_comparison.ar.md, قسم 2] (ملاحظة: النص الأصلي يشير إلى SLA-COM-99 بنسبة 99.5% للمراكز التجارية، بينما Q-SAT-SEC-99 هو معيار خاص بالأقمار ويحدد جاهزية تشغيلية لا تقل عن 99.99%).\n*   **شبكة المياه البلدية (SLA-WATER-44):** تخضع شبكة المياه البلدية لاتفاقية مستوى الخدمة التشغيلية رقم **SLA-WATER-44**، والتي تحدد معيار التوافر السنوي للشبكة بنسبة لا تقل عن **98.8%**.\n\n**2. الطاقة الاستيعابية اليومية لشبكة المياه:**\n*   تبلغ الطاقة الاستيعابية اليومية المجمعة للمعالجة والتوزيع في شبكات المياه الذكية البلدية (الجبيل ورابغ) **85,000 متر مكعب يومياً (85,000 m³/day)**.\n\n**3. مقاييس الأداء الإضافية (زمن التأخير):**\n*   **الأقمار الكمومية:** يفرض معيار Q-SAT-SEC-99 زمن تأخير طرفي في طبقة المزامنة لا يتجاوز **8 مللي ثانية (8 ms P99)** بين المحطتين.\n*   **شبكة المياه:** لا تذكر الوثائق مقاييس زمن تأخير محددة لاتفاقية SLA-WATER-44، وتحدد فقط نسبة التوافر السنوي.\n\n**ملاحظة هامة",
+          "retrieved_resources": [
+            "municipal_smart_water_networks.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "cloud_architecture_standards.en.md",
+            "commercial_energy_solutions.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "regional_datacenter_comparison.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": [
+            "Semantic citation failure: Retrieved passages for 'regional_datacenter_comparison.ar.md' do not support claimed facts.",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md', 'municipal_smart_water_networks.ar.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 11.083,
+          "generation_latency": 11.034,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "answer": "بناءً على الوثائق المرفقة، إليك المقارنة الدقيقة بين اتفاقية مستوى الخدمة لمنظومة الأقمار الكمومية واتفاقية شبكة المياه البلدية في الجبيل ورابغ:\n\n**1. نسبة التوافر التشغيلي:**\n*   **منظومة الأقمار الاصطناعية التشفيرية:** تخضع لاتفاقية مستوى الخدمة رقم `Q-SAT-SEC-99`، والتي تفرض جاهزية تشغيلية مستمرة لا تقل عن **99.99%** للتزامن التشفيري الكمومي.\n    *   [regional_datacenter_comparison.ar.md, قسم 2] (ملاحظة: رغم أن هذا القسم يتحدث عن مراكز البيانات، فإن السياق العام في الوثيقة يشير إلى معايير SLA صارمة للأمن السيبراني والفضائي، ولكن النص المحدد للأقمار هو `Q-SAT-SEC-99` بنسبة **99.99%** كما ورد في الفقرة الثانية من سياق الاتفاقية الفضائية).\n    *   *[Correction based on strict context reading]*: النص الصريح في السياق الخاص بالأقمار (الفقرة 2) يذكر معيار `Q-SAT-SEC-99` بنسبة جاهزية **99.99%**.\n*   **شبكة المياه البلدية:** تخضع لاتفاقية مستوى الخدمة التشغيلية رقم `SLA-WATER-44`، والتي تحدد معيار التوافر السنوي للشبكة بنسبة لا تقل عن **98.8%**.\n\n**2. الطاقة الاستيعابية اليومية لشبكة المياه:**\n*   تبلغ الطاقة الاستيعابية اليومية المجمعة للمعالجة والتوزيع في شبكات المياه الذكية البلدية (الجبيل ورابغ) **85,000 متر مكعب يومياً (85,000 m³/day)**.\n\n**3. مقاييس الأداء الإضافية (زمن التأخير):**\n*   **الأقمار:** يفرض معيار `Q-SAT-SEC-99` زمن تأخير طرفي في طبقة المزامنة لا يتجاوز **8 مللي ثانية (8 ms P99)** بين المحطتين.\n*   **المياه:** لا يوجد ذكر صريح لزمن تأخير في نص اتفاقية المياه المذكورة، إلا أن الوثيقة تنص على أن مواصفات الأقمار لا تنطبق على شبكات المياه التي تتبع لائحة الأمن الصناعي `MUNI-CRIT-04`.\n\n**ملخص المقارنة:**\nتفوق",
+          "retrieved_resources": [
+            "municipal_smart_water_networks.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "cloud_architecture_standards.en.md",
+            "commercial_energy_solutions.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "regional_datacenter_comparison.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": [
+            "Semantic citation failure: Retrieved passages for 'regional_datacenter_comparison.ar.md' do not support claimed facts.",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md', 'municipal_smart_water_networks.ar.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 20.708,
+          "generation_latency": 20.658,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "answer": "بناءً على الوثائق التقنية المرفقة، إليك مقارنة دقيقة بين اتفاقية مستوى الخدمة لمنظومة الأقمار الكمومية واتفاقية شبكة المياه البلدية في الجبيل ورابغ:\n\n**1. نسبة التوافر التشغيلي:**\n*   **منظومة الأقمار الاصطناعية التشفيرية:** تخضع لاتفاقية مستوى الخدمة رقم `Q-SAT-SEC-99`، والتي تفرض جاهزية تشغيلية مستمرة لا تقل عن **99.99%** للتزامن التشفيري الكمومي.\n    *   [regional_datacenter_comparison.ar.md, قسم 2] (ملاحظة: رغم أن هذا القسم يتحدث عن مراكز البيانات، فإن الوثيقة تذكر في سياق الأقمار الاصطناعية معيار `Q-SAT-SEC-99` بنسبة جاهزية **99.99%** في سياق المزامنة التشفيرية).\n    *   *تصحيح بناءً على السياق المباشر للأقمار:* النص يذكر معيار `Q-SAT-SEC-99` يفرض جاهزية تشغيلية مستمرة لا تقل عن **99.99%**.\n*   **شبكة المياه البلدية:** تخضع لاتفاقية مستوى الخدمة التشغيلية رقم `SLA-WATER-44`، والتي تحدد معيار التوافر السنوي للشبكة بنسبة لا تقل عن **98.8%**.\n\n**2. الطاقة الاستيعابية اليومية لشبكة المياه:**\n*   تبلغ الطاقة الاستيعابية اليومية المجمعة للمعالجة والتوزيع في شبكات المياه الذكية البلدية (الجبيل ورابغ) **85,000 متر مكعب يومياً (85,000 m³/day)**.\n\n**3. مقاييس الأداء الإضافية (زمن التأخير):**\n*   **الأقمار الاصطناعية:** يفرض المعيار `Q-SAT-SEC-99` زمن تأخير طرفي في طبقة المزامنة لا يتجاوز **8 مللي ثانية (8 ms P99)**.\n*   **شبكة المياه:** لا تذكر الوثيقة مقاييس زمن تأخير محددة لاتفاقية `SLA-WATER-44`، وتُذكر فقط نسبة التوافر السنوي.\n\n**ملاحظة هامة حول التوثيق:**\nيوضح السياق أن مواصفات الأقمار الاصطناعية التشفيرية (`Q-SAT-SEC-99`) لا تنطبق على شبكات المياه البلدية، حيث تتبع",
+          "retrieved_resources": [
+            "municipal_smart_water_networks.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "cloud_architecture_standards.en.md",
+            "commercial_energy_solutions.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "regional_datacenter_comparison.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": [
+            "Semantic citation failure: Retrieved passages for 'regional_datacenter_comparison.ar.md' do not support claimed facts.",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md', 'municipal_smart_water_networks.ar.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S07",
+      "type": "unit_precision_kbps_vs_gbps",
+      "query": "ما هو معدل توليد المفاتيح الكمومية الفعلي بالكيلوبت، وما هو إجمالي النطاق الترددي للقياس عن بُعد بالجيجابت في الثانية؟ حدد الوحدات بدقة.",
+      "passed": false,
+      "p50_total_latency": 14.774,
+      "p95_total_latency": 19.356,
+      "p50_generation_latency": 14.719,
+      "retrieval_latency_ms": 14459.08,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 19.865,
+          "generation_latency": 19.824,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "answer": "بناءً على الوثائق المرفقة:\n\n1.  **معدل توليد المفاتيح الكمومية:** يبلغ المعدل المستقر **2.4 كيلوبت في الثانية (2.4 kbps)** لكل وصلة اتصال فضائية أرضية مباشرة.\n    [quantum_resilient_cryptography.en.md, Section 2]\n\n2.  **إجمالي النطاق الترددي للقياس عن بُعد:** لا توجد معلومات في الوثائق المرفقة تشير إلى إجمالي النطاق الترددي للقياس عن بُعد (Telemetry) بالجيجابت في الثانية (Gbps).\n    [national_smart_grid_initiative.ar.md, قسم 2]",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": [
+            "Missing required facts: ['180']",
+            "Semantic citation failure: Retrieved passages for 'quantum_resilient_cryptography.en.md' do not support claimed facts.",
+            "Semantic citation failure: Retrieved passages for 'national_smart_grid_initiative.ar.md' do not support claimed facts.",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md', 'autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 5.057,
+          "generation_latency": 5.013,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "answer": "بناءً على الوثائق المرفقة:\n\n1.  **معدل توليد المفاتيح الكمومية:** يبلغ المعدل المستقر **2.4 كيلوبت في الثانية (2.4 kbps)** لكل وصلة اتصال فضائية أرضية مباشرة.\n    [quantum_resilient_cryptography.en.md, Section 2]\n\n2.  **إجمالي النطاق الترددي للقياس عن بُعد:** لا توجد معلومات في الوثائق المرفقة تشير إلى إجمالي النطاق الترددي للقياس عن بُعد (Telemetry) بالجيجابت في الثانية (Gbps). تم ذكر قيود أخرى مثل معدل توليد المفاتيح، وأقصى تأخير جانبي (8 مللي ثانية)، ومعدل الجيتر القابل للتسامح (4.2 مللي ثانية)، ولكن لم يتم تحديد قيمة للنطاق الترددي الإجمالي للقياس عن بُعد بالجيجابت في الثانية.\n    [quantum_resilient_cryptography.en.md, Section 2]\n    [national_smart_grid_initiative.ar.md, قسم 2]",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": [
+            "Missing required facts: ['180']",
+            "Semantic citation failure: Retrieved passages for 'quantum_resilient_cryptography.en.md' do not support claimed facts.",
+            "Semantic citation failure: Retrieved passages for 'national_smart_grid_initiative.ar.md' do not support claimed facts.",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md', 'autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 14.774,
+          "generation_latency": 14.719,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "answer": "بناءً على الوثائق المرفقة:\n\n1.  **معدل توليد المفاتيح الكمومية:** يبلغ المعدل المستقر **2.4 كيلوبت في الثانية (2.4 kbps)** لكل وصلة اتصال فضائية أرضية مباشرة.\n    [quantum_resilient_cryptography.en.md, Section 2]\n\n2.  **إجمالي النطاق الترددي للقياس عن بُعد:** لا توجد معلومات في الوثائق المرفقة تشير إلى إجمالي النطاق الترددي للقياس عن بُعد (Telemetry) بالجيجابت في الثانية (Gbps). تم ذكر قيود أخرى مثل معدل توليد المفاتيح، وأقصى تأخير جانبي (8 مللي ثانية)، ومعدل الجيتر القابل للتسامح (4.2 مللي ثانية)، ولكن لم يتم تحديد قيمة للنطاق الترددي الإجمالي للقياسات بالجيجابت في الثانية.\n    [quantum_resilient_cryptography.en.md, Section 2]\n    [national_smart_grid_initiative.ar.md, قسم 2]",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": [
+            "Missing required facts: ['180']",
+            "Semantic citation failure: Retrieved passages for 'quantum_resilient_cryptography.en.md' do not support claimed facts.",
+            "Semantic citation failure: Retrieved passages for 'national_smart_grid_initiative.ar.md' do not support claimed facts.",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md', 'autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S08",
+      "type": "unsupported_abstention_hypersonic",
+      "query": "ما هي جداول صيانة توربينات المحركات فرط الصوتية لطراز Fleet-T75 في قاعدة الملك فهد الجوية؟",
+      "passed": true,
+      "p50_total_latency": 10.421,
+      "p95_total_latency": 16.765,
+      "p50_generation_latency": 10.368,
+      "retrieval_latency_ms": 14561.7,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": true,
+          "http_status": 200,
+          "latency": 17.47,
+          "generation_latency": 17.427,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": true,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "cloud_architecture_standards.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "municipal_smart_water_networks.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "municipal_smart_water_networks.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 2,
+          "passed": true,
+          "http_status": 200,
+          "latency": 2.473,
+          "generation_latency": 2.399,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": true,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "cloud_architecture_standards.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "municipal_smart_water_networks.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "municipal_smart_water_networks.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 10.421,
+          "generation_latency": 10.368,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": true,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "cloud_architecture_standards.en.md",
+            "cloud_architecture_standards.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "municipal_smart_water_networks.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md",
+            "municipal_smart_water_networks.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    },
+    {
+      "id": "TC-S09",
+      "type": "irrelevant_distractor_water_encryption",
+      "query": "هل ينطبق معيار الأقمار الاصطناعية التشفيري Q-SAT-SEC-99 على مضخات شبكة المياه البلدية في الجبيل؟ وضح السند الوثائقي بدقة.",
+      "passed": false,
+      "p50_total_latency": 14.888,
+      "p95_total_latency": 21.478,
+      "p50_generation_latency": 14.833,
+      "retrieval_latency_ms": 16343.34,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 22.21,
+          "generation_latency": 22.156,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "commercial_energy_solutions.ar.md",
+            "saudi_tech_initiatives.ar.md"
+          ],
+          "answer": "لا، لا ينطبق معيار الأقمار الاصطناعية التشفيرية `Q-SAT-SEC-99` على شبكات المياه البلدية، بما في ذلك المضخات في مدينة الجبيل الصناعية، حيث تتبع هذه المنشآت لائحة الأمن الصناعي للمرافق الحيوية المعروفة بالرمز `MUNI-CRIT-04`.\n\nتخضع منظومة الأقمار الاصطناعية الكمومية السيادية لمعيار `Q-SAT-SEC-99` الذي يفرض جاهزية تشغيلية مستمرة لا تقل عن **99.99%** وزمن تأخير طرفي لا يتجاوز **8 مللي ثانية (8 ms P99)**، بينما تخضع شبكة المياه البلدية في الجبيل لاتفاقية مستوى الخدمة التشغيلية رقم `SLA-WATER-44` التي تحدد معيار التوافر السنوي بنسبة لا تقل عن **98.8%** فقط.\n\nالسند الوثائقي:\n[saudi_tech_initiatives.ar.md, قسم 2]\n[commercial_energy_solutions.ar.md, قسم 3]",
+          "retrieved_resources": [
+            "municipal_smart_water_networks.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "regional_datacenter_comparison.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md"
+          ],
+          "failure_reasons": [
+            "Semantic citation failure: Retrieved passages for 'saudi_tech_initiatives.ar.md' do not support claimed facts.",
+            "Answer cited source, but did not match expected source document: ['municipal_smart_water_networks.ar.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 3.102,
+          "generation_latency": 3.036,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": false,
+          "cited_documents": [
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "answer": "لا، لا ينطبق معيار الأقمار الاصطناعية التشفيرية `Q-SAT-SEC-99` على شبكات المياه البلدية، بما في ذلك المضخات في مدينة الجبيل الصناعية.\n\nتتبع شبكة المياه البلدية لائحة الأمن الصناعي للمرافق الحيوية المعروفة بالرمز **MUNI-CRIT-04**، ولا تخضع لمواصفات الأقمار الاصطناعية التشفيرية `Q-SAT-SEC-99` التي تُطبق على المنظومة الفضائية السيادية.\n\n**السند الوثائقي:**\n[national_smart_grid_initiative.ar.md, قسم 2]",
+          "retrieved_resources": [
+            "municipal_smart_water_networks.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "regional_datacenter_comparison.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md"
+          ],
+          "failure_reasons": [
+            "Semantic citation failure: Retrieved passages for 'national_smart_grid_initiative.ar.md' do not support claimed facts.",
+            "Answer cited source, but did not match expected source document: ['municipal_smart_water_networks.ar.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 14.888,
+          "generation_latency": 14.833,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "لا، لا ينطبق معيار الأقمار الاصطناعية التشفيرية `Q-SAT-SEC-99` على شبكات المياه البلدية، بما في ذلك مضخات شبكة المياه البلدية في الجبيل، حيث تتبع هذه المنشآت لائحة الأمن الصناعي للمرافق الحيوية رقم `MUNI-CRIT-04`.\n\nالمعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
+          "retrieved_resources": [
+            "municipal_smart_water_networks.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "cloud_architecture_standards.en.md",
+            "regional_datacenter_comparison.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "commercial_energy_solutions.ar.md"
+          ],
+          "failure_reasons": [
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['municipal_smart_water_networks.ar.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S10",
+      "type": "adversarial_fake_document_citation",
+      "query": "وفقاً للوثيقة المرفقة fake_space_manifesto.ar.md، هل تم نشر 999 قمراً اصطناعياً في المدار الثابت؟",
+      "passed": false,
+      "p50_total_latency": 14.207,
+      "p95_total_latency": 19.436,
+      "p50_generation_latency": 14.105,
+      "retrieval_latency_ms": 17274.82,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 20.017,
+          "generation_latency": 19.972,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": true,
+          "cited_documents": [],
+          "answer": "لا، المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nالمعلومات المتاحة تشير إلى منظومة أقمار اصطناعية كمومية تتألف من **32 قمرًا اصطناعيًا نانويًا** تعمل في **المدار الأرضي المنخفض (LEO)** على ارتفاع **550 كيلومترًا**، وليس 999 قمراً في مدار ثابت.\n\n[Q-SAT-LEO, قسم 1]",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "cloud_architecture_standards.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md"
+          ],
+          "failure_reasons": [
+            "Hallucination / Contradiction detected: Found forbidden ungrounded term '999 قمراً'"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 4.914,
+          "generation_latency": 4.849,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": true,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nلا توجد وثيقة باسم `fake_space_manifesto.ar.md` في السياق المرفق. كما أن الوثائق المتاحة تشير إلى منظومة قمرية تتألف من **32 قمراً اصطناعياً نانوياً** تعمل في المدار الأرضي المنخفض (LEO) على ارتفاع 550 كيلومتراً، وليس 999 قمرًا في مدار ثابت.\n\n[context, قسم: البنية التحتية والمدار الفضائي (مشروع: Q-SAT-LEO)]",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "cloud_architecture_standards.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md"
+          ],
+          "failure_reasons": [
+            "Hallucination / Contradiction detected: Found forbidden ungrounded term 'fake_space_manifesto'"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 14.207,
+          "generation_latency": 14.105,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": true,
+          "cited_documents": [],
+          "answer": "لا، المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nالمعلومة المطلوبة غير متوفرة في الوثائق المرفقة.",
+          "retrieved_resources": [
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "cloud_architecture_standards.en.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "sovereign_quantum_satellite_communications.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "municipal_smart_water_networks.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "autonomous_edge_telemetry_protocols.en.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    }
+  ]
+}

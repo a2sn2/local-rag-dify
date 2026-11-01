@@ -109,3 +109,4 @@ comparison = {
 with open('/tmp/stage_e_comparison_report.json', 'w', encoding='utf-8') as f:
     json.dump(comparison, f, indent=2, ensure_ascii=False)
 print('Generated /tmp/stage_e_comparison_report.json successfully')
+

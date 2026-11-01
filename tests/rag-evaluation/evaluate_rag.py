@@ -91,17 +91,26 @@ def is_contradiction_present(answer: str, fc: str) -> bool:
 def validate_iteration_answer(answer, metadata, tc):
     """
     Independently validates a single iteration answer against all requirements.
-    Returns: (passed: bool, failure_reasons: list[str])
+    Distinguishes structural citation validity from semantic evidence-level support.
+    Returns: (passed: bool, failure_reasons: list[str], citation_meta: dict)
     """
     reasons = []
+    citation_meta = {
+        "structural_valid": True,
+        "semantic_supported": True,
+        "cited_documents": []
+    }
 
     if not answer or not answer.strip():
-        return False, ["Model returned empty response or missing answer field"]
+        citation_meta["structural_valid"] = False
+        citation_meta["semantic_supported"] = False
+        return False, ["Model returned empty response or missing answer field"], citation_meta
 
     # 1. Banned Placeholder Citation Check
     for bp in BANNED_PLACEHOLDERS:
         if re.search(bp, answer, re.IGNORECASE):
             reasons.append(f"Citation placeholder detected in answer matching pattern '{bp}'")
+            citation_meta["structural_valid"] = False
 
     retriever_resources = metadata.get('retriever_resources', [])
     retrieved_docs = list({r.get('document_name') for r in retriever_resources if r.get('document_name')})
@@ -133,16 +142,36 @@ def validate_iteration_answer(answer, metadata, tc):
             if is_contradiction_present(answer, fc):
                 reasons.append(f"Contradiction detected: Found forbidden contradictory statement '{fc}'")
 
-        # Citation Verification: Must have real citation matching retrieved source
-        has_source_citation = bool(re.search(r"\[[a-zA-Z0-9_\-\.]+\.(?:ar|en)\.md,\s*[^\]]+\]", answer))
-        if not has_source_citation:
+        # Citation Verification: Extract inline citations
+        cited_matches = re.findall(r"\[([a-zA-Z0-9_\-\.]+\.(?:ar|en)\.md),\s*([^\]]+)\]", answer)
+        if not cited_matches:
             reasons.append("Missing or malformed inline source citation (expected format '[filename.md, Section X]').")
+            citation_meta["structural_valid"] = False
+            citation_meta["semantic_supported"] = False
+        else:
+            cited_filenames = list(set([cm[0] for cm in cited_matches]))
+            citation_meta["cited_documents"] = cited_filenames
+
+            # Semantic Citation Verification against retrieved passages
+            for c_doc in cited_filenames:
+                if c_doc not in retrieved_docs:
+                    reasons.append(f"Semantic citation failure: Cited document '{c_doc}' was not present in retrieved context.")
+                    citation_meta["semantic_supported"] = False
+                else:
+                    # Check whether the retrieved chunk content for this document contains relevant factual evidence
+                    matching_chunks = [r.get('content', '') for r in retriever_resources if r.get('document_name') == c_doc]
+                    chunk_text = " ".join(matching_chunks).lower()
+                    has_evidence = any(rf.lower() in chunk_text for rf in required_facts) if required_facts else True
+                    if not has_evidence:
+                        reasons.append(f"Semantic citation failure: Retrieved passages for '{c_doc}' do not support claimed facts.")
+                        citation_meta["semantic_supported"] = False
 
         if expected_source:
             exp_list = [expected_source] if isinstance(expected_source, str) else expected_source
             has_expected_doc = any(exp in answer for exp in exp_list)
             if not has_expected_doc:
                 reasons.append(f"Answer cited source, but did not match expected source document: {exp_list}")
+                citation_meta["semantic_supported"] = False
 
         # Ambiguity / Attribution Check
         if attribution_checks:
@@ -161,7 +190,7 @@ def validate_iteration_answer(answer, metadata, tc):
                 if conf.lower() in answer.lower():
                     reasons.append(f"Unit precision failure: Confused metric '{metric}' with forbidden unit expression '{conf}'.")
 
-    return (len(reasons) == 0), reasons
+    return (len(reasons) == 0), reasons, citation_meta
 
 def run_evaluation():
     args = parse_args()
@@ -293,7 +322,7 @@ def run_evaluation():
             gen_lat_float = float(gen_lat) if gen_lat is not None else None
 
             # Independent validation for this iteration
-            it_passed, it_reasons = validate_iteration_answer(answer, meta, tc)
+            it_passed, it_reasons, it_cite_meta = validate_iteration_answer(answer, meta, tc)
 
             all_raw_successful_latencies.append(t_total)
             tc_latencies.append(t_total)
@@ -314,6 +343,9 @@ def run_evaluation():
                 "http_status": 200,
                 "latency": round(t_total, 3),
                 "generation_latency": round(gen_lat_float, 3) if gen_lat_float is not None else None,
+                "structural_citation_valid": it_cite_meta.get("structural_valid", True),
+                "semantic_evidence_supported": it_cite_meta.get("semantic_supported", True),
+                "cited_documents": it_cite_meta.get("cited_documents", []),
                 "answer": answer,
                 "retrieved_resources": [r.get('document_name') for r in meta.get('retriever_resources', [])],
                 "failure_reasons": it_reasons

@@ -1,0 +1,691 @@
+{
+  "timestamp": "2026-11-01T17:54:10Z",
+  "app_id": "80a154cf-1787-4aae-8be9-8cd44193d30b",
+  "app_name": "Local Bilingual RAG Chatflow",
+  "app_mode": "advanced-chat",
+  "model": "qwen3.5:4b",
+  "embedding": "bge-m3:latest",
+  "total_test_cases": 10,
+  "passed_test_cases": 2,
+  "pass_rate_percentage": 20.0,
+  "total_iterations_run": 30,
+  "total_iterations_passed": 6,
+  "total_iterations_failed": 24,
+  "iteration_pass_rate_percentage": 20.0,
+  "aggregate_p50_total_latency_seconds": 38.607,
+  "aggregate_p95_total_latency_seconds": 58.082,
+  "aggregate_p50_generation_latency_seconds": 35.467,
+  "all_passed": false,
+  "results": [
+    {
+      "id": "TC-S01",
+      "type": "arabic_factual_satellite",
+      "query": "ما هو الارتفاع المداري لمنظومة الأقمار الاصطناعية الكمومية السيادية وكم عدد الأقمار في الكوكبة؟ وما هو بروتوكول التوزيع الكمومي ومعدل التوليد الفعلي؟",
+      "passed": false,
+      "p50_total_latency": 48.474,
+      "p95_total_latency": 50.887,
+      "p50_generation_latency": 22.938,
+      "retrieval_latency_ms": 729.02,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 23.375,
+          "generation_latency": 22.938,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['550', '32', 'BB84-POLAR', '2.4']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 48.474,
+          "generation_latency": 0.0,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['550', '32', 'BB84-POLAR', '2.4']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 51.155,
+          "generation_latency": 50.847,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['550', '32', 'BB84-POLAR', '2.4']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S02",
+      "type": "arabic_factual_ground_stations",
+      "query": "أين تقع المحطات الأرضية الرئيسة لمنظومة الأقمار الكمومية، وما هو رقم اتفاقية مستوى الخدمة (SLA) ونسبة الجاهزية المطلوبة؟",
+      "passed": false,
+      "p50_total_latency": 42.628,
+      "p95_total_latency": 53.475,
+      "p50_generation_latency": 42.303,
+      "retrieval_latency_ms": 25.3,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 54.681,
+          "generation_latency": 54.309,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [
+            "cloud_architecture_standards.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "failure_reasons": [
+            "Missing required facts: ['الهدا', 'ظلم', 'Q-SAT-SEC-99', '99.99%']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 19.688,
+          "generation_latency": 19.419,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['الهدا', 'ظلم', 'Q-SAT-SEC-99', '99.99%']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 42.628,
+          "generation_latency": 42.303,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['الهدا', 'ظلم', 'Q-SAT-SEC-99', '99.99%']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S03",
+      "type": "english_factual_edge_telemetry",
+      "query": "How many edge sensor clusters are deployed in Project EdgeGrid-Telemetry-v4, what is the aggregate telemetry bandwidth, and which serialization format is used?",
+      "passed": false,
+      "p50_total_latency": 23.199,
+      "p95_total_latency": 53.961,
+      "p50_generation_latency": 22.956,
+      "retrieval_latency_ms": 25316.02,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 23.199,
+          "generation_latency": 22.956,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['64', '180 Gbps', 'CBOR']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 9.632,
+          "generation_latency": 9.428,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['64', '180 Gbps', 'CBOR']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 57.379,
+          "generation_latency": 57.098,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [
+            "cloud_architecture_standards.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "failure_reasons": [
+            "Missing required facts: ['64', '180 Gbps', 'CBOR']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S04",
+      "type": "english_factual_jitter_and_heartbeat",
+      "query": "What is the maximum network jitter allowed for the edge telemetry system and what is the heartbeat synchronization interval?",
+      "passed": false,
+      "p50_total_latency": 43.259,
+      "p95_total_latency": 57.117,
+      "p50_generation_latency": 43.056,
+      "retrieval_latency_ms": 4976.8,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 43.259,
+          "generation_latency": 43.056,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['4.2 ms', '1800 seconds']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 17.068,
+          "generation_latency": 16.83,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['4.2 ms', '1800 seconds']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 58.657,
+          "generation_latency": 58.328,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "Based on the provided documents, the specific metrics regarding **network jitter** and **heartbeat synchronization intervals** are not available.\n\nThe document **[national_smart_grid_initiative.ar.md]** specifies a Round-trip latency limit of 12 ms at P99 for GRID-SYNC-9, but it does not mention \"network jitter\" or a \"heartbeat synchronization interval.\" The document **[quantum_resilient_cryptography.en.md]** mentions key renegotiation timers (3600 seconds) and nominal time budgets (80 milliseconds), but these relate to cryptographic rekeying, not network heartbeat intervals.\n\nThe requested information is not available in the provided documents.\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [
+            "national_smart_grid_initiative.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "quantum_resilient_cryptography.en.md"
+          ],
+          "failure_reasons": [
+            "Missing required facts: ['4.2 ms', '1800 seconds']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S05",
+      "type": "cross_lingual_quantum_ground_sync",
+      "query": "What are the names of the two primary optical ground stations for the sovereign quantum satellite system, and what is the maximum latency between them?",
+      "passed": false,
+      "p50_total_latency": 35.642,
+      "p95_total_latency": 52.844,
+      "p50_generation_latency": 35.422,
+      "retrieval_latency_ms": 4955.96,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 32.966,
+          "generation_latency": 32.761,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['Al-Hada', 'Zulm', '8 ms']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 35.642,
+          "generation_latency": 35.422,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['Al-Hada', 'Zulm', '8 ms']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 54.755,
+          "generation_latency": 54.504,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['Al-Hada', 'Zulm', '8 ms']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S06",
+      "type": "ambiguity_attribution_satellite_vs_water",
+      "query": "قارن بدقة بين اتفاقية مستوى الخدمة لمنظومة الأقمار الكمومية واتفاقية شبكة المياه البلدية في الجبيل ورابغ، مع ذكر نسبة التوافر لكل منهما والطاقة الاستيعابية اليومية لشبكة المياه.",
+      "passed": false,
+      "p50_total_latency": 35.324,
+      "p95_total_latency": 44.577,
+      "p50_generation_latency": 35.01,
+      "retrieval_latency_ms": 25318.3,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 35.324,
+          "generation_latency": 35.01,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [
+            "cloud_architecture_standards.en.md",
+            "regional_datacenter_comparison.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md"
+          ],
+          "failure_reasons": [
+            "Missing required facts: ['Q-SAT-SEC-99', '99.99%', 'SLA-WATER-44', '98.8%', '85,000']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md', 'municipal_smart_water_networks.ar.md']",
+            "Attribution check failed for entity 'منظومة الأقمار الكمومية': Missing fact 'Q-SAT-SEC-99'",
+            "Attribution check failed for entity 'منظومة الأقمار الكمومية': Missing fact '99.99%'",
+            "Attribution check failed for entity 'شبكة المياه البلدية': Missing fact 'SLA-WATER-44'",
+            "Attribution check failed for entity 'شبكة المياه البلدية': Missing fact '98.8%'",
+            "Attribution check failed for entity 'شبكة المياه البلدية': Missing fact '85,000'"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 45.605,
+          "generation_latency": 45.294,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [
+            "commercial_energy_solutions.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "quantum_resilient_cryptography.en.md",
+            "national_smart_grid_initiative.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "national_smart_grid_initiative.ar.md"
+          ],
+          "failure_reasons": [
+            "Missing required facts: ['Q-SAT-SEC-99', '99.99%', 'SLA-WATER-44', '98.8%', '85,000']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md', 'municipal_smart_water_networks.ar.md']",
+            "Attribution check failed for entity 'منظومة الأقمار الكمومية': Missing fact 'Q-SAT-SEC-99'",
+            "Attribution check failed for entity 'منظومة الأقمار الكمومية': Missing fact '99.99%'",
+            "Attribution check failed for entity 'شبكة المياه البلدية': Missing fact 'SLA-WATER-44'",
+            "Attribution check failed for entity 'شبكة المياه البلدية': Missing fact '98.8%'",
+            "Attribution check failed for entity 'شبكة المياه البلدية': Missing fact '85,000'"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 17.136,
+          "generation_latency": 16.866,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['Q-SAT-SEC-99', '99.99%', 'SLA-WATER-44', '98.8%', '85,000']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md', 'municipal_smart_water_networks.ar.md']",
+            "Attribution check failed for entity 'منظومة الأقمار الكمومية': Missing fact 'Q-SAT-SEC-99'",
+            "Attribution check failed for entity 'منظومة الأقمار الكمومية': Missing fact '99.99%'",
+            "Attribution check failed for entity 'شبكة المياه البلدية': Missing fact 'SLA-WATER-44'",
+            "Attribution check failed for entity 'شبكة المياه البلدية': Missing fact '98.8%'",
+            "Attribution check failed for entity 'شبكة المياه البلدية': Missing fact '85,000'"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S07",
+      "type": "unit_precision_kbps_vs_gbps",
+      "query": "ما هو معدل توليد المفاتيح الكمومية الفعلي بالكيلوبت، وما هو إجمالي النطاق الترددي للقياس عن بُعد بالجيجابت في الثانية؟ حدد الوحدات بدقة.",
+      "passed": false,
+      "p50_total_latency": 35.691,
+      "p95_total_latency": 40.939,
+      "p50_generation_latency": 35.512,
+      "retrieval_latency_ms": 24887.43,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 35.691,
+          "generation_latency": 35.512,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['2.4', 'kbps', '180', 'Gbps']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md', 'autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 16.141,
+          "generation_latency": 15.937,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['2.4', 'kbps', '180', 'Gbps']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md', 'autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 41.522,
+          "generation_latency": 41.306,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['2.4', 'kbps', '180', 'Gbps']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['sovereign_quantum_satellite_communications.ar.md', 'autonomous_edge_telemetry_protocols.en.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S08",
+      "type": "unsupported_abstention_hypersonic",
+      "query": "ما هي جداول صيانة توربينات المحركات فرط الصوتية لطراز Fleet-T75 في قاعدة الملك فهد الجوية؟",
+      "passed": true,
+      "p50_total_latency": 29.71,
+      "p95_total_latency": 57.442,
+      "p50_generation_latency": 29.492,
+      "retrieval_latency_ms": 24892.78,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": true,
+          "http_status": 200,
+          "latency": 29.71,
+          "generation_latency": 29.492,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": true,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 2,
+          "passed": true,
+          "http_status": 200,
+          "latency": 26.965,
+          "generation_latency": 26.73,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": true,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 60.524,
+          "generation_latency": 60.04,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": true,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "cloud_architecture_standards.en.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    },
+    {
+      "id": "TC-S09",
+      "type": "irrelevant_distractor_water_encryption",
+      "query": "هل ينطبق معيار الأقمار الاصطناعية التشفيري Q-SAT-SEC-99 على مضخات شبكة المياه البلدية في الجبيل؟ وضح السند الوثائقي بدقة.",
+      "passed": false,
+      "p50_total_latency": 43.223,
+      "p95_total_latency": 44.737,
+      "p50_generation_latency": 42.596,
+      "retrieval_latency_ms": 4899.09,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": false,
+          "http_status": 200,
+          "latency": 43.223,
+          "generation_latency": 42.596,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['لا ينطبق', 'Q-SAT-SEC-99', 'MUNI-CRIT-04']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['municipal_smart_water_networks.ar.md']"
+          ]
+        },
+        {
+          "iteration": 2,
+          "passed": false,
+          "http_status": 200,
+          "latency": 23.221,
+          "generation_latency": 22.902,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['لا ينطبق', 'Q-SAT-SEC-99', 'MUNI-CRIT-04']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['municipal_smart_water_networks.ar.md']"
+          ]
+        },
+        {
+          "iteration": 3,
+          "passed": false,
+          "http_status": 200,
+          "latency": 44.905,
+          "generation_latency": 44.571,
+          "structural_citation_valid": false,
+          "semantic_evidence_supported": false,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": [
+            "Missing required facts: ['لا ينطبق', 'Q-SAT-SEC-99', 'MUNI-CRIT-04']",
+            "Missing or malformed inline source citation (expected format '[filename.md, Section X]').",
+            "Answer cited source, but did not match expected source document: ['municipal_smart_water_networks.ar.md']"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TC-S10",
+      "type": "adversarial_fake_document_citation",
+      "query": "وفقاً للوثيقة المرفقة fake_space_manifesto.ar.md، هل تم نشر 999 قمراً اصطناعياً في المدار الثابت؟",
+      "passed": true,
+      "p50_total_latency": 42.357,
+      "p95_total_latency": 42.692,
+      "p50_generation_latency": 41.93,
+      "retrieval_latency_ms": 22420.07,
+      "iterations": [
+        {
+          "iteration": 1,
+          "passed": true,
+          "http_status": 200,
+          "latency": 22.615,
+          "generation_latency": 22.37,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": true,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\n\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 2,
+          "passed": true,
+          "http_status": 200,
+          "latency": 42.729,
+          "generation_latency": 42.389,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": true,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md",
+            "national_smart_grid_initiative.ar.md",
+            "commercial_energy_solutions.ar.md"
+          ],
+          "failure_reasons": []
+        },
+        {
+          "iteration": 3,
+          "passed": true,
+          "http_status": 200,
+          "latency": 42.357,
+          "generation_latency": 41.93,
+          "structural_citation_valid": true,
+          "semantic_evidence_supported": true,
+          "cited_documents": [],
+          "answer": "المعلومة المطلوبة غير متوفرة في الوثائق المرفقة.\nThe requested information is not available in the provided documents.",
+          "retrieved_resources": [
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "cloud_architecture_standards.en.md",
+            "saudi_tech_initiatives.ar.md",
+            "saudi_tech_initiatives.ar.md",
+            "regional_datacenter_comparison.ar.md"
+          ],
+          "failure_reasons": []
+        }
+      ]
+    }
+  ]
+}

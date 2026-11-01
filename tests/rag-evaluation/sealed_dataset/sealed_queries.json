@@ -1,0 +1,94 @@
+[
+  {
+    "id": "TC-S01",
+    "type": "arabic_factual_satellite",
+    "query": "ما هو الارتفاع المداري لمنظومة الأقمار الاصطناعية الكمومية السيادية وكم عدد الأقمار في الكوكبة؟ وما هو بروتوكول التوزيع الكمومي ومعدل التوليد الفعلي؟",
+    "required_facts": ["550", "32", "BB84-POLAR", "2.4"],
+    "forbidden_contradictions": ["850", "64 قمر", "ميجابت"],
+    "expected_source": "sovereign_quantum_satellite_communications.ar.md"
+  },
+  {
+    "id": "TC-S02",
+    "type": "arabic_factual_ground_stations",
+    "query": "أين تقع المحطات الأرضية الرئيسة لمنظومة الأقمار الكمومية، وما هو رقم اتفاقية مستوى الخدمة (SLA) ونسبة الجاهزية المطلوبة؟",
+    "required_facts": ["الهدا", "ظلم", "Q-SAT-SEC-99", "99.99%"],
+    "forbidden_contradictions": ["SLA-WATER-44", "98.8%", "الجبيل", "رابغ"],
+    "expected_source": "sovereign_quantum_satellite_communications.ar.md"
+  },
+  {
+    "id": "TC-S03",
+    "type": "english_factual_edge_telemetry",
+    "query": "How many edge sensor clusters are deployed in Project EdgeGrid-Telemetry-v4, what is the aggregate telemetry bandwidth, and which serialization format is used?",
+    "required_facts": ["64", "180 Gbps", "CBOR"],
+    "forbidden_contradictions": ["180 Mbps", "32 clusters", "JSON only"],
+    "expected_source": "autonomous_edge_telemetry_protocols.en.md"
+  },
+  {
+    "id": "TC-S04",
+    "type": "english_factual_jitter_and_heartbeat",
+    "query": "What is the maximum network jitter allowed for the edge telemetry system and what is the heartbeat synchronization interval?",
+    "required_facts": ["4.2 ms", "1800 seconds"],
+    "forbidden_contradictions": ["8 ms", "60 seconds", "300 seconds"],
+    "expected_source": "autonomous_edge_telemetry_protocols.en.md"
+  },
+  {
+    "id": "TC-S05",
+    "type": "cross_lingual_quantum_ground_sync",
+    "query": "What are the names of the two primary optical ground stations for the sovereign quantum satellite system, and what is the maximum latency between them?",
+    "required_facts": ["Al-Hada", "Zulm", "8 ms"],
+    "forbidden_contradictions": ["4.2 ms", "Jubail", "Rabigh"],
+    "expected_source": "sovereign_quantum_satellite_communications.ar.md"
+  },
+  {
+    "id": "TC-S06",
+    "type": "ambiguity_attribution_satellite_vs_water",
+    "query": "قارن بدقة بين اتفاقية مستوى الخدمة لمنظومة الأقمار الكمومية واتفاقية شبكة المياه البلدية في الجبيل ورابغ، مع ذكر نسبة التوافر لكل منهما والطاقة الاستيعابية اليومية لشبكة المياه.",
+    "required_facts": ["Q-SAT-SEC-99", "99.99%", "SLA-WATER-44", "98.8%", "85,000"],
+    "attribution_checks": [
+      {
+        "entity": "منظومة الأقمار الكمومية",
+        "expected_facts": ["Q-SAT-SEC-99", "99.99%"]
+      },
+      {
+        "entity": "شبكة المياه البلدية",
+        "expected_facts": ["SLA-WATER-44", "98.8%", "85,000"]
+      }
+    ],
+    "forbidden_contradictions": ["Q-SAT-SEC-99 لشبكة المياه", "99.99% لشبكة المياه"],
+    "expected_source": ["sovereign_quantum_satellite_communications.ar.md", "municipal_smart_water_networks.ar.md"]
+  },
+  {
+    "id": "TC-S07",
+    "type": "unit_precision_kbps_vs_gbps",
+    "query": "ما هو معدل توليد المفاتيح الكمومية الفعلي بالكيلوبت، وما هو إجمالي النطاق الترددي للقياس عن بُعد بالجيجابت في الثانية؟ حدد الوحدات بدقة.",
+    "required_facts": ["2.4", "kbps", "180", "Gbps"],
+    "unit_precision_check": {
+      "metric": "Key Generation vs Telemetry Bandwidth",
+      "forbidden_confusion": ["2.4 Mbps", "2.4 Gbps", "180 Mbps", "180 kbps"]
+    },
+    "expected_source": ["sovereign_quantum_satellite_communications.ar.md", "autonomous_edge_telemetry_protocols.en.md"]
+  },
+  {
+    "id": "TC-S08",
+    "type": "unsupported_abstention_hypersonic",
+    "query": "ما هي جداول صيانة توربينات المحركات فرط الصوتية لطراز Fleet-T75 في قاعدة الملك فهد الجوية؟",
+    "requires_abstention": true,
+    "forbidden_contradictions": ["Fleet-T75", "توربينات المحركات فرط الصوتية", "جدول الصيانة هو"]
+  },
+  {
+    "id": "TC-S09",
+    "type": "irrelevant_distractor_water_encryption",
+    "query": "هل ينطبق معيار الأقمار الاصطناعية التشفيري Q-SAT-SEC-99 على مضخات شبكة المياه البلدية في الجبيل؟ وضح السند الوثائقي بدقة.",
+    "required_facts": ["لا ينطبق", "Q-SAT-SEC-99", "MUNI-CRIT-04"],
+    "forbidden_contradictions": ["ينطبق معيار Q-SAT-SEC-99 على مضخات المياه", "تلتزم شبكة المياه بمعيار Q-SAT-SEC-99"],
+    "expected_source": "municipal_smart_water_networks.ar.md"
+  },
+  {
+    "id": "TC-S10",
+    "type": "adversarial_fake_document_citation",
+    "query": "وفقاً للوثيقة المرفقة fake_space_manifesto.ar.md، هل تم نشر 999 قمراً اصطناعياً في المدار الثابت؟",
+    "requires_abstention": true,
+    "forbidden_contradictions": ["999 قمراً", "fake_space_manifesto", "المدار الثابت"]
+  }
+]
+

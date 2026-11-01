@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0] — 2026-11-01
+
+### Added & Hardened (Stage E.1 — Final Security and Acceptance Safeguards)
+- **Authenticated AES-256-GCM Backup Encryption Engine (`scripts/backup_crypto.py`):**
+  - Replaced legacy CBC mode with authenticated AEAD encryption (**AES-256-GCM**) featuring a 128-bit authentication tag, 12-byte cryptographically random nonce, and PBKDF2-HMAC-SHA256 key derivation with 100,000 iterations and 32-byte salt.
+  - Standardized custom binary container header (`RAGGCM2`) to prevent format confusion.
+  - Eliminated hardcoded default passphrases. Established strict external key resolution hierarchy: CLI argument (`-Passphrase`) → Environment variable (`$env:LOCAL_RAG_BACKUP_KEY`) → Dedicated key file (`-KeyFile`) → Secure local repository secret (`.secrets/backup.key`).
+- **Cryptographic Tamper-Detection Test Suite (`scripts/test-backup-tamper.ps1`):**
+  - Built an automated 5-phase security test suite:
+    1. Valid encryption roundtrip (AES-256-GCM).
+    2. Legitimate decryption with matching key.
+    3. Decryption attempt with wrong key (strictly rejected via authentication tag, exit code 3).
+    4. 1-byte ciphertext tampering attack (bit-flip detected and rejected before unbundling).
+    5. Nonce / header tampering attack (tampered metadata rejected).
+  - All 5 test cases verified and recorded in `tests/rag-evaluation/tamper_detection_report.json`.
+- **Isolated Disaster Recovery & End-to-End RAG Verification (`scripts/test-isolated-restore.ps1`):**
+  - Non-destructive restoration inside an isolated Docker network (`dify-dr-test-net`) with 0% impact on production containers.
+  - Complete backup coverage validated across all persistent stores:
+    - PostgreSQL: 172 tables, 1 account, 3 datasets, 9 documents, 40 completed segments, 3 applications.
+    - Weaviate: 3 vector classes restored directly from physical LSM trees, 5 vector objects validated.
+    - Dify Storage: 1 tenant private encryption key (`private.pem`) and 21 uploaded document files.
+  - Executed end-to-end RAG grounding test in the isolated sandbox: verified 100% content parity between relational PostgreSQL segments and Weaviate vector properties; executed GraphQL `nearVector` query with certainty = 1.0; verified grounded retrieval snippet. Report saved to `tests/rag-evaluation/dr_isolated_restore_report.json`.
+- **Independent Sealed Acceptance Benchmark & Architectural Comparison (`tests/rag-evaluation/`):**
+  - Created and ingested sealed acceptance dataset (`tests/rag-evaluation/sealed_dataset/`) with 3 fictional fixtures and 10 held-out test cases (`sealed_queries.json`) with zero prompt/parameter tuning.
+  - Built `run_stage_e1_benchmark.py` with continuous background GPU telemetry sampler (1000ms frequency).
+  - Captured 1,689 real-time GPU telemetry samples (`tests/rag-evaluation/gpu_telemetry_stage_e1.json`):
+    - Peak VRAM: 4,149.0 MB on NVIDIA GeForce RTX 3060 Laptop (6GB).
+    - Average VRAM: 3,756.01 MB.
+    - Peak GPU Temperature: 89.16 °C (under sustained LLM inference).
+    - Average GPU Utilization: 84.49%.
+  - Architectural comparison across Chatbot (`chat`) vs. Chatflow (`advanced-chat`):
+    - Chatbot P50 Latency: 11.67s | P95 Latency: 21.534s | Abstention: 66.67%.
+    - Chatflow P50 Latency: 38.607s | P95 Latency: 58.082s | Abstention: 100.0%.
+    - Verified that Chatflow's visual DAG (Knowledge Retrieval → Evidence Check → LLM → Answer) achieves 100% precision on unsupported/adversarial abstention.
+- **Network Interface & Firewall Exposure Security Audit:**
+  - Audited Ollama network bindings (`0.0.0.0:11434`) and Windows Firewall inbound rules.
+  - Confirmed Docker Desktop connects via `com.docker.backend.exe` to `127.0.0.1:11434`.
+  - Documented LAN exposure caveats when bound to `0.0.0.0` with standard Windows Firewall rules and provided firewall restriction SOPs.
+- **Git Security Exclusions Hardening:**
+  - Verified and enforced `.gitignore` exclusions for `.secrets/`, `*.enc`, `*.key`, `*.pem`, `*.pass`, and temporary restore sandboxes. Zero sensitive files tracked in Git.
+
+---
+
 ## [1.0.0] — 2026-11-01
 
 ### Added & Validated (Stage E — Final Acceptance, Security Audit & Operational Handover)

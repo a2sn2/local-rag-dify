@@ -1,8 +1,15 @@
 # ==============================================================================
 # Script: backup-local-rag.ps1
-# Description: Stage E Disaster Recovery — Comprehensive Local RAG Backup Automation
-# Backs up: PostgreSQL database, Weaviate schemas, Redis RDB, configs, and manifest
-# Target: Windows 11 / Docker Desktop
+# Description: Stage E.1 Enterprise Disaster Recovery — Complete Encrypted System Backup
+# Backs up:
+#   1. PostgreSQL relational database (pg_dump UTF-8)
+#   2. Weaviate vector objects, embeddings, indexes, and schema
+#   3. Dify document storage (uploaded files and tenant private keys)
+#   4. Plugin daemon configurations, packages, and installed plugins
+#   5. Redis persistent state and cache snapshot (dump.rdb)
+#   6. Workflow definitions and DSL specifications
+# Security: AES-256-GCM authenticated encryption with PBKDF2 key derivation (100k iterations)
+# Target: Windows 11 / Docker Desktop / Ollama Native
 # Author: a2sn2
 # Date: 2026-11-01
 # ==============================================================================
@@ -10,41 +17,87 @@
 [CmdletBinding()]
 param(
     [string]$WorkspaceDir = "C:\Users\hassa\local-rag",
-    [string]$BackupsBaseDir = "C:\Users\hassa\local-rag\backups"
+    [string]$BackupsBaseDir = "C:\Users\hassa\local-rag\backups",
+    [string]$Passphrase = "",
+    [string]$KeyFile = ""
 )
 
 $ErrorActionPreference = "Stop"
 
-$timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-$targetBackupDir = Join-Path $BackupsBaseDir "backup_$timestamp"
-
-Write-Host "==========================================================" -ForegroundColor Cyan
-Write-Host "  Stage E: Local RAG Full System Backup                    " -ForegroundColor Cyan
-Write-Host "  Timestamp: $timestamp                                   " -ForegroundColor Cyan
-Write-Host "  Target: $targetBackupDir                                " -ForegroundColor Cyan
-Write-Host "==========================================================" -ForegroundColor Cyan
-
-if (-not (Test-Path $targetBackupDir)) {
-    New-Item -ItemType Directory -Path $targetBackupDir -Force | Out-Null
+# ------------------------------------------------------------------------------
+# External Key Management: Resolve passphrase (No hardcoded defaults)
+# ------------------------------------------------------------------------------
+$resolvedPassphrase = $Passphrase
+if ([string]::IsNullOrWhiteSpace($resolvedPassphrase)) {
+    if (-not [string]::IsNullOrWhiteSpace($env:LOCAL_RAG_BACKUP_KEY)) {
+        $resolvedPassphrase = $env:LOCAL_RAG_BACKUP_KEY
+    } elseif (-not [string]::IsNullOrWhiteSpace($KeyFile) -and (Test-Path $KeyFile)) {
+        $resolvedPassphrase = (Get-Content -Path $KeyFile -Raw).Trim()
+    } else {
+        $defaultKeyPath = Join-Path $WorkspaceDir ".secrets\backup.key"
+        if (Test-Path $defaultKeyPath) {
+            $resolvedPassphrase = (Get-Content -Path $defaultKeyPath -Raw).Trim()
+        }
+    }
 }
+
+if ([string]::IsNullOrWhiteSpace($resolvedPassphrase)) {
+    Write-Host "`n[FATAL ERROR] Backup encryption passphrase is required!" -ForegroundColor Red
+    Write-Host "For production security, hardcoded default passphrases have been eliminated." -ForegroundColor Red
+    Write-Host "Please provide a key via:" -ForegroundColor Yellow
+    Write-Host "  1. CLI parameter:   -Passphrase 'YourStrongPassphrase!'" -ForegroundColor Yellow
+    Write-Host "  2. Environment var: `$env:LOCAL_RAG_BACKUP_KEY = 'YourStrongPassphrase!'" -ForegroundColor Yellow
+    Write-Host "  3. Key file:        -KeyFile 'path/to/key.txt' or place in .secrets/backup.key" -ForegroundColor Yellow
+    exit 1
+}
+
+$timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+$tempBackupDir = Join-Path $BackupsBaseDir "temp_backup_$timestamp"
+$encryptedArchive = Join-Path $BackupsBaseDir "backup_$timestamp.enc"
+
+Write-Host "==========================================================" -ForegroundColor Cyan
+Write-Host "  Stage E.1: Complete Encrypted System Backup Automation   " -ForegroundColor Cyan
+Write-Host "  Timestamp: $timestamp                                   " -ForegroundColor Cyan
+Write-Host "  Target Encrypted File: $encryptedArchive                " -ForegroundColor Cyan
+Write-Host "  Cipher: AES-256-GCM Authenticated Encryption             " -ForegroundColor Cyan
+Write-Host "==========================================================" -ForegroundColor Cyan
+
+if (-not (Test-Path $BackupsBaseDir)) {
+    New-Item -ItemType Directory -Path $BackupsBaseDir -Force | Out-Null
+}
+if (Test-Path $tempBackupDir) {
+    Remove-Item -Path $tempBackupDir -Recurse -Force | Out-Null
+}
+New-Item -ItemType Directory -Path $tempBackupDir -Force | Out-Null
 
 $manifest = [ordered]@{
     "timestamp" = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
     "backup_id" = "backup_$timestamp"
     "git_commit" = (& git -C $WorkspaceDir rev-parse HEAD).Trim()
+    "encryption" = @{
+        "algorithm" = "AES-256-GCM"
+        "mode" = "AEAD (Authenticated Encryption with Associated Data)"
+        "kdf" = "PBKDF2-HMAC-SHA256"
+        "iterations" = 100000
+        "auth_tag_length_bits" = 128
+        "tamper_protection" = "Cryptographic authentication tag prevents unauthorized modification"
+    }
     "components" = [ordered]@{}
 }
 
-# 1. PostgreSQL Database Dump
-Write-Host "`n[1/4] Exporting PostgreSQL Database Dump..." -ForegroundColor Yellow
-$sqlFile = Join-Path $targetBackupDir "dify_database.sql"
+# ------------------------------------------------------------------------------
+# 1. PostgreSQL Relational Database Dump
+# ------------------------------------------------------------------------------
+Write-Host "`n[1/6] Exporting PostgreSQL Relational Database Dump..." -ForegroundColor Yellow
+$sqlFile = Join-Path $tempBackupDir "dify_database.sql"
 try {
-    # Execute pg_dump directly inside container, then copy out to preserve native UTF-8 without Windows redirection corruption
+    # Dump directly inside container to preserve pure UTF-8 encoding
     docker exec dify-db_postgres-1 pg_dump -U postgres -d dify -f /tmp/backup_dify.sql
     docker cp dify-db_postgres-1:/tmp/backup_dify.sql $sqlFile
     docker exec dify-db_postgres-1 rm -f /tmp/backup_dify.sql
+    
     if (-not (Test-Path $sqlFile) -or (Get-Item $sqlFile).Length -lt 1000) {
-        throw "Database dump failed or produced empty file."
+        throw "PostgreSQL dump produced missing or empty file."
     }
     $sqlSize = (Get-Item $sqlFile).Length
     $sqlHash = (Get-FileHash -Path $sqlFile -Algorithm SHA256).Hash
@@ -53,20 +106,144 @@ try {
         "file" = "dify_database.sql"
         "size_bytes" = $sqlSize
         "sha256" = $sqlHash
-        "database" = "dify"
-        "user" = "postgres"
     }
 } catch {
     Write-Host "  [FAIL] PostgreSQL dump failed: $_" -ForegroundColor Red
     exit 1
 }
 
-# 2. Redis Cache & Broker Snapshot
-Write-Host "`n[2/4] Triggering and Exporting Redis Snapshot..." -ForegroundColor Yellow
-$redisFile = Join-Path $targetBackupDir "dump.rdb"
+# ------------------------------------------------------------------------------
+# 2. Weaviate Vector Database Objects, Indexes & Schema
+# ------------------------------------------------------------------------------
+Write-Host "`n[2/6] Exporting Weaviate Vector Objects, Embeddings & Indexes..." -ForegroundColor Yellow
+$weaviateSchemaFile = Join-Path $tempBackupDir "weaviate_schema.json"
+$weaviateObjectsFile = Join-Path $tempBackupDir "weaviate_objects.json"
+$weaviateDataArchive = Join-Path $tempBackupDir "weaviate_volume.tar.gz"
+
+try {
+    $weaviateApiKey = "nAb9sAVbKR4GHUTbkZObAC93nfbHK9ee"
+
+    # A. Schema JSON
+    $schemaJson = docker exec dify-api-1 curl -s -H "Authorization: Bearer $weaviateApiKey" http://weaviate:8080/v1/schema
+    $schemaJson | Out-File -FilePath $weaviateSchemaFile -Encoding utf8
+    $schemaHash = (Get-FileHash -Path $weaviateSchemaFile -Algorithm SHA256).Hash
+
+    # B. Export all objects with dense vector embeddings across all classes
+    $pyExportObjects = @'
+import json, requests, sys
+
+api_key = "nAb9sAVbKR4GHUTbkZObAC93nfbHK9ee"
+headers = {"Authorization": f"Bearer {api_key}"}
+
+# Get classes
+schema_resp = requests.get("http://weaviate:8080/v1/schema", headers=headers, timeout=10)
+classes = [c["class"] for c in schema_resp.json().get("classes", [])]
+
+all_objects = {}
+for cls in classes:
+    # Fetch objects with vector embeddings
+    url = f"http://weaviate:8080/v1/objects?class={cls}&include=vector&limit=1000"
+    resp = requests.get(url, headers=headers, timeout=30)
+    objs = resp.json().get("objects", [])
+    all_objects[cls] = {
+        "count": len(objs),
+        "objects": objs
+    }
+    print(f"Exported {len(objs)} vector objects for class {cls}")
+
+with open("/tmp/weaviate_objects_dump.json", "w", encoding="utf-8") as f:
+    json.dump(all_objects, f, ensure_ascii=False)
+'@
+    $pyExportObjects | docker exec -i dify-api-1 python -
+    docker cp dify-api-1:/tmp/weaviate_objects_dump.json $weaviateObjectsFile
+    docker exec dify-api-1 rm -f /tmp/weaviate_objects_dump.json
+    $objectsHash = (Get-FileHash -Path $weaviateObjectsFile -Algorithm SHA256).Hash
+    $objectsSize = (Get-Item $weaviateObjectsFile).Length
+
+    # C. Archive physical Weaviate data directory (LSM trees, HNSW graph, schema.db)
+    $sourceWeaviateDir = Join-Path $WorkspaceDir "docker\dify\volumes\weaviate"
+    if (Test-Path $sourceWeaviateDir) {
+        tar.exe -czf $weaviateDataArchive -C $sourceWeaviateDir .
+        $weaviateVolSize = (Get-Item $weaviateDataArchive).Length
+        $weaviateVolHash = (Get-FileHash -Path $weaviateDataArchive -Algorithm SHA256).Hash
+        Write-Host "  [OK] Physical Weaviate data archive: $weaviateVolSize bytes (SHA-256: $($weaviateVolHash.Substring(0, 12))...)" -ForegroundColor Green
+    } else {
+        throw "Weaviate physical volume directory not found at '$sourceWeaviateDir'."
+    }
+
+    Write-Host "  [OK] Weaviate vector objects dump: $objectsSize bytes (SHA-256: $($objectsHash.Substring(0, 12))...)" -ForegroundColor Green
+    $manifest["components"]["weaviate"] = @{
+        "schema_file" = "weaviate_schema.json"
+        "schema_sha256" = $schemaHash
+        "objects_file" = "weaviate_objects.json"
+        "objects_size_bytes" = $objectsSize
+        "objects_sha256" = $objectsHash
+        "volume_archive" = "weaviate_volume.tar.gz"
+        "volume_size_bytes" = $weaviateVolSize
+        "volume_sha256" = $weaviateVolHash
+    }
+} catch {
+    Write-Host "  [FAIL] Weaviate backup failed: $_" -ForegroundColor Red
+    exit 1
+}
+
+# ------------------------------------------------------------------------------
+# 3. Dify Document Storage (Uploads & Tenant Private Keys)
+# ------------------------------------------------------------------------------
+Write-Host "`n[3/6] Archiving Dify Document Storage (Upload Files & Encryption Keys)..." -ForegroundColor Yellow
+$storageArchive = Join-Path $tempBackupDir "storage_volume.tar.gz"
+try {
+    $sourceStorageDir = Join-Path $WorkspaceDir "docker\dify\volumes\app\storage"
+    if (Test-Path $sourceStorageDir) {
+        tar.exe -czf $storageArchive -C $sourceStorageDir .
+        $storageSize = (Get-Item $storageArchive).Length
+        $storageHash = (Get-FileHash -Path $storageArchive -Algorithm SHA256).Hash
+        Write-Host "  [OK] Document storage archive: $storageSize bytes (SHA-256: $($storageHash.Substring(0, 12))...)" -ForegroundColor Green
+        $manifest["components"]["storage"] = @{
+            "file" = "storage_volume.tar.gz"
+            "size_bytes" = $storageSize
+            "sha256" = $storageHash
+        }
+    } else {
+        throw "Document storage directory not found at '$sourceStorageDir'."
+    }
+} catch {
+    Write-Host "  [FAIL] Document storage backup failed: $_" -ForegroundColor Red
+    exit 1
+}
+
+# ------------------------------------------------------------------------------
+# 4. Plugin Daemon Configurations & Packages
+# ------------------------------------------------------------------------------
+Write-Host "`n[4/6] Archiving Plugin Daemon Configurations & Installed Plugins..." -ForegroundColor Yellow
+$pluginArchive = Join-Path $tempBackupDir "plugin_daemon_volume.tar.gz"
+try {
+    $sourcePluginDir = Join-Path $WorkspaceDir "docker\dify\volumes\plugin_daemon"
+    if (Test-Path $sourcePluginDir) {
+        # Archive excluding volatile uv cache
+        tar.exe --exclude="cwd/.uv-cache" -czf $pluginArchive -C $sourcePluginDir .
+        $pluginSize = (Get-Item $pluginArchive).Length
+        $pluginHash = (Get-FileHash -Path $pluginArchive -Algorithm SHA256).Hash
+        Write-Host "  [OK] Plugin daemon archive: $pluginSize bytes (SHA-256: $($pluginHash.Substring(0, 12))...)" -ForegroundColor Green
+        $manifest["components"]["plugin_daemon"] = @{
+            "file" = "plugin_daemon_volume.tar.gz"
+            "size_bytes" = $pluginSize
+            "sha256" = $pluginHash
+        }
+    } else {
+        Write-Warning "Plugin daemon directory not found; skipping."
+    }
+} catch {
+    Write-Warning "Plugin daemon archive warning: $_"
+}
+
+# ------------------------------------------------------------------------------
+# 5. Redis Persistent State Snapshot
+# ------------------------------------------------------------------------------
+Write-Host "`n[5/6] Exporting Redis Cache & Broker Snapshot..." -ForegroundColor Yellow
+$redisFile = Join-Path $tempBackupDir "dump.rdb"
 try {
     $bgsave = docker exec dify-redis-1 redis-cli bgsave
-    Write-Host "  Redis BGSAVE status: $bgsave" -ForegroundColor Gray
     Start-Sleep -Seconds 2
     docker cp dify-redis-1:/data/dump.rdb $redisFile
     if (Test-Path $redisFile) {
@@ -78,57 +255,62 @@ try {
             "size_bytes" = $redisSize
             "sha256" = $redisHash
         }
-    } else {
-        Write-Warning "Redis dump.rdb not accessible; continuing with database backup."
     }
 } catch {
-    Write-Warning "Redis backup encountered warning: $_"
+    Write-Warning "Redis backup warning: $_"
 }
 
-# 3. Weaviate Vector Database Schema & Metadata
-Write-Host "`n[3/4] Exporting Weaviate Vector Schema & Meta..." -ForegroundColor Yellow
-$weaviateFile = Join-Path $targetBackupDir "weaviate_schema.json"
+# ------------------------------------------------------------------------------
+# 6. Workflows, Manifest & AES-256 Archive Encryption
+# ------------------------------------------------------------------------------
+Write-Host "`n[6/6] Packaging Workflows, Manifest & Applying AES-256 Encryption..." -ForegroundColor Yellow
 try {
-    $schemaJson = docker exec dify-api-1 curl -s http://weaviate:8080/v1/schema
-    $schemaJson | Out-File -FilePath $weaviateFile -Encoding utf8
-    $weaviateSize = (Get-Item $weaviateFile).Length
-    $weaviateHash = (Get-FileHash -Path $weaviateFile -Algorithm SHA256).Hash
-    Write-Host "  [OK] Weaviate schema exported: $weaviateSize bytes (SHA-256: $($weaviateHash.Substring(0, 12))...)" -ForegroundColor Green
-    $manifest["components"]["weaviate"] = @{
-        "file" = "weaviate_schema.json"
-        "size_bytes" = $weaviateSize
-        "sha256" = $weaviateHash
-    }
-} catch {
-    Write-Host "  [FAIL] Weaviate schema export failed: $_" -ForegroundColor Red
-    exit 1
-}
-
-# 4. Applications and Workflow Definitions
-Write-Host "`n[4/4] Archiving Workflows and Manifest..." -ForegroundColor Yellow
-try {
+    # Archive workflows
     $workflowsSource = Join-Path $WorkspaceDir "workflows"
-    $workflowsDest = Join-Path $targetBackupDir "workflows"
+    $workflowsDest = Join-Path $tempBackupDir "workflows"
     if (Test-Path $workflowsSource) {
         Copy-Item -Path $workflowsSource -Destination $workflowsDest -Recurse -Force
         $workflowFiles = Get-ChildItem -Path $workflowsDest -Filter "*.yml"
-        Write-Host "  [OK] Archived $($workflowFiles.Count) workflow DSL definitions." -ForegroundColor Green
         $manifest["components"]["workflows"] = @{
             "count" = $workflowFiles.Count
             "files" = ($workflowFiles | ForEach-Object { $_.Name })
         }
     }
 
-    # Save Manifest
-    $manifestPath = Join-Path $targetBackupDir "backup_manifest.json"
-    $manifest | ConvertTo-Json -Depth 5 | Out-File -FilePath $manifestPath -Encoding utf8
-    Write-Host "  [OK] Backup manifest saved: $manifestPath" -ForegroundColor Green
+    # Save manifest inside the package
+    $manifestPath = Join-Path $tempBackupDir "backup_manifest.json"
+    $manifest | ConvertTo-Json -Depth 6 | Out-File -FilePath $manifestPath -Encoding utf8
+
+    # Compress the entire staging directory into intermediate bundle
+    $bundleZip = Join-Path $BackupsBaseDir "temp_bundle_$timestamp.zip"
+    if (Test-Path $bundleZip) { Remove-Item $bundleZip -Force }
+    Compress-Archive -Path "$tempBackupDir\*" -DestinationPath $bundleZip -CompressionLevel Optimal
+
+    # Authenticated Encryption with AES-256-GCM via backup_crypto.py
+    Write-Host "  Encrypting backup bundle with AES-256-GCM (128-bit Auth Tag, PBKDF2 100k iterations)..." -ForegroundColor Gray
+    $pythonExe = "C:\Users\hassa\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
+    $cryptoScript = Join-Path $WorkspaceDir "scripts\backup_crypto.py"
+    
+    $encOutput = & cmd.exe /c "`"$pythonExe`" `"$cryptoScript`" encrypt --input `"$bundleZip`" --output `"$encryptedArchive`" --passphrase `"$resolvedPassphrase`" 2>&1"
+    if ($LASTEXITCODE -ne 0) {
+        throw "AES-256-GCM encryption failed: $encOutput"
+    }
+
+    # Clean intermediate unencrypted files
+    Remove-Item -Path $bundleZip -Force
+    Remove-Item -Path $tempBackupDir -Recurse -Force
+
+    $encSize = (Get-Item $encryptedArchive).Length
+    $encHash = (Get-FileHash -Path $encryptedArchive -Algorithm SHA256).Hash
+
+    Write-Host "  [OK] AES-256-GCM Authenticated Archive created: $encryptedArchive ($encSize bytes)" -ForegroundColor Green
+    Write-Host "  [OK] Encrypted Archive SHA-256: $encHash" -ForegroundColor Green
 } catch {
-    Write-Host "  [FAIL] Archiving workflows/manifest failed: $_" -ForegroundColor Red
+    Write-Host "  [FAIL] Packaging or Encryption failed: $_" -ForegroundColor Red
     exit 1
 }
 
 Write-Host "`n==========================================================" -ForegroundColor Cyan
-Write-Host "  Backup Completed Successfully!                          " -ForegroundColor Green
-Write-Host "  Archive Location: $targetBackupDir                      " -ForegroundColor Green
+Write-Host "  Enterprise Encrypted Backup Completed Successfully!     " -ForegroundColor Green
+Write-Host "  Encrypted File: $encryptedArchive                       " -ForegroundColor Green
 Write-Host "==========================================================" -ForegroundColor Cyan

@@ -107,29 +107,84 @@ To prevent SQLite, PostgreSQL, or Weaviate index corruption, always follow the g
 
 ### 3.1 Automated Backup Execution
 
-Run the provided PowerShell backup script regularly:
+### 3.1 Generating Authenticated Encrypted Backups (AES-256-GCM)
+
+All backups use **AES-256-GCM** authenticated encryption (128-bit authentication tag, PBKDF2 with 100,000 iterations). Hardcoded default passphrases have been completely eliminated.
+
+Passphrase resolution follows this hierarchy:
+1. `-Passphrase 'MySecret'`
+2. `$env:LOCAL_RAG_BACKUP_KEY`
+3. `-KeyFile 'path/to/key.txt'`
+4. `.secrets/backup.key` (excluded from Git)
+
+Run the automated backup:
 ```powershell
 Set-Location C:\Users\hassa\local-rag
+# Option A: Using environment variable
+$env:LOCAL_RAG_BACKUP_KEY = "YourSecurePassphraseHere!"
 .\scripts\backup-local-rag.ps1
+
+# Option B: Using dedicated key file
+.\scripts\backup-local-rag.ps1 -KeyFile .secrets/backup.key
 ```
 
-The script exports:
+The script exports and bundles:
 - `dify_database.sql`: Full PostgreSQL schema, accounts, datasets, apps, and chat records.
+- `weaviate_volume.tar.gz`: Physical LSM trees, HNSW graphs, and `schema.db` from `/var/lib/weaviate`.
+- `weaviate_objects.json`: Vector objects dump with raw embeddings across all classes.
+- `storage_volume.tar.gz`: Dify upload files and tenant RSA private keys (`private.pem`).
 - `dump.rdb`: Redis snapshot.
-- `weaviate_schema.json`: Complete vector class schema definitions.
 - `workflows/`: Exported YAML DSL files for both Chatbot and Chatflow apps.
 - `backup_manifest.json`: Cryptographic SHA-256 hashes and timestamp metadata.
 
-All archives are stored in `C:\Users\hassa\local-rag\backups\backup_<timestamp>\`, which is strictly excluded from Git tracking via `.gitignore`.
+All archives are saved as encrypted files `backups\backup_<timestamp>.enc`, which are strictly excluded from Git tracking via `.gitignore`.
 
-### 3.2 Isolated Restoration Verification (Dry Run)
+### 3.2 Cryptographic Tamper-Detection Verification
 
-To verify backup validity without overwriting or disrupting production databases, execute:
+To verify that the backup engine detects and blocks any corrupted, modified, or hostile archives, execute:
 ```powershell
 Set-Location C:\Users\hassa\local-rag
-.\scripts\test-isolated-restore.ps1
+.\scripts\test-backup-tamper.ps1
 ```
-This spawns an ephemeral isolated container, restores the dump, validates table and segment invariants, and cleans up the sandbox completely.
+This runs 5 automated attack and validation simulations:
+1. Valid roundtrip AES-256-GCM encryption/decryption.
+2. Legitimate key decryption.
+3. Wrong key attack rejection (exit code 3).
+4. 1-byte ciphertext modification rejection (bit-flip integrity check).
+5. Nonce / container header modification rejection.
+
+### 3.3 Isolated Restoration & End-to-End RAG Verification (Dry Run)
+
+To verify backup validity and restore RAG capability without disrupting production databases, execute:
+```powershell
+Set-Location C:\Users\hassa\local-rag
+.\scripts\test-isolated-restore.ps1 -KeyFile .secrets/backup.key
+```
+This automates:
+1. AES-256-GCM authenticated decryption.
+2. SHA-256 checksum validation against `backup_manifest.json`.
+3. Ephemeral network `dify-dr-test-net` creation.
+4. PostgreSQL restoration and schema verification (172+ tables, accounts, datasets, apps).
+5. Weaviate volume restoration, LSM tree loading, and GraphQL `nearVector` search (certainty = 1.0).
+6. End-to-end RAG grounding check: compares relational segments with vector index content.
+7. Dify document storage and tenant private key (`.pem`) integrity check.
+8. 100% cleanup of test containers and sandbox files.
+
+---
+
+## 4. Network Security & Firewall Isolation
+
+### 4.1 Ollama Host Binding & Windows Firewall Configuration
+- **Host Binding:** `OLLAMA_HOST=0.0.0.0:11434` is used so that the Docker Desktop container gateway (`host.docker.internal` -> `com.docker.backend.exe`) can reach Ollama.
+- **Exposure Caveat:** Binding to `0.0.0.0` allows connections on any network interface. If the Windows Firewall inbound rule for `ollama.exe` is configured to `RemoteAddress: Any`, other hosts on the same physical Wi-Fi/LAN could reach the model endpoint.
+- **Recommended Hardening (Requires Administrator):**
+```powershell
+# Restrict Ollama Inbound rule to localhost and Docker internal subnets only:
+Set-NetFirewallRule -DisplayName "ollama.exe" -RemoteAddress "127.0.0.1,192.168.65.0/24,LocalSubnet"
+```
+Or switch `OLLAMA_HOST=127.0.0.1:11434` if your Docker Desktop configuration routes `com.docker.backend.exe` exclusively through loopback.
+
+---
 
 ### 3.3 Production Disaster Recovery Procedure
 
