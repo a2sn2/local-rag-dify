@@ -51,3 +51,4 @@ Write-Host "  Rollback Completed Successfully!                       " -Foregrou
 Write-Host "  Reverted to official image: langgenius/dify-web:1.18.0   " -ForegroundColor Green
 Write-Host "  Access Dify at: http://127.0.0.1                       " -ForegroundColor Green
 Write-Host "==========================================================" -ForegroundColor Green
+

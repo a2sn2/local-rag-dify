@@ -1,35 +1,37 @@
 /* ==========================================================================
-   JAIB × Dify Visual Identity Theme
+   JAIB × Dify Visual Identity Theme (Hardened & Audited)
    Design System: JAIB (جيب) Fintech Visual Identity
    Dify Version: v1.18.0
-   Target: Next.js Standalone CSS Integration
+   Fully Air-Gapped & Offline Ready (Zero External Network Dependencies)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-
 /* --------------------------------------------------------------------------
-   1. Root Palette & Core Design Tokens
+   1. Offline Typography & Root Design Tokens
    -------------------------------------------------------------------------- */
 :root, :host {
-  /* Typography */
+  /* Strictly Offline System Fonts */
   --font-sans: "DIN Next LT Arabic", "Noto Sans Arabic", "Plus Jakarta Sans", "Segoe UI", -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif !important;
   
-  /* JAIB Brand System Constants */
+  /* JAIB Brand Core Tokens */
   --jaib-brand: #E4122D;
   --jaib-brand-hover: #CE1028;
   --jaib-brand-pressed: #B90E24;
   --jaib-brand-subtle: rgba(228, 18, 45, 0.08);
   --jaib-brand-focus-ring: rgba(228, 18, 45, 0.20);
   
-  /* Tailwind Primary Scale Overrides (JAIB Red Palette) */
+  /* Tailwind Primary Palette (JAIB Red Scale) */
   --color-primary-25: rgba(228, 18, 45, 0.03) !important;
   --color-primary-50: rgba(228, 18, 45, 0.06) !important;
   --color-primary-100: rgba(228, 18, 45, 0.12) !important;
+  --color-primary-200: rgba(228, 18, 45, 0.22) !important;
   --color-primary-300: #F37081 !important;
+  --color-primary-400: #ED4155 !important;
   --color-primary-500: #E4122D !important;
   --color-primary-600: #CE1028 !important;
   --color-primary-700: #B90E24 !important;
-  
+  --color-primary-800: #930B1C !important;
+  --color-primary-900: #6D0815 !important;
+
   /* Standard Geometry */
   --radius-button: 14px;
   --radius-card: 16px;
@@ -39,7 +41,7 @@
 
 /* --------------------------------------------------------------------------
    2. Light Theme Overrides (JAIB Light Foundation)
-   70-85% Neutrals (#F3F2F7, #FFFFFF, #EAE9EE)
+   70-85% Light Neutrals (#F3F2F7, #FFFFFF, #EAE9EE)
    10-20% Brand Accents (#E4122D)
    -------------------------------------------------------------------------- */
 html[data-theme=light], :root {
@@ -71,27 +73,68 @@ html[data-theme=light], :root {
   --color-border-default: #E5E5EA !important;
   --color-border-subtle: #EEEEF2 !important;
 
-  /* Components: Buttons */
+  /* Components: Primary Buttons */
   --color-components-button-primary-bg: #E4122D !important;
   --color-components-button-primary-bg-hover: #CE1028 !important;
   --color-components-button-primary-bg-disabled: rgba(228, 18, 45, 0.35) !important;
   --color-components-button-primary-text: #FFFFFF !important;
   --color-components-button-primary-border: transparent !important;
 
-  /* Components: Nav & Tabs */
+  /* Components: Secondary Accent Buttons (e.g. Preview button) */
+  --color-components-button-secondary-accent-text: #E4122D !important;
+  --color-components-button-secondary-accent-text-disabled: rgba(228, 18, 45, 0.40) !important;
+  --color-components-button-secondary-accent-bg: #FFFFFF !important;
+  --color-components-button-secondary-accent-bg-hover: rgba(228, 18, 45, 0.06) !important;
+  --color-components-button-secondary-accent-border: #E5E5EA !important;
+  --color-components-button-secondary-accent-border-hover: rgba(228, 18, 45, 0.30) !important;
+
+  /* Components: Form Controls */
+  --color-components-checkbox-bg: #E4122D !important;
+  --color-components-checkbox-bg-hover: #CE1028 !important;
+  --color-components-radio-border-checked: #E4122D !important;
+  --color-components-radio-border-checked-hover: #CE1028 !important;
+  --color-components-toggle-bg: #E4122D !important;
+  --color-components-toggle-bg-hover: #CE1028 !important;
+  --color-components-slider-range: #E4122D !important;
+  --color-components-input-text-filled-blue: #E4122D !important;
+
+  /* Dify SaaS Blue Token Overrides -> JAIB Red */
+  --color-saas-dify-blue-static: #E4122D !important;
+  --color-saas-dify-blue-static-hover: #CE1028 !important;
+  --color-saas-dify-blue-accessible: #CE1028 !important;
+  --color-saas-dify-blue-inverted: #E4122D !important;
+  --color-saas-dify-blue-inverted-dimmed: #CE1028 !important;
+
+  /* Blue Brand Scale Overrides */
+  --color-util-colors-blue-brand-blue-brand-50: #FFF1F2 !important;
+  --color-util-colors-blue-brand-blue-brand-100: #FFE4E6 !important;
+  --color-util-colors-blue-brand-blue-brand-200: #FECDD3 !important;
+  --color-util-colors-blue-brand-blue-brand-300: #FDA4AF !important;
+  --color-util-colors-blue-brand-blue-brand-400: #FB7185 !important;
+  --color-util-colors-blue-brand-blue-brand-500: #F43F5E !important;
+  --color-util-colors-blue-brand-blue-brand-600: #E4122D !important;
+  --color-util-colors-blue-brand-blue-brand-700: #CE1028 !important;
+
+  /* Glass Navigation Surface Overrides */
   --color-components-tab-active: #E4122D !important;
   --color-components-main-nav-text-active: #E4122D !important;
   --color-components-main-nav-nav-button-text-active: #E4122D !important;
   --color-components-main-nav-glass-edge-reflection-middle: #E4122D !important;
-  --color-components-slider-range: #E4122D !important;
-  --color-components-input-text-filled-blue: #E4122D !important;
+  --color-components-main-nav-glass-edge-reflection-first: rgba(228, 18, 45, 0) !important;
+  --color-components-main-nav-glass-edge-reflection-end: rgba(228, 18, 45, 0) !important;
+  --color-components-main-nav-glass-surface-first: rgba(228, 18, 45, 0.08) !important;
+  --color-components-main-nav-glass-surface-middle-1: rgba(228, 18, 45, 0.12) !important;
+  --color-components-main-nav-glass-surface-middle-2: rgba(228, 18, 45, 0.10) !important;
+  --color-components-main-nav-glass-surface-end: rgba(228, 18, 45, 0.08) !important;
+  --color-components-main-nav-glass-text-glow: rgba(228, 18, 45, 0.25) !important;
+  --color-components-main-nav-glass-shadow-reflection: rgba(228, 18, 45, 0.05) !important;
   --color-components-menu-item-bg-active: rgba(228, 18, 45, 0.08) !important;
   --color-divider-accent: rgba(228, 18, 45, 0.15) !important;
 
   /* Workflow & Canvas Elements */
   --color-workflow-link-line-active: #E4122D !important;
   --color-workflow-link-line-handle: #E4122D !important;
-  --color-workflow-block-border-highlight: rgba(228, 18, 45, 0.40) !important;
+  --color-workflow-block-border-highlight: rgba(228, 18, 45, 0.50) !important;
   --color-workflow-test-run-run-status-bg: rgba(228, 18, 45, 0.12) !important;
   --color-workflow-test-run-text: #E4122D !important;
 }
@@ -128,17 +171,50 @@ html[data-theme=dark] {
   --color-border-default: #2A2C31 !important;
   --color-border-subtle: #202126 !important;
 
-  /* Components: Buttons */
+  /* Components: Primary Buttons */
   --color-components-button-primary-bg: #E4122D !important;
   --color-components-button-primary-bg-hover: #CE1028 !important;
   --color-components-button-primary-bg-disabled: rgba(228, 18, 45, 0.35) !important;
   --color-components-button-primary-text: #FFFFFF !important;
 
-  /* Components: Nav & Tabs */
-  --color-components-tab-active: #FF3B50 !important;
-  --color-components-main-nav-text-active: #FF3B50 !important;
-  --color-components-main-nav-nav-button-text-active: #FF3B50 !important;
+  /* Components: Secondary Accent Buttons */
+  --color-components-button-secondary-accent-text: #FF3B50 !important;
+  --color-components-button-secondary-accent-text-disabled: rgba(255, 59, 80, 0.40) !important;
+  --color-components-button-secondary-accent-bg: #1A1B20 !important;
+  --color-components-button-secondary-accent-bg-hover: rgba(228, 18, 45, 0.15) !important;
+  --color-components-button-secondary-accent-border: #2A2C31 !important;
+  --color-components-button-secondary-accent-border-hover: rgba(228, 18, 45, 0.40) !important;
+
+  /* Components: Form Controls */
+  --color-components-checkbox-bg: #E4122D !important;
+  --color-components-checkbox-bg-hover: #CE1028 !important;
+  --color-components-radio-border-checked: #E4122D !important;
+  --color-components-radio-border-checked-hover: #CE1028 !important;
+  --color-components-toggle-bg: #E4122D !important;
+  --color-components-toggle-bg-hover: #CE1028 !important;
   --color-components-slider-range: #E4122D !important;
+  --color-components-input-text-filled-blue: #FF3B50 !important;
+
+  /* Dify SaaS Blue Token Overrides -> JAIB Red / Crisp Contrast in Dark Mode */
+  --color-saas-dify-blue-static: #E4122D !important;
+  --color-saas-dify-blue-static-hover: #FF3B50 !important;
+  --color-saas-dify-blue-accessible: #FF3B50 !important;
+  --color-saas-dify-blue-inverted: #FFFFFF !important;
+  --color-saas-dify-blue-inverted-dimmed: rgba(255, 255, 255, 0.90) !important;
+
+  /* Glass Navigation Surface Overrides */
+  --color-components-tab-active: #FFFFFF !important;
+  --color-components-main-nav-text-active: #FFFFFF !important;
+  --color-components-main-nav-nav-button-text-active: #FFFFFF !important;
+  --color-components-main-nav-glass-edge-reflection-middle: #E4122D !important;
+  --color-components-main-nav-glass-edge-reflection-first: rgba(228, 18, 45, 0) !important;
+  --color-components-main-nav-glass-edge-reflection-end: rgba(228, 18, 45, 0) !important;
+  --color-components-main-nav-glass-surface-first: rgba(228, 18, 45, 0.16) !important;
+  --color-components-main-nav-glass-surface-middle-1: rgba(228, 18, 45, 0.22) !important;
+  --color-components-main-nav-glass-surface-middle-2: rgba(228, 18, 45, 0.18) !important;
+  --color-components-main-nav-glass-surface-end: rgba(228, 18, 45, 0.16) !important;
+  --color-components-main-nav-glass-text-glow: rgba(228, 18, 45, 0.35) !important;
+  --color-components-main-nav-glass-shadow-reflection: rgba(228, 18, 45, 0.10) !important;
   --color-components-menu-item-bg-active: rgba(228, 18, 45, 0.16) !important;
 
   /* Workflow & Canvas Elements */
@@ -147,13 +223,13 @@ html[data-theme=dark] {
   --color-workflow-canvas-workflow-bg: #121316 !important;
   --color-workflow-link-line-active: #E4122D !important;
   --color-workflow-link-line-handle: #E4122D !important;
-  --color-workflow-block-border-highlight: rgba(228, 18, 45, 0.50) !important;
+  --color-workflow-block-border-highlight: rgba(228, 18, 45, 0.60) !important;
   --color-workflow-test-run-run-status-bg: rgba(228, 18, 45, 0.20) !important;
   --color-workflow-test-run-text: #FF3B50 !important;
 }
 
 /* --------------------------------------------------------------------------
-   4. Typography & Base Geometry Enforcement
+   4. Base Enforcement & Component Rules
    -------------------------------------------------------------------------- */
 body, html {
   font-family: var(--font-sans) !important;
@@ -187,6 +263,16 @@ button[class*="bg-components-button-primary"]:active,
 .btn-primary:active {
   background-color: #B90E24 !important;
   transform: translateY(0);
+}
+
+/* Secondary Action Buttons (e.g. Preview button) */
+[class*="text-components-button-secondary-accent-text"],
+button[class*="secondary-accent"] {
+  color: #E4122D !important;
+}
+html[data-theme=dark] [class*="text-components-button-secondary-accent-text"],
+html[data-theme=dark] button[class*="secondary-accent"] {
+  color: #FF3B50 !important;
 }
 
 /* Form Inputs & Selects */
@@ -224,36 +310,69 @@ div[class*="rounded-xl"] {
 }
 
 /* --------------------------------------------------------------------------
-   5. Logo & Header Protection & Dark Mode Swap
+   5. Active Navigation & Glass Surface Fixes (Eliminate lingering blue)
    -------------------------------------------------------------------------- */
-header img[src*="logo.svg"],
-nav img[src*="logo.svg"],
-div[class*="items-center"] img[src*="logo.svg"],
+/* Active Navigation Links */
+a[aria-current="page"],
+.dify-blue-glass-surface,
+[class*="dify-blue-glass-surface"] {
+  color: #E4122D !important;
+}
+
+html[data-theme=dark] a[aria-current="page"],
+html[data-theme=dark] .dify-blue-glass-surface,
+html[data-theme=dark] [class*="dify-blue-glass-surface"] {
+  color: #FFFFFF !important;
+}
+
+/* Active Navigation Icons */
+[class*="main-nav"][class*="-active"],
+[class*="vender-main-nav"][class*="-active"] {
+  color: #E4122D !important;
+}
+
+html[data-theme=dark] [class*="main-nav"][class*="-active"],
+html[data-theme=dark] [class*="vender-main-nav"][class*="-active"] {
+  color: #FFFFFF !important;
+}
+
+/* Glowing text-shadow override */
+[class*="text-shadow:"] {
+  text-shadow: 0px 0px 8px rgba(228, 18, 45, 0.25) !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. Logo & Header Protection & Dark Mode Swap
+   -------------------------------------------------------------------------- */
+header img[src*="logo"],
+nav img[src*="logo"],
+div[class*="items-center"] img[src*="logo"],
 img[src*="logo-site"] {
-  height: 28px !important;
+  height: 32px !important;
   width: auto !important;
-  max-width: 170px !important;
+  max-width: 180px !important;
   filter: none !important;
   object-fit: contain !important;
 }
 
 /* Sign-in Specific Logo Adjustment */
-div[class*="p-6"] img[src*="logo.svg"] {
-  height: 34px !important;
-  max-width: 190px !important;
+div[class*="p-6"] img[src*="logo"] {
+  height: 40px !important;
+  width: auto !important;
+  max-width: 210px !important;
 }
 
-/* Dark Mode Logo Swap: Uses crisp white lettering on dark background */
-html[data-theme=dark] header img[src*="logo.svg"],
-html[data-theme=dark] nav img[src*="logo.svg"],
-html[data-theme=dark] div[class*="items-center"] img[src*="logo.svg"],
-html[data-theme=dark] div[class*="p-6"] img[src*="logo.svg"] {
+/* Dark Mode Logo Swap: Uses official JAIB white mark + official Dify dark logo */
+html[data-theme=dark] header img[src*="logo"],
+html[data-theme=dark] nav img[src*="logo"],
+html[data-theme=dark] div[class*="items-center"] img[src*="logo"],
+html[data-theme=dark] div[class*="p-6"] img[src*="logo"] {
   content: url("/logo/logo-dark.svg") !important;
   filter: none !important;
 }
 
 /* --------------------------------------------------------------------------
-   6. ReactFlow Safeguard (CRITICAL FOR CHATFLOW / WORKFLOW EDITOR)
+   7. ReactFlow Safeguard (CRITICAL FOR CHATFLOW / WORKFLOW EDITOR)
    Ensures node coordinates, bezier edges, and handles remain strictly LTR
    even when the outer UI is set to Arabic RTL mode.
    -------------------------------------------------------------------------- */
@@ -283,7 +402,7 @@ html[data-theme=dark] div[class*="p-6"] img[src*="logo.svg"] {
 }
 
 /* --------------------------------------------------------------------------
-   7. Arabic RTL Refinements (True RTL for UI Panels)
+   8. Arabic RTL Refinements (True RTL for UI Panels)
    -------------------------------------------------------------------------- */
 html[dir="rtl"] {
   text-align: right;
@@ -301,9 +420,8 @@ code, pre, .font-mono, input[type="password"] {
 }
 
 /* --------------------------------------------------------------------------
-   8. JAIB Brand Accent Highlights
+   9. JAIB Brand Accent Highlights & Selection
    -------------------------------------------------------------------------- */
-/* Active Navigation Pill Glow */
 nav a[class*="text-primary"],
 nav a[class*="bg-primary"] {
   color: #E4122D !important;

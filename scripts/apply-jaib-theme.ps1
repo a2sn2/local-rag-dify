@@ -73,3 +73,4 @@ Write-Host "`n==========================================================" -Foreg
 Write-Host "  JAIB Theme Applied Successfully!                       " -ForegroundColor Green
 Write-Host "  Access Dify at: http://127.0.0.1                       " -ForegroundColor Green
 Write-Host "==========================================================" -ForegroundColor Green
+
