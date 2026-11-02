@@ -99,3 +99,4 @@ When resuming work, the following engineering tasks should be addressed:
    - Run the administrator PowerShell command documented in `docs/operations/operations-runbook.md` to restrict inbound traffic to loopback and Docker subnets.
 3. **Offsite Backup Replication:**
    - The encrypted backup currently resides on the local workstation disk (`C:\Users\hassa\local-rag\backups`). To achieve complete migration sign-off, copy `backup_20261102_021800.enc` and `.secrets/backup.key` to an independent external drive or private secure cloud vault.
+

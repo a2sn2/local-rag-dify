@@ -1,4 +1,9 @@
+# ==============================================================================
+# Docker Compose Override for Dify Web - JAIB Visual Identity Integration
+# Target Service: web
+# Image: local-rag/dify-web:1.18.0-jaib
+# Safe Rollback: Rename or remove this file, then execute 'docker compose up -d web'
+# ==============================================================================
 services:
-  plugin_daemon:
-    ports: !override
-      - "127.0.0.1:5003:5003"
+  web:
+    image: local-rag/dify-web:1.18.0-jaib

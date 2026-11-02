@@ -1,0 +1,30 @@
+# ==============================================================================
+# Dockerfile: JAIB Visual Identity Custom Container for Dify Web v1.18.0
+# Base: langgenius/dify-web:1.18.0
+# Purpose: Apply JAIB design tokens, custom co-branding assets, and ReactFlow protection
+# ==============================================================================
+FROM langgenius/dify-web:1.18.0
+
+USER root
+
+# Copy theme styles and branding assets
+COPY themes/jaib/css/jaib-theme.css /tmp/jaib-theme.css
+COPY themes/jaib/assets/ /tmp/jaib-assets/
+
+# 1. Append JAIB theme rules to the main Next.js CSS chunk
+RUN cat /tmp/jaib-theme.css >> /app/targets/next/web/.next/static/chunks/030bhy3_ddw-t.css
+
+# 2. Deploy co-branded logo and brand assets to public web directories
+RUN cp /tmp/jaib-assets/logo.svg /app/targets/next/web/public/logo/logo.svg && \
+    cp /tmp/jaib-assets/logo-dark.svg /app/targets/next/web/public/logo/logo-dark.svg && \
+    cp /tmp/jaib-assets/logo-site.png /app/targets/next/web/public/logo/logo-site.png && \
+    cp /tmp/jaib-assets/logo-site-dark.png /app/targets/next/web/public/logo/logo-site-dark.png && \
+    cp /tmp/jaib-assets/favicon.ico /app/targets/next/web/public/favicon.ico && \
+    mkdir -p /app/targets/next/web/public/jaib && \
+    cp -r /tmp/jaib-assets/* /app/targets/next/web/public/jaib/
+
+# 3. Restore non-root ownership and clean up temporary staging
+RUN chown -R dify:dify /app/targets/next/web && \
+    rm -rf /tmp/jaib-theme.css /tmp/jaib-assets
+
+USER dify

@@ -1,0 +1,323 @@
+/* ==========================================================================
+   JAIB × Dify Visual Identity Theme
+   Design System: JAIB (جيب) Fintech Visual Identity
+   Dify Version: v1.18.0
+   Target: Next.js Standalone CSS Integration
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* --------------------------------------------------------------------------
+   1. Root Palette & Core Design Tokens
+   -------------------------------------------------------------------------- */
+:root, :host {
+  /* Typography */
+  --font-sans: "DIN Next LT Arabic", "Noto Sans Arabic", "Plus Jakarta Sans", "Segoe UI", -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif !important;
+  
+  /* JAIB Brand System Constants */
+  --jaib-brand: #E4122D;
+  --jaib-brand-hover: #CE1028;
+  --jaib-brand-pressed: #B90E24;
+  --jaib-brand-subtle: rgba(228, 18, 45, 0.08);
+  --jaib-brand-focus-ring: rgba(228, 18, 45, 0.20);
+  
+  /* Tailwind Primary Scale Overrides (JAIB Red Palette) */
+  --color-primary-25: rgba(228, 18, 45, 0.03) !important;
+  --color-primary-50: rgba(228, 18, 45, 0.06) !important;
+  --color-primary-100: rgba(228, 18, 45, 0.12) !important;
+  --color-primary-300: #F37081 !important;
+  --color-primary-500: #E4122D !important;
+  --color-primary-600: #CE1028 !important;
+  --color-primary-700: #B90E24 !important;
+  
+  /* Standard Geometry */
+  --radius-button: 14px;
+  --radius-card: 16px;
+  --radius-input: 14px;
+  --radius-modal: 18px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Light Theme Overrides (JAIB Light Foundation)
+   70-85% Neutrals (#F3F2F7, #FFFFFF, #EAE9EE)
+   10-20% Brand Accents (#E4122D)
+   -------------------------------------------------------------------------- */
+html[data-theme=light], :root {
+  /* Accents */
+  --color-text-accent: #E4122D !important;
+  --color-text-accent-secondary: #CE1028 !important;
+  --color-text-accent-light-mode-only: #E4122D !important;
+  --color-state-accent-hover: rgba(228, 18, 45, 0.08) !important;
+  --color-state-accent-hover-alt: rgba(228, 18, 45, 0.14) !important;
+  --color-state-accent-active: rgba(228, 18, 45, 0.16) !important;
+  --color-state-accent-active-alt: rgba(228, 18, 45, 0.22) !important;
+  --color-state-accent-solid: #E4122D !important;
+
+  /* Surfaces & Canvas */
+  --color-background-body: #F3F2F7 !important;
+  --color-background-default: #FFFFFF !important;
+  --color-background-default-hover: #F8F8FA !important;
+  --color-background-default-subtle: #FDFDFE !important;
+  --color-background-default-burn: #EAE9EE !important;
+  --color-background-section: #F8F8FA !important;
+  --color-background-section-burn: #F3F2F7 !important;
+
+  /* Typography Colors */
+  --color-text-primary: #2C2C2E !important;
+  --color-text-secondary: #8E8E93 !important;
+  --color-text-tertiary: #AEAEB2 !important;
+
+  /* Borders */
+  --color-border-default: #E5E5EA !important;
+  --color-border-subtle: #EEEEF2 !important;
+
+  /* Components: Buttons */
+  --color-components-button-primary-bg: #E4122D !important;
+  --color-components-button-primary-bg-hover: #CE1028 !important;
+  --color-components-button-primary-bg-disabled: rgba(228, 18, 45, 0.35) !important;
+  --color-components-button-primary-text: #FFFFFF !important;
+  --color-components-button-primary-border: transparent !important;
+
+  /* Components: Nav & Tabs */
+  --color-components-tab-active: #E4122D !important;
+  --color-components-main-nav-text-active: #E4122D !important;
+  --color-components-main-nav-nav-button-text-active: #E4122D !important;
+  --color-components-main-nav-glass-edge-reflection-middle: #E4122D !important;
+  --color-components-slider-range: #E4122D !important;
+  --color-components-input-text-filled-blue: #E4122D !important;
+  --color-components-menu-item-bg-active: rgba(228, 18, 45, 0.08) !important;
+  --color-divider-accent: rgba(228, 18, 45, 0.15) !important;
+
+  /* Workflow & Canvas Elements */
+  --color-workflow-link-line-active: #E4122D !important;
+  --color-workflow-link-line-handle: #E4122D !important;
+  --color-workflow-block-border-highlight: rgba(228, 18, 45, 0.40) !important;
+  --color-workflow-test-run-run-status-bg: rgba(228, 18, 45, 0.12) !important;
+  --color-workflow-test-run-text: #E4122D !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. Dark Theme Overrides (JAIB Dark Foundation)
+   Surfaces: #121316, #1A1B20, #202126, #26272D
+   Typography: #F4F4F5, #A6A7AD
+   -------------------------------------------------------------------------- */
+html[data-theme=dark] {
+  /* Accents */
+  --color-text-accent: #FF3B50 !important;
+  --color-text-accent-secondary: #E4122D !important;
+  --color-state-accent-hover: rgba(228, 18, 45, 0.20) !important;
+  --color-state-accent-hover-alt: rgba(228, 18, 45, 0.28) !important;
+  --color-state-accent-active: rgba(228, 18, 45, 0.24) !important;
+  --color-state-accent-solid: #E4122D !important;
+
+  /* Surfaces & Canvas */
+  --color-background-body: #121316 !important;
+  --color-background-default: #1A1B20 !important;
+  --color-background-default-hover: #202126 !important;
+  --color-background-default-subtle: #17181C !important;
+  --color-background-default-burn: #26272D !important;
+  --color-background-section: #1A1B20 !important;
+  --color-background-section-burn: #121316 !important;
+
+  /* Typography Colors */
+  --color-text-primary: #F4F4F5 !important;
+  --color-text-secondary: #A6A7AD !important;
+  --color-text-tertiary: #71717A !important;
+
+  /* Borders */
+  --color-border-default: #2A2C31 !important;
+  --color-border-subtle: #202126 !important;
+
+  /* Components: Buttons */
+  --color-components-button-primary-bg: #E4122D !important;
+  --color-components-button-primary-bg-hover: #CE1028 !important;
+  --color-components-button-primary-bg-disabled: rgba(228, 18, 45, 0.35) !important;
+  --color-components-button-primary-text: #FFFFFF !important;
+
+  /* Components: Nav & Tabs */
+  --color-components-tab-active: #FF3B50 !important;
+  --color-components-main-nav-text-active: #FF3B50 !important;
+  --color-components-main-nav-nav-button-text-active: #FF3B50 !important;
+  --color-components-slider-range: #E4122D !important;
+  --color-components-menu-item-bg-active: rgba(228, 18, 45, 0.16) !important;
+
+  /* Workflow & Canvas Elements */
+  --color-workflow-block-bg: #1A1B20 !important;
+  --color-workflow-block-wrapper-bg-1: #202126 !important;
+  --color-workflow-canvas-workflow-bg: #121316 !important;
+  --color-workflow-link-line-active: #E4122D !important;
+  --color-workflow-link-line-handle: #E4122D !important;
+  --color-workflow-block-border-highlight: rgba(228, 18, 45, 0.50) !important;
+  --color-workflow-test-run-run-status-bg: rgba(228, 18, 45, 0.20) !important;
+  --color-workflow-test-run-text: #FF3B50 !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. Typography & Base Geometry Enforcement
+   -------------------------------------------------------------------------- */
+body, html {
+  font-family: var(--font-sans) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Buttons */
+button[class*="bg-primary"],
+button[class*="bg-components-button-primary"],
+.btn-primary {
+  background-color: #E4122D !important;
+  color: #FFFFFF !important;
+  border-radius: var(--radius-button) !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 600 !important;
+  transition: all 0.18s cubic-bezier(0.2, 0, 0, 1) !important;
+  box-shadow: 0 4px 14px rgba(228, 18, 45, 0.22) !important;
+}
+
+button[class*="bg-primary"]:hover,
+button[class*="bg-components-button-primary"]:hover,
+.btn-primary:hover {
+  background-color: #CE1028 !important;
+  box-shadow: 0 6px 18px rgba(228, 18, 45, 0.30) !important;
+  transform: translateY(-1px);
+}
+
+button[class*="bg-primary"]:active,
+button[class*="bg-components-button-primary"]:active,
+.btn-primary:active {
+  background-color: #B90E24 !important;
+  transform: translateY(0);
+}
+
+/* Form Inputs & Selects */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea,
+select {
+  border-radius: var(--radius-input) !important;
+  font-family: var(--font-sans) !important;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease !important;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+  border-color: #E4122D !important;
+  box-shadow: 0 0 0 3px rgba(228, 18, 45, 0.20) !important;
+  outline: none !important;
+}
+
+/* Checkbox & Radio Accents */
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+  background-color: #E4122D !important;
+  border-color: #E4122D !important;
+}
+
+/* Cards & Modals */
+div[class*="rounded-2xl"],
+div[class*="rounded-xl"] {
+  border-radius: var(--radius-card) !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. Logo & Header Protection & Dark Mode Swap
+   -------------------------------------------------------------------------- */
+header img[src*="logo.svg"],
+nav img[src*="logo.svg"],
+div[class*="items-center"] img[src*="logo.svg"],
+img[src*="logo-site"] {
+  height: 28px !important;
+  width: auto !important;
+  max-width: 170px !important;
+  filter: none !important;
+  object-fit: contain !important;
+}
+
+/* Sign-in Specific Logo Adjustment */
+div[class*="p-6"] img[src*="logo.svg"] {
+  height: 34px !important;
+  max-width: 190px !important;
+}
+
+/* Dark Mode Logo Swap: Uses crisp white lettering on dark background */
+html[data-theme=dark] header img[src*="logo.svg"],
+html[data-theme=dark] nav img[src*="logo.svg"],
+html[data-theme=dark] div[class*="items-center"] img[src*="logo.svg"],
+html[data-theme=dark] div[class*="p-6"] img[src*="logo.svg"] {
+  content: url("/logo/logo-dark.svg") !important;
+  filter: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. ReactFlow Safeguard (CRITICAL FOR CHATFLOW / WORKFLOW EDITOR)
+   Ensures node coordinates, bezier edges, and handles remain strictly LTR
+   even when the outer UI is set to Arabic RTL mode.
+   -------------------------------------------------------------------------- */
+.react-flow,
+.react-flow__renderer,
+.react-flow__pane,
+.react-flow__viewport,
+.react-flow__nodes,
+.react-flow__node,
+.react-flow__edges,
+.react-flow__edge,
+.react-flow__edge-path,
+.react-flow__connection-path,
+.react-flow__handle {
+  direction: ltr !important;
+}
+
+/* Active Workflow Selected Block Highlight */
+.react-flow__node.selected > div,
+.react-flow__node:hover > div {
+  border-color: rgba(228, 18, 45, 0.60) !important;
+}
+
+.react-flow__handle-connecting,
+.react-flow__handle-valid {
+  background: #E4122D !important;
+}
+
+/* --------------------------------------------------------------------------
+   7. Arabic RTL Refinements (True RTL for UI Panels)
+   -------------------------------------------------------------------------- */
+html[dir="rtl"] {
+  text-align: right;
+}
+
+html[dir="rtl"] nav,
+html[dir="rtl"] aside {
+  direction: rtl;
+}
+
+/* Ensure code, formulas, and Latin tags remain readable */
+code, pre, .font-mono, input[type="password"] {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* --------------------------------------------------------------------------
+   8. JAIB Brand Accent Highlights
+   -------------------------------------------------------------------------- */
+/* Active Navigation Pill Glow */
+nav a[class*="text-primary"],
+nav a[class*="bg-primary"] {
+  color: #E4122D !important;
+}
+
+/* Notification & Activity Badges */
+span[class*="bg-primary-600"],
+span[class*="bg-primary-500"] {
+  background-color: #E4122D !important;
+  color: #FFFFFF !important;
+}
+
+/* Selection Highlights */
+::selection {
+  background-color: rgba(228, 18, 45, 0.20) !important;
+  color: inherit !important;
+}

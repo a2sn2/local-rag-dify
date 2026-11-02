@@ -151,3 +151,4 @@ Once restoration finishes, verify operational integrity:
 | `Weaviate: need at least one user` | Missing authentication API key configuration | Ensure `AUTHENTICATION_APIKEY_USERS=hello@dify.ai` is present in `docker/dify/.env`. |
 | `Docker: network dify_default not found` | Docker Compose stack not initialized | Run `docker compose -f docker/dify/docker-compose.yaml up -d` before restoring databases. |
 | `Ollama: Connection refused (11434)` | Ollama daemon not started or bound to 127.0.0.1 only | Set `$env:OLLAMA_HOST = "0.0.0.0:11434"` and run `ollama serve`. |
+

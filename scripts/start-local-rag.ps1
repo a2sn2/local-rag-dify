@@ -18,7 +18,8 @@ $ErrorActionPreference = "Stop"
 if ([string]::IsNullOrWhiteSpace($WorkspaceDir)) {
     if ($PSScriptRoot) {
         $WorkspaceDir = (Split-Path $PSScriptRoot -Parent)
-    } else {
+    }
+    else {
         $WorkspaceDir = (Get-Location).Path
     }
 }
@@ -45,11 +46,13 @@ $ollamaListening = $false
 try {
     $resp = Invoke-RestMethod -Uri "http://127.0.0.1:11434/api/tags" -TimeoutSec 2 -ErrorAction Stop
     $ollamaListening = $true
-} catch {}
+}
+catch {}
 
 if ($ollamaListening) {
     Write-Host "  [OK] Ollama daemon is already running on port 11434." -ForegroundColor Green
-} else {
+}
+else {
     Write-Host "  Ollama daemon is not running. Starting background process..." -ForegroundColor Gray
     $env:OLLAMA_HOST = "0.0.0.0:11434"
     $env:OLLAMA_MAX_LOADED_MODELS = "1"
@@ -69,11 +72,13 @@ if ($ollamaListening) {
             $resp = Invoke-RestMethod -Uri "http://127.0.0.1:11434/api/tags" -TimeoutSec 1 -ErrorAction Stop
             $ollamaListening = $true
             break
-        } catch {}
+        }
+        catch {}
     }
     if ($ollamaListening) {
         Write-Host "  [OK] Ollama daemon started successfully." -ForegroundColor Green
-    } else {
+    }
+    else {
         Write-Host "  [WARN] Ollama daemon could not be verified automatically. Check process." -ForegroundColor Yellow
     }
 }
@@ -83,7 +88,8 @@ Write-Host "`n[3/5] Verifying Installed Local Models..." -ForegroundColor Yellow
 $models = & ollama list 2>&1 | Out-String
 if ($models -match "qwen3.5:4b" -and $models -match "bge-m3") {
     Write-Host "  [OK] Required models present: qwen3.5:4b, bge-m3:latest" -ForegroundColor Green
-} else {
+}
+else {
     Write-Host "  [WARN] One or more required models missing. Pulling models..." -ForegroundColor Yellow
     if ($models -notmatch "qwen3.5:4b") { & ollama pull qwen3.5:4b }
     if ($models -notmatch "bge-m3") { & ollama pull bge-m3:latest }
@@ -123,7 +129,8 @@ while ($sw.Elapsed.TotalSeconds -lt $TimeoutSeconds) {
                 break
             }
         }
-    } catch {}
+    }
+    catch {}
     Start-Sleep -Seconds 2
 }
 
@@ -133,7 +140,8 @@ if ($difyReady) {
     Write-Host "  Web Console: http://127.0.0.1                            " -ForegroundColor Green
     Write-Host "  API Backend: http://127.0.0.1/api                        " -ForegroundColor Green
     Write-Host "  Ollama API:  http://127.0.0.1:11434                      " -ForegroundColor Green
-} else {
+}
+else {
     Write-Host "  Startup timed out after $TimeoutSeconds seconds. Review: " -ForegroundColor Yellow
     Write-Host "  docker compose -f $composeFile ps                        " -ForegroundColor Yellow
 }
