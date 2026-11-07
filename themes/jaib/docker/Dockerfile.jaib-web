@@ -1,23 +1,30 @@
 # ==============================================================================
 # Dockerfile: JAIB Visual Identity Custom Container for Dify Web v1.18.0
 # Base: langgenius/dify-web:1.18.0
-# Purpose: Apply JAIB design tokens, custom co-branding assets, and ReactFlow protection
-# Stable Dynamic Injection Across All Next.js CSS Chunks
+# Purpose: Clean standalone theme loading with highest cascade precedence,
+# pure vector SVG co-branding, and ReactFlow LTR safeguards.
+# NO brute-force chunk duplication.
 # ==============================================================================
 FROM langgenius/dify-web:1.18.0
 
 USER root
 
-# Copy theme styles and branding assets
+# Copy theme styles, patch utility, and branding assets
 COPY themes/jaib/css/jaib-theme.css /tmp/jaib-theme.css
+COPY themes/jaib/docker/patch-server.js /tmp/patch-server.js
 COPY themes/jaib/assets/ /tmp/jaib-assets/
 
-# 1. Dynamically append JAIB theme rules to all Next.js static CSS chunks
-RUN for css_file in /app/targets/next/web/.next/static/chunks/*.css; do \
-      cat /tmp/jaib-theme.css >> "$css_file"; \
-    done
+# 1. Deploy standalone theme file to public directory (served with max-age=0)
+# and append once to the single global Next.js root layout stylesheet (030bhy3_ddw-t.css)
+# for 100% cascade precedence and React hydration resilience without 20-chunk duplication.
+RUN mkdir -p /app/targets/next/web/public/themes/jaib && \
+    cp /tmp/jaib-theme.css /app/targets/next/web/public/themes/jaib/jaib-theme.css && \
+    cat /tmp/jaib-theme.css >> /app/targets/next/web/.next/static/chunks/030bhy3_ddw-t.css
 
-# 2. Deploy co-branded logo and brand assets to public web directories
+# 2. Patch server.js for clean standalone head-injection (highest cascade precedence)
+RUN node /tmp/patch-server.js
+
+# 3. Deploy pure vector co-branded logo and brand assets to public web directories
 RUN cp /tmp/jaib-assets/logo.svg /app/targets/next/web/public/logo/logo.svg && \
     cp /tmp/jaib-assets/logo-dark.svg /app/targets/next/web/public/logo/logo-dark.svg && \
     cp /tmp/jaib-assets/logo-site.png /app/targets/next/web/public/logo/logo-site.png && \
@@ -30,8 +37,8 @@ RUN cp /tmp/jaib-assets/logo.svg /app/targets/next/web/public/logo/logo.svg && \
     mkdir -p /app/targets/next/web/public/jaib && \
     cp -r /tmp/jaib-assets/* /app/targets/next/web/public/jaib/
 
-# 3. Restore non-root ownership and clean up temporary staging
+# 4. Restore non-root ownership and clean up temporary staging
 RUN chown -R dify:dify /app/targets/next/web && \
-    rm -rf /tmp/jaib-theme.css /tmp/jaib-assets
+    rm -rf /tmp/jaib-theme.css /tmp/patch-server.js /tmp/jaib-assets
 
 USER dify
