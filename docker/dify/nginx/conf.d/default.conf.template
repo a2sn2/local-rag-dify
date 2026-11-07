@@ -57,6 +57,22 @@ server {
       include proxy.conf;
     }
 
+    location /_next/static/ {
+      set $web_upstream web:3000;
+      proxy_pass http://$web_upstream;
+      include proxy.conf;
+      proxy_hide_header Cache-Control;
+      add_header Cache-Control "no-cache, must-revalidate";
+    }
+
+    location /themes/ {
+      set $web_upstream web:3000;
+      proxy_pass http://$web_upstream;
+      include proxy.conf;
+      proxy_hide_header Cache-Control;
+      add_header Cache-Control "no-cache, must-revalidate";
+    }
+
     location / {
       set $web_upstream web:3000;
       proxy_pass http://$web_upstream;

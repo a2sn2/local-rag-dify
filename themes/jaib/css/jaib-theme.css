@@ -357,6 +357,19 @@ nav a[aria-current="page"] span[class*="-active"],
   color: #E4122D !important;
 }
 
+/* Ensure Navigation Text Labels are NEVER obscured by background colors */
+nav a span.truncate,
+nav a span:not([aria-hidden="true"]):not([class*="i-custom-"]) {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+nav a[aria-current="page"] span.truncate,
+nav a[aria-current="page"] span:not([aria-hidden="true"]):not([class*="i-custom-"]) {
+  color: #E4122D !important;
+  background-color: transparent !important;
+}
+
 /* Inactive Navigation Items (Neutral, readable slate text, 100% transparent background) */
 nav a:not([aria-current="page"]) {
   color: #475467 !important;
@@ -366,8 +379,14 @@ nav a:not([aria-current="page"]) {
   font-weight: 500 !important;
 }
 
-/* Inactive Icon (Neutral muted gray) */
-nav a:not([aria-current="page"]) span[class*="main-nav"],
+nav a:not([aria-current="page"]) span.truncate,
+nav a:not([aria-current="page"]) span:not([aria-hidden="true"]):not([class*="i-custom-"]) {
+  color: #475467 !important;
+  background-color: transparent !important;
+}
+
+/* Inactive Icon (Neutral muted gray - scoped strictly to icon elements) */
+nav a:not([aria-current="page"]) span[aria-hidden="true"],
 nav a:not([aria-current="page"]) span[class*="i-custom-"]:not([class*="-active"]) {
   background-color: #667085 !important;
   color: #667085 !important;
@@ -390,7 +409,13 @@ nav a:not([aria-current="page"]):hover {
   box-shadow: none !important;
 }
 
-nav a:not([aria-current="page"]):hover span[class*="main-nav"],
+nav a:not([aria-current="page"]):hover span.truncate,
+nav a:not([aria-current="page"]):hover span:not([aria-hidden="true"]):not([class*="i-custom-"]) {
+  color: #101828 !important;
+  background-color: transparent !important;
+}
+
+nav a:not([aria-current="page"]):hover span[aria-hidden="true"],
 nav a:not([aria-current="page"]):hover span[class*="i-custom-"]:not([class*="-active"]) {
   background-color: #CE1028 !important;
   color: #CE1028 !important;
@@ -412,6 +437,12 @@ html[data-theme=dark] a.aria-\[current\=page\]\:dify-blue-glass-surface[aria-cur
   font-weight: 600 !important;
 }
 
+html[data-theme=dark] nav a[aria-current="page"] span.truncate,
+html[data-theme=dark] nav a[aria-current="page"] span:not([aria-hidden="true"]):not([class*="i-custom-"]) {
+  color: #FFFFFF !important;
+  background-color: transparent !important;
+}
+
 html[data-theme=dark] nav a[aria-current="page"]::before,
 html[data-theme=dark] nav a[aria-current="page"]::after {
   display: none !important;
@@ -431,13 +462,19 @@ html[data-theme=dark] nav a:not([aria-current="page"]) {
   font-weight: 500 !important;
 }
 
-html[data-theme=dark] nav a:not([aria-current="page"])::before,
-html[data-theme=dark] nav a:not([aria-current="page"])::after {
+html[data-theme=dark] nav a:not([aria-current="page"]) span.truncate,
+html[data-theme=dark] nav a:not([aria-current="page"]) span:not([aria-hidden="true"]):not([class*="i-custom-"]) {
+  color: #A6A7AD !important;
+  background-color: transparent !important;
+}
+
+html[data-theme=dark] nav a:not([aria-current="page"]):before,
+html[data-theme=dark] nav a:not([aria-current="page"]):after {
   display: none !important;
   content: none !important;
 }
 
-html[data-theme=dark] nav a:not([aria-current="page"]) span[class*="main-nav"],
+html[data-theme=dark] nav a:not([aria-current="page"]) span[aria-hidden="true"],
 html[data-theme=dark] nav a:not([aria-current="page"]) span[class*="i-custom-"]:not([class*="-active"]) {
   background-color: #98A2B3 !important;
   color: #98A2B3 !important;
@@ -450,7 +487,13 @@ html[data-theme=dark] nav a:not([aria-current="page"]):hover {
   box-shadow: none !important;
 }
 
-html[data-theme=dark] nav a:not([aria-current="page"]):hover span[class*="main-nav"],
+html[data-theme=dark] nav a:not([aria-current="page"]):hover span.truncate,
+html[data-theme=dark] nav a:not([aria-current="page"]):hover span:not([aria-hidden="true"]):not([class*="i-custom-"]) {
+  color: #FFFFFF !important;
+  background-color: transparent !important;
+}
+
+html[data-theme=dark] nav a:not([aria-current="page"]):hover span[aria-hidden="true"],
 html[data-theme=dark] nav a:not([aria-current="page"]):hover span[class*="i-custom-"]:not([class*="-active"]) {
   background-color: #FF3B50 !important;
   color: #FF3B50 !important;

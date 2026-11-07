@@ -50,7 +50,7 @@ http.Server.prototype.emit = function (event, req, res) {
       }
     }
 
-    const jaibTag = '<link id="jaib-theme-css" rel="stylesheet" href="/themes/jaib/jaib-theme.css?v=20261102" /><script>(function(){var l=document.getElementById("jaib-theme-css");if(l&&l.parentNode){new MutationObserver(function(){if(l.nextElementSibling){l.parentNode.appendChild(l);}}).observe(document.head,{childList:true});}})();</script></head>';
+    const jaibTag = '<link id="jaib-theme-css" rel="stylesheet" href="/themes/jaib/jaib-theme.css?v=20261107-p4" /><script>(function(){var l=document.getElementById("jaib-theme-css");if(l&&l.parentNode){new MutationObserver(function(){if(l.nextElementSibling){l.parentNode.appendChild(l);}}).observe(document.head,{childList:true});}})();</script></head>';
 
     res.write = function (chunk, encoding, callback) {
       checkContentType();
