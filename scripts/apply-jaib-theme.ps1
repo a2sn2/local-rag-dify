@@ -1,4 +1,4 @@
-# ==============================================================================
+﻿# ==============================================================================
 # Script: apply-jaib-theme.ps1
 # Description: Applies the JAIB (جيب) Visual Identity to Local Dify v1.18.0
 # Builds the custom Web container image and activates docker-compose.override.yaml
@@ -56,7 +56,7 @@ Write-Host "  [OK] docker-compose.override.yaml configured." -ForegroundColor Gr
 # 4. Deploy web container
 Write-Host "`n[3/3] Deploying JAIB-themed web container..." -ForegroundColor Yellow
 Set-Location $dockerDir
-docker compose up -d web
+docker compose up -d --force-recreate web
 if ($LASTEXITCODE -ne 0) {
     throw "docker compose up -d web failed."
 }
