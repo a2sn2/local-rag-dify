@@ -1,9 +1,11 @@
 # Technical Handover & Operational Continuity Document
 
-> **Project:** Local Bilingual RAG Platform (Dify v1.18.0 + Ollama Native)  
+> **Project:** Local Bilingual RAG Platform (Dify v1.18.0 + Ollama Native) — JAIB Wallet (جيب)  
 > **Repository:** [https://github.com/a2sn2/local-rag-dify](https://github.com/a2sn2/local-rag-dify)  
-> **Handoff Date:** 2026-11-02  
-> **Status:** `PAUSED — PORTABLE HANDOVER PREPARED — MANUAL CORRECTIONS PENDING`  
+> **Handoff Date:** 2026-11-08  
+> **Workstation:** ASUS ROG Strix G16 (G614JU) — RTX 4050 6GB VRAM, 16GB DDR5  
+> **Workspace:** `C:\Users\alhassanalshami\local-rag`  
+> **Status:** `OPERATIONAL & RESTORED — GITHUB SYNCHRONIZED — READY FOR HANDOVER`  
 > **Author:** Antigravity Engineering (Lead DevOps & Handover Manager)
 
 ---
@@ -38,16 +40,16 @@ The platform is fully portable and can be:
 ### 3.1 Resuming the Environment on Current Computer
 To bring the local RAG platform online:
 ```powershell
-Set-Location C:\Users\hassa\local-rag
+Set-Location C:\Users\alhassanalshami\local-rag
 .\scripts\start-local-rag.ps1
 ```
-This starts Ollama (if not running), verifies models, launches the 16 Dify microservices via Docker Compose, and checks HTTP readiness. Open your browser to:
+This starts Ollama (if not running), verifies models, launches the 15 Dify microservices via Docker Compose, and checks HTTP readiness. Open your browser to:
 - **Web Console:** [http://127.0.0.1](http://127.0.0.1)
 
 ### 3.2 Graceful Shutdown on Current Computer
 When pausing or finishing a session:
 ```powershell
-Set-Location C:\Users\hassa\local-rag
+Set-Location C:\Users\alhassanalshami\local-rag
 .\scripts\stop-local-rag.ps1
 ```
 This safely stops Dify containers without touching volumes, unloads `qwen3.5:4b` from GPU VRAM, and preserves all database states.
@@ -55,8 +57,8 @@ This safely stops Dify containers without touching volumes, unloads `qwen3.5:4b`
 ### 3.3 Verifying Backup Soundness
 To verify your backup archive without modifying anything:
 ```powershell
-Set-Location C:\Users\hassa\local-rag
-.\scripts\verify-backup.ps1
+Set-Location C:\Users\alhassanalshami\local-rag
+.\scripts\verify-backup.ps1 -BackupFile ".\backups\backup_20261108_193225.enc"
 ```
 
 ### 3.4 Migrating to Another Computer

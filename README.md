@@ -3,7 +3,8 @@
 [![Dify Release](https://img.shields.io/badge/Dify-v1.18.0%20Stable-blue.svg)](https://github.com/langgenius/dify/releases/tag/1.18.0)
 [![Stage E Status](https://img.shields.io/badge/Stage%20E.1-Security%20%26%20Acceptance%20Complete-brightgreen.svg)](#implementation-roadmap)
 [![Ollama Engine](https://img.shields.io/badge/Ollama-Native%20CUDA-green.svg)](https://ollama.com)
-[![Hardware Acceleration](https://img.shields.io/badge/GPU-RTX%203060%20(6GB)-76B900.svg)](https://www.nvidia.com)
+[![Hardware Acceleration](https://img.shields.io/badge/GPU-RTX%204050%20(6GB)-76B900.svg)](https://www.nvidia.com)
+[![Branding](https://img.shields.io/badge/Branding-Jaib%20Wallet%20(جيب)-0052FF.svg)](#jaib-wallet-visual-identity)
 [![Bilingual RAG](https://img.shields.io/badge/Languages-Arabic%20%26%20English-orange.svg)](#bilingual-rag-support)
 [![Privacy Policy](https://img.shields.io/badge/Privacy-100%25%20Local%20Inference-green.svg)](docs/security/security-policy.md)
 [![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey.svg)](LICENSE)
@@ -23,10 +24,11 @@ The system couples **Dify Open Source (Pinned v1.18.0)** as the workflow orchest
 يهدف هذا المشروع إلى بناء وتشغيل نظام **استرجاع وتوليد معزز (RAG)** ذاتي الاستضافة ومحلي المعالجة وعالي الأمان على جهاز الحاسوب الشخصي، مع التركيز على:
 1. **السيادة التامة على البيانات والاستدلال المحلي (100% Local Inference):** تشغيل جميع نماذج المحادثة ونماذج التضمين الشعاعي محلياً بالكامل دون أي اتصال بخدمات الذكاء الاصطناعي السحابية الخارجية.
 2. **الدعم المتقدم للوثائق العربية والإنجليزية:** استخراج وفهرسة دقيقة لنصوص الوثائق (PDF, Word, Markdown, TXT) ودعم البحث الدلالي العابر للغات (طرح سؤال بالعربية واسترجاع إجابة موثقة من وثائق إنجليزية).
-3. **التسريع العتادي الأقصى (GPU Acceleration):** تفريغ كامل لنموذج التوليد `qwen3.5:4b` على كرت الشاشة `NVIDIA RTX 3060 6GB` محققاً سرعة توليد مقاسة بلغت **59.18 رمز/ثانية (Tokens/sec)**.
-4. **التوثيق الصارم ومنع الهلوسة:** إلزام النموذج بحصر إجاباته في السياق المسترجع فقط مع ذكر اسم الوثيقة ورقم الفقرة، والامتناع الصريح عن الإجابة في حال عدم توفر المعلومة في الوثائق المرفقة.
-5. **العزل الأمني الصارم:** حصر الوصول لواجهة النظام وقواعد البيانات على حلقة الاسترجاع المحلية (`127.0.0.1`) وحظر نشر المنافذ على الشبكة الخارجية.
-6. **نطاق الاتصال بالإنترنت:** يقتصر الاتصال بالإنترنت حصراً على تنزيل البرمجيات والحاويات ومزامنة التوثيق مع مستودع GitHub البعيد، بينما عمليات الـ RAG والمحادثة ومعالجة الوثائق تعمل محلياً بنسبة 100%.
+3. **التسريع العتادي الأقصى (GPU Acceleration):** تفريغ كامل لنموذج التوليد `qwen3.5:4b` ونموذج التضمين `bge-m3:latest` على كرت الشاشة `NVIDIA GeForce RTX 4050 Laptop GPU (6GB VRAM)` محققاً كفاءة عالية واستجابة سريعة.
+4. **الهوية البصرية الرسمية (جيب — Jaib Wallet):** دمج كامل للهوية البصرية لمحفظة جيب الرقمية (Jaib Wallet) في واجهة Dify Web عبر حزم Next.js المخصصة، متضمنة الشعار والألوان والخطوط والأيقونات.
+5. **التوثيق الصارم ومنع الهلوسة:** إلزام النموذج بحصر إجاباته في السياق المسترجع فقط مع ذكر اسم الوثيقة ورقم الفقرة، والامتناع الصريح عن الإجابة في حال عدم توفر المعلومة في الوثائق المرفقة.
+6. **العزل الأمني الصارم:** حصر الوصول لواجهة النظام وقواعد البيانات على حلقة الاسترجاع المحلية (`127.0.0.1`) وحظر نشر المنافذ على الشبكة الخارجية.
+7. **نطاق الاتصال بالإنترنت:** يقتصر الاتصال بالإنترنت حصراً على تنزيل البرمجيات والحاويات ومزامنة التوثيق مع مستودع GitHub البعيد، بينما عمليات الـ RAG والمحادثة ومعالجة الوثائق تعمل محلياً بنسبة 100%.
 
 ---
 
@@ -97,15 +99,14 @@ Direct physical measurements captured on the target workstation:
 
 | Benchmark Parameter | Measured Result | Verification Detail |
 | :--- | :--- | :--- |
-| **Processor (CPU)** | AMD Ryzen 9 5900HS | 8 Cores / 16 Logical Processors, Zen 3 |
-| **System Memory (RAM)** | 39.41 GB Total (~25.15 GB available) | Excess capacity for Dify multi-container stack (~4–5 GB) |
-| **Graphics Processor (GPU)** | NVIDIA GeForce RTX 3060 Laptop GPU | 6144 MiB GDDR6 VRAM, Driver 621.01, CUDA 13.5 |
-| **Chat LLM Model** | `qwen3.5:4b` | GGUF Q4_K_M (3.1 GB memory image) |
-| **Context Window Tested** | `num_ctx: 4096` tokens | Conservative baseline ensuring 1650 MiB VRAM margin |
-| **Execution Acceleration** | **100% GPU Offload** | Confirmed via `ollama ps` CUDA llamacpp runner |
-| **Model Load Time** | **7.28 seconds** | Fast native warmup |
-| **Generation Speed** | **59.18 tokens/second** | 1969 tokens generated in 33.27 seconds (not words/sec) |
-| **Active VRAM Usage** | **4345 MiB / 6144 MiB** | 70.7% GPU memory utilization under peak load |
+| **Processor (CPU)** | Intel Core i7-13650HX | 14 Cores / 20 Threads, Raptor Lake |
+| **System Memory (RAM)** | 16.0 GB DDR5 | Configured with WSL2 cap at 5.8 GiB and 4.0 GiB Swap |
+| **Graphics Processor (GPU)** | NVIDIA GeForce RTX 4050 Laptop GPU | 6144 MiB GDDR6 VRAM, Driver 621.14, CUDA 13.5 |
+| **Chat LLM Model** | `qwen3.5:4b` | GGUF Q4_K_M (3.14 GB memory image) |
+| **Embedding Model** | `bge-m3:latest` | 1024-dim dense/sparse/colbert embeddings (689 MiB VRAM) |
+| **Execution Acceleration** | **100% GPU Offload** | Confirmed via `nvidia-smi` and Ollama CUDA runner |
+| **Model Concurrency Policy**| `OLLAMA_MAX_LOADED_MODELS=1` | Strictly sequential model residency preventing VRAM oversubscription |
+| **Active VRAM Usage (Chat)** | **4,793 MiB / 6,141 MiB** | 1,128 MiB safe free headroom on RTX 4050 under load |
 
 ---
 
