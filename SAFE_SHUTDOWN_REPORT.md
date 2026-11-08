@@ -99,3 +99,4 @@ If you ever wish to resume operations on this current machine before migration:
 powershell -ExecutionPolicy Bypass -File "C:\Users\hassa\local-rag\scripts\start-local-rag.ps1"
 ```
 The startup script will bring up the Docker microservices in dependency order and verify gateway connectivity on `http://127.0.0.1`.
+

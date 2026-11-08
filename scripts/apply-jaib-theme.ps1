@@ -1,4 +1,4 @@
-﻿# ==============================================================================
+# ==============================================================================
 # Script: apply-jaib-theme.ps1
 # Description: Applies the JAIB (جيب) Visual Identity to Local Dify v1.18.0
 # Builds the custom Web container image and activates docker-compose.override.yaml
@@ -6,10 +6,19 @@
 
 [CmdletBinding()]
 param(
-    [string]$WorkspaceDir = "C:\Users\hassa\local-rag"
+    [string]$WorkspaceDir = ""
 )
 
 $ErrorActionPreference = "Stop"
+
+if ([string]::IsNullOrWhiteSpace($WorkspaceDir)) {
+    if ($PSScriptRoot) {
+        $WorkspaceDir = (Split-Path $PSScriptRoot -Parent)
+    } else {
+        $WorkspaceDir = (Get-Location).Path
+    }
+}
+$WorkspaceDir = (Resolve-Path $WorkspaceDir).Path
 
 Write-Host "==========================================================" -ForegroundColor Cyan
 Write-Host "  JAIB x Dify Visual Identity Theme Application           " -ForegroundColor Cyan

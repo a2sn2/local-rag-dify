@@ -6,10 +6,19 @@
 
 [CmdletBinding()]
 param(
-    [string]$WorkspaceDir = "C:\Users\hassa\local-rag"
+    [string]$WorkspaceDir = ""
 )
 
 $ErrorActionPreference = "Stop"
+
+if ([string]::IsNullOrWhiteSpace($WorkspaceDir)) {
+    if ($PSScriptRoot) {
+        $WorkspaceDir = (Split-Path $PSScriptRoot -Parent)
+    } else {
+        $WorkspaceDir = (Get-Location).Path
+    }
+}
+$WorkspaceDir = (Resolve-Path $WorkspaceDir).Path
 
 Write-Host "==========================================================" -ForegroundColor Yellow
 Write-Host "  JAIB Theme Rollback - Revert to Upstream Dify Web       " -ForegroundColor Yellow

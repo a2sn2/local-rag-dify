@@ -21,7 +21,8 @@ $ErrorActionPreference = "Stop"
 if ([string]::IsNullOrWhiteSpace($WorkspaceDir)) {
     if ($PSScriptRoot) {
         $WorkspaceDir = (Split-Path $PSScriptRoot -Parent)
-    } else {
+    }
+    else {
         $WorkspaceDir = (Get-Location).Path
     }
 }
@@ -33,9 +34,11 @@ $resolvedPassphrase = $Passphrase
 if ([string]::IsNullOrWhiteSpace($resolvedPassphrase)) {
     if (-not [string]::IsNullOrWhiteSpace($env:LOCAL_RAG_BACKUP_KEY)) {
         $resolvedPassphrase = $env:LOCAL_RAG_BACKUP_KEY
-    } elseif (-not [string]::IsNullOrWhiteSpace($KeyFile) -and (Test-Path $KeyFile)) {
+    }
+    elseif (-not [string]::IsNullOrWhiteSpace($KeyFile) -and (Test-Path $KeyFile)) {
         $resolvedPassphrase = (Get-Content -Path $KeyFile -Raw).Trim()
-    } else {
+    }
+    else {
         $defaultKeyPath = Join-Path $WorkspaceDir ".secrets\backup.key"
         if (Test-Path $defaultKeyPath) {
             $resolvedPassphrase = (Get-Content -Path $defaultKeyPath -Raw).Trim()
@@ -84,15 +87,31 @@ try {
     # Step 1: Authenticated Decryption (AES-256-GCM)
     # --------------------------------------------------------------------------
     Write-Host "`n[1/6] Decrypting Backup Archive using AES-256-GCM..." -ForegroundColor Yellow
-    $pythonExe = "C:\Users\hassa\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
-    if (-not (Test-Path $pythonExe)) {
-        $pythonExe = (Get-Command python -ErrorAction SilentlyContinue).Source
-    }
     $cryptoScript = Join-Path $WorkspaceDir "scripts\backup_crypto.py"
+    $pythonExe = (Get-Command python.exe -ErrorAction SilentlyContinue).Source
+    $useWsl = $true
+    if ($pythonExe -and $pythonExe -notmatch "WindowsApps") {
+        try {
+            $testCrypto = & cmd.exe /c "`"$pythonExe`" -c `"import cryptography`" 2>nul"
+            if ($LASTEXITCODE -eq 0) { $useWsl = $false }
+        }
+        catch {}
+    }
 
-    $decOutput = & cmd.exe /c "`"$pythonExe`" `"$cryptoScript`" decrypt --input `"$BackupFile`" --output `"$tempZip`" --passphrase `"$resolvedPassphrase`" 2>&1"
-    if ($LASTEXITCODE -ne 0) {
-        throw "Decryption failed (Authentication Tag mismatch or invalid key): $decOutput"
+    if ($useWsl) {
+        $wslInput = $BackupFile.Replace("\", "/").Replace("C:", "/mnt/c").Replace("c:", "/mnt/c")
+        $wslOutput = $tempZip.Replace("\", "/").Replace("C:", "/mnt/c").Replace("c:", "/mnt/c")
+        $wslScript = $cryptoScript.Replace("\", "/").Replace("C:", "/mnt/c").Replace("c:", "/mnt/c")
+        $decOutput = & wsl.exe -d Ubuntu -- python3 "$wslScript" decrypt --input "$wslInput" --output "$wslOutput" --passphrase "$resolvedPassphrase" 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            throw "Decryption failed (Authentication Tag mismatch or invalid key): $decOutput"
+        }
+    }
+    else {
+        $decOutput = & cmd.exe /c "`"$pythonExe`" `"$cryptoScript`" decrypt --input `"$BackupFile`" --output `"$tempZip`" --passphrase `"$resolvedPassphrase`" 2>&1"
+        if ($LASTEXITCODE -ne 0) {
+            throw "Decryption failed (Authentication Tag mismatch or invalid key): $decOutput"
+        }
     }
     Write-Host "  [OK] AES-256-GCM authenticated decryption successful." -ForegroundColor Green
 
@@ -110,7 +129,8 @@ try {
         if (-not (Test-Path $targetEnv)) {
             Copy-Item -Path $backupEnv -Destination $targetEnv -Force
             Write-Host "  [OK] Restored .env to $targetEnv" -ForegroundColor Green
-        } else {
+        }
+        else {
             Write-Host "  [INFO] Target .env already exists; preserving existing configuration." -ForegroundColor Gray
         }
     }
@@ -122,16 +142,19 @@ try {
     & cmd.exe /c "docker compose -f `"$composeFile`" up -d db_postgres 2>&1" | Out-Null
     
     # Wait for DB readiness
+    $pgReady = $false
     for ($i = 0; $i -lt 30; $i++) {
         Start-Sleep -Seconds 1
-        $probe = & cmd.exe /c "docker exec dify-db_postgres-1 psql -U postgres -d dify -c `"SELECT 1;`" 2>nul"
-        if ($probe -match "1") { break }
+        $probe = & cmd.exe /c "docker compose -f `"$composeFile`" exec -T db_postgres psql -U postgres -d dify -c `"SELECT 1;`" 2>nul"
+        if ($probe -match "1") { $pgReady = $true; break }
     }
+    if (-not $pgReady) { throw "PostgreSQL did not become healthy within timeout." }
 
     $sqlDump = Join-Path $tempRestoreDir $manifest.components.postgresql.file
-    docker cp $sqlDump "dify-db_postgres-1:/tmp/restore.sql"
-    & cmd.exe /c "docker exec dify-db_postgres-1 psql -U postgres -d dify -f /tmp/restore.sql 2>&1" | Out-Null
-    docker exec dify-db_postgres-1 rm -f /tmp/restore.sql
+    $pgContainer = (& cmd.exe /c "docker compose -f `"$composeFile`" ps -q db_postgres 2>nul").Trim()
+    docker cp $sqlDump "${pgContainer}:/tmp/restore.sql"
+    & cmd.exe /c "docker compose -f `"$composeFile`" exec -T db_postgres psql -U postgres -d dify -f /tmp/restore.sql 2>&1" | Out-Null
+    & cmd.exe /c "docker compose -f `"$composeFile`" exec -T db_postgres rm -f /tmp/restore.sql 2>&1" | Out-Null
     Write-Host "  [OK] PostgreSQL database restored from dump." -ForegroundColor Green
 
     # --------------------------------------------------------------------------
@@ -170,8 +193,8 @@ try {
 
     # Quick check
     Start-Sleep -Seconds 5
-    $tableCount = & cmd.exe /c "docker exec dify-db_postgres-1 psql -U postgres -d dify -t -c `"SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public';`" 2>nul"
-    $appCount = & cmd.exe /c "docker exec dify-db_postgres-1 psql -U postgres -d dify -t -c `"SELECT count(*) FROM apps;`" 2>nul"
+    $tableCount = & cmd.exe /c "docker compose -f `"$composeFile`" exec -T db_postgres psql -U postgres -d dify -t -c `"SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public';`" 2>nul"
+    $appCount = & cmd.exe /c "docker compose -f `"$composeFile`" exec -T db_postgres psql -U postgres -d dify -t -c `"SELECT count(*) FROM apps;`" 2>nul"
     
     Write-Host "  Restored Metrics:" -ForegroundColor Gray
     Write-Host "    * Relational Tables: $($tableCount.Trim())" -ForegroundColor Gray
@@ -182,10 +205,12 @@ try {
     Write-Host "  Dify Console is accessible at: http://127.0.0.1          " -ForegroundColor Green
     Write-Host "==========================================================" -ForegroundColor Cyan
 
-} catch {
+}
+catch {
     Write-Host "`n[FAIL] Restoration Failed: $_" -ForegroundColor Red
     exit 1
-} finally {
+}
+finally {
     if (Test-Path $tempRestoreDir) {
         Remove-Item -Path $tempRestoreDir -Recurse -Force | Out-Null
     }

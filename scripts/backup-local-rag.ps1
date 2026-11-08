@@ -16,13 +16,25 @@
 
 [CmdletBinding()]
 param(
-    [string]$WorkspaceDir = "C:\Users\hassa\local-rag",
-    [string]$BackupsBaseDir = "C:\Users\hassa\local-rag\backups",
+    [string]$WorkspaceDir = "",
+    [string]$BackupsBaseDir = "",
     [string]$Passphrase = "",
     [string]$KeyFile = ""
 )
 
 $ErrorActionPreference = "Stop"
+
+if ([string]::IsNullOrWhiteSpace($WorkspaceDir)) {
+    if ($PSScriptRoot) {
+        $WorkspaceDir = (Split-Path $PSScriptRoot -Parent)
+    } else {
+        $WorkspaceDir = (Get-Location).Path
+    }
+}
+$WorkspaceDir = (Resolve-Path $WorkspaceDir).Path
+if ([string]::IsNullOrWhiteSpace($BackupsBaseDir)) {
+    $BackupsBaseDir = Join-Path $WorkspaceDir "backups"
+}
 
 # ------------------------------------------------------------------------------
 # External Key Management: Resolve passphrase (No hardcoded defaults)
@@ -334,12 +346,29 @@ try {
 
     # Authenticated Encryption with AES-256-GCM via backup_crypto.py
     Write-Host "  Encrypting backup bundle with AES-256-GCM (128-bit Auth Tag, PBKDF2 100k iterations)..." -ForegroundColor Gray
-    $pythonExe = "C:\Users\hassa\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
     $cryptoScript = Join-Path $WorkspaceDir "scripts\backup_crypto.py"
-    
-    $encOutput = & cmd.exe /c "`"$pythonExe`" `"$cryptoScript`" encrypt --input `"$bundleZip`" --output `"$encryptedArchive`" --passphrase `"$resolvedPassphrase`" 2>&1"
-    if ($LASTEXITCODE -ne 0) {
-        throw "AES-256-GCM encryption failed: $encOutput"
+    $pythonExe = (Get-Command python.exe -ErrorAction SilentlyContinue).Source
+    $useWsl = $true
+    if ($pythonExe -and $pythonExe -notmatch "WindowsApps") {
+        try {
+            $testCrypto = & cmd.exe /c "`"$pythonExe`" -c `"import cryptography`" 2>nul"
+            if ($LASTEXITCODE -eq 0) { $useWsl = $false }
+        } catch {}
+    }
+
+    if ($useWsl) {
+        $wslInput = $bundleZip.Replace("\", "/").Replace("C:", "/mnt/c").Replace("c:", "/mnt/c")
+        $wslOutput = $encryptedArchive.Replace("\", "/").Replace("C:", "/mnt/c").Replace("c:", "/mnt/c")
+        $wslScript = $cryptoScript.Replace("\", "/").Replace("C:", "/mnt/c").Replace("c:", "/mnt/c")
+        $encOutput = & wsl.exe -d Ubuntu -- python3 "$wslScript" encrypt --input "$wslInput" --output "$wslOutput" --passphrase "$resolvedPassphrase" 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            throw "AES-256-GCM encryption failed: $encOutput"
+        }
+    } else {
+        $encOutput = & cmd.exe /c "`"$pythonExe`" `"$cryptoScript`" encrypt --input `"$bundleZip`" --output `"$encryptedArchive`" --passphrase `"$resolvedPassphrase`" 2>&1"
+        if ($LASTEXITCODE -ne 0) {
+            throw "AES-256-GCM encryption failed: $encOutput"
+        }
     }
 
     # Clean intermediate unencrypted files

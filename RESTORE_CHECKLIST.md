@@ -167,3 +167,4 @@ Run through these checks to certify the migration:
 | `Failed to connect to Ollama (11434)` | Ollama daemon not started or firewall block | Run `ollama serve` or start Ollama from the Windows Start menu. |
 | `White screen on http://127.0.0.1` | Web image built with legacy runtime patch | Ensure image is built via `apply-jaib-theme.ps1` using the static CSS bundling Dockerfile. |
 | `Port 5003 listening on 0.0.0.0` | Git clone pulled an older commit | Ensure you are on commit `e4345bc` or later where loopback binding is enforced. |
+

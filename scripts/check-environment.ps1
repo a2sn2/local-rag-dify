@@ -132,23 +132,28 @@ if ($LASTEXITCODE -eq 0) {
 
 # 6. Python Runtime & Cryptography
 Write-Host "`n[6/7] Python Runtime & Cryptographic Module:" -ForegroundColor Yellow
-$pythonExe = "C:\Users\hassa\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
-if (-not (Test-Path $pythonExe)) {
-    $pythonExe = (Get-Command python -ErrorAction SilentlyContinue).Source
-}
-if ($pythonExe) {
-    $pyVer = & $pythonExe --version 2>&1
-    Write-Host "  [PASS] Python: $pyVer ($pythonExe)" -ForegroundColor Green
+$pythonExe = (Get-Command python.exe -ErrorAction SilentlyContinue).Source
+$hasNativePy = $false
+if ($pythonExe -and $pythonExe -notmatch "WindowsApps") {
     $hasCrypto = & cmd.exe /c "`"$pythonExe`" -c `"from cryptography.hazmat.primitives.ciphers.aead import AESGCM; print('OK')`" 2>nul"
     if ($hasCrypto -match "OK") {
+        $pyVer = & $pythonExe --version 2>&1
+        Write-Host "  [PASS] Python: $pyVer ($pythonExe)" -ForegroundColor Green
         Write-Host "  [PASS] cryptography (AES-256-GCM AEAD) is available." -ForegroundColor Green
+        $hasNativePy = $true
+    }
+}
+
+if (-not $hasNativePy) {
+    # Check WSL2 Python
+    $wslPy = & wsl.exe -d Ubuntu -- python3 -c "from cryptography.hazmat.primitives.ciphers.aead import AESGCM; import sys; print(sys.version.split()[0])" 2>$null
+    if ($LASTEXITCODE -eq 0 -and $wslPy) {
+        Write-Host "  [PASS] Python (WSL2 Ubuntu 26.04): v$($wslPy.Trim())" -ForegroundColor Green
+        Write-Host "  [PASS] cryptography (AES-256-GCM AEAD) is available in WSL2." -ForegroundColor Green
     } else {
-        Write-Host "  [FAIL] Python 'cryptography' library is missing. (Run: pip install cryptography)" -ForegroundColor Red
+        Write-Host "  [FAIL] Python runtime with 'cryptography' library not found." -ForegroundColor Red
         $allPass = $false
     }
-} else {
-    Write-Host "  [FAIL] Python runtime not found." -ForegroundColor Red
-    $allPass = $false
 }
 
 # 7. Dify Configuration & Port Availability

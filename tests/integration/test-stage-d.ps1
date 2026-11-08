@@ -9,7 +9,7 @@
 
 [CmdletBinding()]
 param(
-    [string]$WorkspaceDir = "C:\Users\hassa\local-rag",
+    [string]$WorkspaceDir = "",
     [string]$TenantId = "b30587b8-f547-461e-bfdf-59e8cb4b1bbb",
     [string]$DatasetId = "8e29fd5b-9537-46ac-acde-191b457b793e",
     [string]$ChatbotAppName = "Local Bilingual RAG Assistant",
@@ -17,6 +17,15 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+
+if ([string]::IsNullOrWhiteSpace($WorkspaceDir)) {
+    if ($PSScriptRoot) {
+        $WorkspaceDir = (Split-Path (Split-Path $PSScriptRoot -Parent) -Parent)
+    } else {
+        $WorkspaceDir = (Get-Location).Path
+    }
+}
+$WorkspaceDir = (Resolve-Path $WorkspaceDir).Path
 
 Write-Host "==========================================================" -ForegroundColor Cyan
 Write-Host "  Stage D Acceptance Tests: Bilingual Grounded RAG App     " -ForegroundColor Cyan
@@ -296,7 +305,9 @@ try {
     # If comparison report is not yet generated, generate it using existing reports
     if (-not (Test-Path $compJsonPath)) {
         Write-Host "  Generating comparison report from evaluated datasets..." -ForegroundColor Gray
-        & "C:\Users\hassa\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe" (Join-Path $WorkspaceDir "tests\rag-evaluation\compare_rag_apps.py") --use-existing
+        $compareScript = Join-Path $WorkspaceDir "tests\rag-evaluation\compare_rag_apps.py"
+        $wslScript = $compareScript.Replace("\", "/").Replace("C:", "/mnt/c")
+        & wsl.exe -d Ubuntu -- python3 "$wslScript" --use-existing
     }
 
     if (-not (Test-Path $compJsonPath)) {

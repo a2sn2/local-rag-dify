@@ -77,13 +77,30 @@ try {
 
     # 2. Authenticated AES-256-GCM Decryption Test
     Write-Host "`n[2/4] Testing Authenticated AES-256-GCM Decryption..." -ForegroundColor Yellow
-    $pythonExe = "C:\Users\hassa\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
-    if (-not (Test-Path $pythonExe)) {
-        $pythonExe = (Get-Command python -ErrorAction SilentlyContinue).Source
-    }
     $cryptoScript = Join-Path $WorkspaceDir "scripts\backup_crypto.py"
+    $pythonExe = (Get-Command python.exe -ErrorAction SilentlyContinue).Source
+    $useWsl = $true
+    if ($pythonExe -and $pythonExe -notmatch "WindowsApps") {
+        try {
+            $testCrypto = & cmd.exe /c "`"$pythonExe`" -c `"import cryptography`" 2>nul"
+            if ($LASTEXITCODE -eq 0) { $useWsl = $false }
+        } catch {}
+    }
 
-    $decOutput = & cmd.exe /c "`"$pythonExe`" `"$cryptoScript`" decrypt --input `"$BackupFile`" --output `"$tempZip`" --passphrase `"$resolvedPassphrase`" 2>&1"
+    if ($useWsl) {
+        $wslInput = $BackupFile.Replace("\", "/").Replace("C:", "/mnt/c").Replace("c:", "/mnt/c")
+        $wslOutput = $tempZip.Replace("\", "/").Replace("C:", "/mnt/c").Replace("c:", "/mnt/c")
+        $wslScript = $cryptoScript.Replace("\", "/").Replace("C:", "/mnt/c").Replace("c:", "/mnt/c")
+        $decOutput = & wsl.exe -d Ubuntu -- python3 "$wslScript" decrypt --input "$wslInput" --output "$wslOutput" --passphrase "$resolvedPassphrase" 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            throw "Decryption failed (Authentication Tag mismatch or invalid key): $decOutput"
+        }
+    } else {
+        $decOutput = & cmd.exe /c "`"$pythonExe`" `"$cryptoScript`" decrypt --input `"$BackupFile`" --output `"$tempZip`" --passphrase `"$resolvedPassphrase`" 2>&1"
+        if ($LASTEXITCODE -ne 0) {
+            throw "Decryption failed (Authentication Tag mismatch or invalid key): $decOutput"
+        }
+    }
     if ($LASTEXITCODE -ne 0) {
         throw "Decryption failed (Authentication Tag mismatch or invalid key): $decOutput"
     }
