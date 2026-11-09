@@ -1,0 +1,256 @@
+app:
+  description: ALHassan AI — Personal Knowledge Assistant based on verified Markdown
+    knowledge base and local isolated RAG.
+  icon: 🤖
+  icon_background: '#E0EAFF'
+  icon_type: emoji
+  mode: advanced-chat
+  name: ALHassan AI — Personal Knowledge Assistant
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/ollama:1.0.3@1086758302d98263d5b7881de8ba95fc219351fdf97831d18a7807378674d203
+    version: null
+kind: app
+site:
+  chat_color_theme: null
+  chat_color_theme_inverted: false
+  copyright: null
+  custom_disclaimer: ''
+  default_language: ar-TN
+  description: null
+  icon: 🤖
+  icon_background: '#E0EAFF'
+  icon_type: emoji
+  input_placeholder: null
+  privacy_policy: null
+  show_workflow_steps: true
+  title: ALHassan AI — Personal Knowledge Assistant
+  use_icon_as_answer_icon: false
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      enabled: false
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - id: start-retrieval
+      source: start
+      sourceHandle: source
+      target: retrieval
+      targetHandle: target
+    - id: retrieval-evidence_check
+      source: retrieval
+      sourceHandle: source
+      target: evidence_check
+      targetHandle: target
+    - id: evidence_check-llm
+      source: evidence_check
+      sourceHandle: 'true'
+      target: llm
+      targetHandle: target
+    - id: llm-answer_grounded
+      source: llm
+      sourceHandle: source
+      target: answer_grounded
+      targetHandle: target
+    - id: evidence_check-answer_abstain
+      source: evidence_check
+      sourceHandle: 'false'
+      target: answer_abstain
+      targetHandle: target
+    nodes:
+    - data:
+        title: Start
+        type: start
+        variables: []
+      id: start
+      position:
+        x: 80
+        y: 282
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        dataset_ids:
+        - iFhuCRMMBcdJ6L6kSdHEa8dYlazl17TlidvMR9LmVkiIBQp62oEfMm7cGasSMaUF
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: weighted_score
+          score_threshold: null
+          top_k: 5
+        query_variable_selector:
+        - sys
+        - query
+        retrieval_mode: single
+        single_retrieval_config:
+          model:
+            completion_params: {}
+            mode: chat
+            name: qwen3.5:4b
+            provider: langgenius/ollama/ollama
+        title: Knowledge Retrieval
+        type: knowledge-retrieval
+      id: retrieval
+      position:
+        x: 380
+        y: 282
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: not empty
+            value: ''
+            variable_selector:
+            - retrieval
+            - result
+          logical_operator: and
+        conditions:
+        - comparison_operator: not empty
+          value: ''
+          variable_selector:
+          - retrieval
+          - result
+        logical_operator: and
+        title: Evidence Check
+        type: if-else
+      id: evidence_check
+      position:
+        x: 680
+        y: 282
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - retrieval
+          - result
+        memory:
+          query_prompt_template: '{{#sys.query#}}'
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            max_tokens: 768
+            stop: []
+            temperature: 0.1
+            think: false
+            top_p: 0.9
+          mode: chat
+          name: qwen3.5:4b
+          provider: langgenius/ollama/ollama
+        prompt_template:
+        - role: system
+          text: "أنت المساعد الذكي الشخصي والمهني للمهندس الحسن بليغ الشامي (ALHassan\
+            \ Baligh ALShami — Personal Knowledge Assistant).\nمهمتك الأساسية هي الإجابة\
+            \ بدقة واحترافية وموثوقية عالية عن السيرة المهنية، والتعليم، والمشاريع،\
+            \ والمهارات التقنية، والشهادات، وقنوات التواصل الخاصة بالمهندس الحسن بليغ\
+            \ الشامي استناداً حصراً إلى السياق المرفق من قاعدة معرفته المعتمدة.\n\n\
+            القواعد الصارمة والملزمة (Strict Grounding & Anti-Hallucination):\n1.\
+            \ الالتزام المطلق بالسياق المرفق (Context Grounding):\n   - اعتمد حصراً\
+            \ وبشكل قطعي على المعلومات والحقائق الواردة في السياق المرفق أدناه.\n\
+            \   - يُحظر تماماً الإجابة بالاعتماد على التخمين، أو الافتراض، أو المعرفة\
+            \ العامة غير الموثقة في هذا الملف.\n\n2. منع الهلوسة الصارم ومجالات الامتناع\
+            \ الإلزامي (Explicit Abstention Rules):\n   - تاريخ الميلاد والعمر: محجوبان\
+            \ عن الملف العام؛ إذا سُئلت عنهما، اعتذر وصرّح بعدم توفرهما في قاعدة المعرفة\
+            \ العامة لحماية الخصوصية.\n   - المراجع المهنية والشخصية (References):\
+            \ أرقام وأسماء المراجع الخاصة محجوبة؛ أجب دائماً بأن \"المراجع المهنية\
+            \ والأكاديمية متاحة عند الطلب عبر القنوات الرسمية\".\n   - البيانات المالية\
+            \ والرواتب: لا توجد أي بيانات عن الراتب، الدخل، الحصة السوقية، أو الميزانيات.\
+            \ امتنع فوراً عن الإجابة.\n   - الأسرار والأنظمة الداخلية لجهات العمل:\
+            \ يُحظر إفشاء أي تفاصيل داخلية أو بنية تحتية سرية لأنظمة محفظة جيب أو\
+            \ عهد للخدمات المالية.\n   - المعدل الجامعي والتقدير: لا تذكر أي معدل\
+            \ (GPA) أو مرتبة شرف بالتخمين لأنها غير معلنة في المصدر.\n   - إذا كان\
+            \ السؤال عن حقيقة غير موجودة أو موضوع غير مسند في السياق، يجب عليك صراحة\
+            \ الامتناع عن الإجابة بالصيغة المعتمدة:\n     \"لا تتوفر لدي معلومات موثقة\
+            \ عن هذا الموضوع ضمن قاعدة المعرفة الحالية الخاصة بالحسن بليغ الشامي.\"\
+            \n     (وفي حال كان السؤال بالإنجليزية: \"The requested information is\
+            \ not available in ALHassan Baligh ALShami's verified knowledge base.\"\
+            )\n     (وفي حال كان السؤال بالألمانية: \"Die angeforderten Informationen\
+            \ sind in der verifizierten Wissensdatenbank von ALHassan Baligh ALShami\
+            \ nicht verfügbar.\")\n\n3. دقة الحقائق المهنية والمشاريع:\n   - التدرج\
+            \ الوظيفي في محفظة جيب/عهد: تدرج في 4 محطات متتابعة داخل نفس الجهة (متدرب\
+            \ خدمة عملاء سبتمبر 2025 -> متدرب بقسم التطوير ديسمبر 2025 -> مطور برمجيات\
+            \ يناير 2026 -> نائب مدير إدارة التطوير يوليو 2026). لا تفترض انتقالاً\
+            \ بين شركات مختلفة.\n   - منصبه في شركة أساس الذكاء الاصطناعي (Asaas AI):\
+            \ شريك مؤسس ومدير إدارة ضمان الجودة (منذ يناير 2026). لا تستنتج أي نسب\
+            \ ملكية أو مبيعات.\n   - عدد المشاريع: يعرض موقعه 17 مشروعاً، منها 13\
+            \ مشروعاً موثقاً بأدلة برمجية، ومشروع FoundationKit هو بنية تحتية متكاملة\
+            \ على .NET 10 بحالة ما قبل الإنتاج (Pre-production). هناك مشاريع ذات أدلة\
+            \ ناقصة (مثل MikroTik و Arduino Traffic Light) وأخرى متعارضة (مثل Student\
+            \ Evaluation System). وضح حالة الدليل عند السؤال.\n   - الشهادات والتدريبات:\
+            \ 26 سجلاً معروضاً، منها 22 شهادة موثقة، و3 برامج قيد الإنجاز (Ongoing)،\
+            \ وتدريب CYBERAI بدون شهادة. لا تجزم باعتمادات دولية مستقلة كـ CompTIA\
+            \ A+ أو MTCNA دون فحص أصل الشهادة.\n\n4. اللغة والاقتباسات (Language &\
+            \ Citations):\n   - تحدث بالعربية افتراضياً، وأجب بالإنجليزية إذا كان\
+            \ السؤال بالإنجليزية، وبالألمانية إذا كان السؤال بالألمانية.\n   - أشر\
+            \ في نهاية كل إجابة موثقة إلى القسم المقتبس منه (مثل: [قسم 1: الهوية]،\
+            \ [قسم 2: المسيرة المهنية]، [قسم 5: المشاريع]، أو اسم الملف المرجعي).\n\
+            \nالسياق المرفق من قاعدة المعرفة:\n{{#context#}}\n"
+        - role: user
+          text: '{{#sys.query#}}'
+        title: LLM (Qwen3.5 4B)
+        type: llm
+        vision:
+          enabled: false
+      id: llm
+      position:
+        x: 980
+        y: 180
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        answer: '{{#llm.text#}}'
+        title: Answer (Grounded)
+        type: answer
+        variables: []
+      id: answer_grounded
+      position:
+        x: 1280
+        y: 180
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        answer: 'لا تتوفر لدي معلومات موثقة عن هذا الموضوع ضمن قاعدة المعرفة الحالية
+          الخاصة بالحسن بليغ الشامي.
+
+
+          The requested information is not available in the verified knowledge base
+          of ALHassan Baligh ALShami.'
+        title: Answer (Abstention)
+        type: answer
+        variables: []
+      id: answer_abstain
+      position:
+        x: 980
+        y: 420
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+  rag_pipeline_variables: []
