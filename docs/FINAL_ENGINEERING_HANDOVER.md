@@ -95,17 +95,21 @@
 - **قواعد البيانات (PostgreSQL, Weaviate, Redis):** غير منشورة نهائياً على المضيف وتعمل فقط ضمن شبكة Docker الداخلية المعزولة.
 - **محرك Ollama (11434):** يستمع على `0.0.0.0:11434` (`[::]:11434`).
 
-### ب. تدقيق جدار حماية Windows (Windows Firewall Audit):
-- **القاعدة الحالية:**
+### ب. تدقيق جدار حماية Windows والفحص العملي للتعرض (Firewall & LAN Exposure Audit):
+- **فحص التعرض العملي للشبكة المحلية (Live Practical LAN Probe):**
+  - عنوان Wi-Fi الفعلي: `http://192.168.100.27:11434/api/version` -> **مكشوف عملياً (EXPOSED - Version 0.40.13)**.
+  - عنوان Ethernet الفعلي: `http://10.0.11.70:11434/api/version` -> **مكشوف عملياً (EXPOSED - Version 0.40.13)**.
+  - **الدليل الهندسي:** يثبت هذا الاختبار الحي أن منفذ 11434 يستجيب فعلياً على عناوين الشبكة الفيزيائية الخارجية، مما يؤكد ضرورة إتمام تقييد قاعدة TCP لمنع أي جهاز على شبكة Wi-Fi أو Ethernet من استغلال المحرك.
+- **القاعدة الحالية لـ TCP:**
   - الاسم: `TCP Query User{DFC4CFE2-EA6D-4411-AEB4-DA6AE612295A}C:\users\alhassanalshami\appdata\local\programs\ollama\ollama.exe`
   - الاتجاه: `Inbound`
   - الإجراء: `Allow`
   - الملف الشخصي: `Public`
   - المنفذ المحلي: `Any`
-  - العنوان البعيد: `Any` (الوضع الأصلي غير المقيد، بانتظار تشغيل السكربت المصحح).
+  - العنوان البعيد: `Any` (الحالة: **`PENDING ADMIN EXECUTION`**).
 - **قاعدة UDP:**
   - الاسم: `UDP Query User{CC1C1831-1CA2-4A30-A8C8-1C49DBEA2D02}C:\users\alhassanalshami\appdata\local\programs\ollama\ollama.exe`
-  - الحالة: **معطلة بالكامل (`Enabled: False`)** بنجاح.
+  - الحالة: **معطلة بالكامل (`Enabled: False`)** بنجاح **`PASS`**.
 - **تشخيص فشل التنفيذ السابق وتصحيحه:**
   - أثناء محاولة التطبيق السابقة، ظهر خطأ `HRESULT 0x80070057: An unspecified, multicast, broadcast, or loopback IPv6 address was specified` بسبب تضمين عنوان الاسترجاع `::1` في `RemoteAddress`.
   - تم تصحيح السكربت [`scripts/harden-ollama-firewall.ps1`](../scripts/harden-ollama-firewall.ps1) بإزالة `::1` و `127.0.0.1` من وسيط `RemoteAddress` (حيث تُعالج اتصالات الـ Loopback داخلياً عبر النواة ولا تمر عبر قواعد البطاقات الخارجية)، واعتماد النطاق المحسوب ديناميكياً لمحفظة WSL2 (`172.19.160.0/20`).
