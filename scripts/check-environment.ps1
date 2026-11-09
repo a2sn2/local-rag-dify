@@ -30,6 +30,81 @@ Write-Host "==========================================================" -Foregro
 
 $allPass = $true
 
+# Helper functions for CIDR / Netmask normalization
+function Convert-PrefixToMask([int]$prefix) {
+    $bytes = @(0,0,0,0)
+    for ($i = 0; $i -lt 4; $i++) {
+        $shift = [Math]::Max(0, [Math]::Min(8, $prefix - ($i * 8)))
+        $bytes[$i] = [byte](256 - [Math]::Pow(2, 8 - $shift))
+    }
+    return ([System.Net.IPAddress]::new($bytes)).IPAddressToString
+}
+
+function Convert-MaskToPrefix([string]$mask) {
+    $ip = [System.Net.IPAddress]::Parse($mask)
+    $bytes = $ip.GetAddressBytes()
+    $prefix = 0
+    foreach ($b in $bytes) {
+        for ($bit = 7; $bit -ge 0; $bit--) {
+            if (($b -band [byte][Math]::Pow(2, $bit)) -ne 0) {
+                $prefix++
+            }
+        }
+    }
+    return $prefix
+}
+
+function Get-NormalizedSubnet([string]$inputSubnet) {
+    if ([string]::IsNullOrWhiteSpace($inputSubnet)) { return $null }
+    $parts = $inputSubnet.Trim() -split '/'
+    $ipPart = $parts[0].Trim()
+    if ($parts.Count -eq 1) {
+        return @{
+            Network       = $ipPart
+            Prefix        = 32
+            Mask          = "255.255.255.255"
+            Cidr          = "$ipPart/32"
+            NetmaskFormat = "$ipPart/255.255.255.255"
+        }
+    }
+    $secondPart = $parts[1].Trim()
+    $prefix = 0
+    $mask = ""
+    if ($secondPart -match '^\d+$') {
+        $prefix = [int]$secondPart
+        $mask = Convert-PrefixToMask $prefix
+    } elseif ($secondPart -match '^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$') {
+        $mask = $secondPart
+        $prefix = Convert-MaskToPrefix $secondPart
+    } else {
+        return $null
+    }
+
+    $maskIp = [System.Net.IPAddress]::Parse($mask)
+    $maskBytes = $maskIp.GetAddressBytes()
+    $ipBytes = ([System.Net.IPAddress]::Parse($ipPart)).GetAddressBytes()
+    $netBytes = @(0,0,0,0)
+    for ($i = 0; $i -lt 4; $i++) {
+        $netBytes[$i] = $ipBytes[$i] -band $maskBytes[$i]
+    }
+    $normNet = ([System.Net.IPAddress]::new($netBytes)).IPAddressToString
+
+    return @{
+        Network       = $normNet
+        Prefix        = $prefix
+        Mask          = $mask
+        Cidr          = "$normNet/$prefix"
+        NetmaskFormat = "$normNet/$mask"
+    }
+}
+
+function Test-SubnetEquivalence([string]$subnet1, [string]$subnet2) {
+    $norm1 = Get-NormalizedSubnet $subnet1
+    $norm2 = Get-NormalizedSubnet $subnet2
+    if (-not $norm1 -or -not $norm2) { return $false }
+    return ($norm1.Cidr -eq $norm2.Cidr)
+}
+
 # 1. Operating System
 Write-Host "`n[1/7] Operating System & Hardware Platform:" -ForegroundColor Yellow
 $osVer = [System.Environment]::OSVersion.VersionString
@@ -125,36 +200,40 @@ if ($LASTEXITCODE -eq 0) {
 
         # Safe Firewall & WSL2 Subnet Alignment Audit (Read-Only)
         try {
-            $tcpRule = Get-NetFirewallRule -Name "TCP Query User{DFC4CFE2-EA6D-4411-AEB4-DA6AE612295A}C:\users\alhassanalshami\appdata\local\programs\ollama\ollama.exe" -ErrorAction SilentlyContinue
-            if ($tcpRule) {
-                $addrFilter = $tcpRule | Get-NetFirewallAddressFilter
-                $remoteAddrs = $addrFilter.RemoteAddress
-                
-                # Determine current WSL2 subnet dynamically
-                $wslAdapter = Get-NetIPAddress -InterfaceAlias "*WSL*" -AddressFamily IPv4 -ErrorAction SilentlyContinue | Select-Object -First 1
-                $currentWslCidr = $null
-                if ($wslAdapter) {
-                    $pLen = $wslAdapter.PrefixLength
-                    $mBytes = @(0,0,0,0)
-                    for ($k = 0; $k -lt 4; $k++) {
-                        $sh = [Math]::Max(0, [Math]::Min(8, $pLen - ($k * 8)))
-                        $mBytes[$k] = [byte](256 - [Math]::Pow(2, 8 - $sh))
-                    }
-                    $ipB = ([System.Net.IPAddress]::Parse($wslAdapter.IPAddress)).GetAddressBytes()
-                    $nB = @(0,0,0,0)
-                    for ($k = 0; $k -lt 4; $k++) { $nB[$k] = $ipB[$k] -band $mBytes[$k] }
-                    $currentWslCidr = "$(([System.Net.IPAddress]::new($nB)).IPAddressToString)/$pLen"
+            $scopedRule = Get-NetFirewallRule -Name "LocalRAG_Ollama_TCP_Inbound" -ErrorAction SilentlyContinue
+            $legacyTcpRule = Get-NetFirewallRule -Name "TCP Query User{DFC4CFE2-EA6D-4411-AEB4-DA6AE612295A}C:\users\alhassanalshami\appdata\local\programs\ollama\ollama.exe" -ErrorAction SilentlyContinue
+            
+            # Determine current WSL2 subnet dynamically
+            $wslAdapter = Get-NetIPAddress -InterfaceAlias "*WSL*" -AddressFamily IPv4 -ErrorAction SilentlyContinue | Select-Object -First 1
+            $currentWslCidr = $null
+            if ($wslAdapter) {
+                $pLen = $wslAdapter.PrefixLength
+                $mBytes = @(0,0,0,0)
+                for ($k = 0; $k -lt 4; $k++) {
+                    $sh = [Math]::Max(0, [Math]::Min(8, $pLen - ($k * 8)))
+                    $mBytes[$k] = [byte](256 - [Math]::Pow(2, 8 - $sh))
                 }
-                
-                if ($remoteAddrs -eq "Any") {
-                    Write-Host "  [WARN] Ollama Firewall rule is unhardened (RemoteAddress=Any). External LAN access is permitted." -ForegroundColor Yellow
-                    Write-Host "         Run .\apply-hardening-as-admin.bat to restrict to WSL2 subnet." -ForegroundColor Gray
-                } elseif ($currentWslCidr -and ($remoteAddrs -contains $currentWslCidr)) {
-                    Write-Host "  [PASS] Ollama Firewall is hardened and matches current WSL2 subnet: $currentWslCidr" -ForegroundColor Green
+                $ipB = ([System.Net.IPAddress]::Parse($wslAdapter.IPAddress)).GetAddressBytes()
+                $nB = @(0,0,0,0)
+                for ($k = 0; $k -lt 4; $k++) { $nB[$k] = $ipB[$k] -band $mBytes[$k] }
+                $currentWslCidr = "$(([System.Net.IPAddress]::new($nB)).IPAddressToString)/$pLen"
+            }
+
+            $legacyActive = ($legacyTcpRule -and $legacyTcpRule.Enabled.ToString() -eq "True")
+            $scopedActive = ($scopedRule -and $scopedRule.Enabled.ToString() -eq "True")
+
+            if ($scopedActive -and (-not $legacyActive)) {
+                $scopedAddr = ($scopedRule | Get-NetFirewallAddressFilter).RemoteAddress
+                $addrStr = ($scopedAddr -join ', ')
+                if ($currentWslCidr -and (Test-SubnetEquivalence $addrStr $currentWslCidr)) {
+                    Write-Host "  [PASS] Ollama Firewall is hardened: Scoped rule active ($addrStr [Equiv: $currentWslCidr], Port 11434) and legacy permissive rules disabled." -ForegroundColor Green
                 } else {
-                    Write-Host "  [WARN] Ollama Firewall rule ($($remoteAddrs -join ', ')) does not match current WSL2 subnet ($currentWslCidr)." -ForegroundColor Yellow
-                    Write-Host "         Run .\apply-hardening-as-admin.bat to re-align firewall rule with current WSL2 IP." -ForegroundColor Gray
+                    Write-Host "  [WARN] Ollama Firewall rule ($addrStr) does not match current dynamic WSL2 subnet ($currentWslCidr)." -ForegroundColor Yellow
+                    Write-Host "         Run .\apply-hardening-as-admin.bat to re-align firewall rule with current WSL2 subnet." -ForegroundColor Gray
                 }
+            } else {
+                Write-Host "  [WARN] Ollama Firewall is unhardened: Permissive TCP rule is active (RemoteAddress=Any). External LAN access is permitted." -ForegroundColor Yellow
+                Write-Host "         Run .\apply-hardening-as-admin.bat to apply scoped firewall hardening." -ForegroundColor Gray
             }
         } catch {}
     } catch {

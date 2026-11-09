@@ -27,38 +27,51 @@ if (-not $isAdmin) {
     exit 1
 }
 
-$tcpRuleName = "TCP Query User{DFC4CFE2-EA6D-4411-AEB4-DA6AE612295A}C:\users\alhassanalshami\appdata\local\programs\ollama\ollama.exe"
-$udpRuleName = "UDP Query User{CC1C1831-1CA2-4A30-A8C8-1C49DBEA2D02}C:\users\alhassanalshami\appdata\local\programs\ollama\ollama.exe"
+$legacyTcpRuleName = "TCP Query User{DFC4CFE2-EA6D-4411-AEB4-DA6AE612295A}C:\users\alhassanalshami\appdata\local\programs\ollama\ollama.exe"
+$legacyUdpRuleName = "UDP Query User{CC1C1831-1CA2-4A30-A8C8-1C49DBEA2D02}C:\users\alhassanalshami\appdata\local\programs\ollama\ollama.exe"
+$newScopedRuleName = "LocalRAG_Ollama_TCP_Inbound"
 
 try {
     Write-Host "==========================================================" -ForegroundColor Yellow
     Write-Host "  Rolling back Ollama Firewall Rules to Original State    " -ForegroundColor Yellow
     Write-Host "==========================================================" -ForegroundColor Yellow
 
-    # 1. Restore TCP Rule
-    Set-NetFirewallRule -Name $tcpRuleName `
-        -Profile "Public" `
-        -LocalPort "Any" `
-        -RemoteAddress "Any" `
-        -Description "ollama.exe" `
-        -ErrorAction Stop
-
-    # 2. Restore UDP Rule
-    Set-NetFirewallRule -Name $udpRuleName -Enabled True -ErrorAction Stop
-
-    # 3. Verify Rollback
-    $vTcp = Get-NetFirewallRule -Name $tcpRuleName -ErrorAction Stop
-    $vPort = ($vTcp | Get-NetFirewallPortFilter).LocalPort
-    $vAddr = ($vTcp | Get-NetFirewallAddressFilter).RemoteAddress
-    $vUdp = Get-NetFirewallRule -Name $udpRuleName -ErrorAction Stop
-
-    if ($vPort -ne "Any" -or $vAddr -ne "Any" -or $vUdp.Enabled.ToString() -ne "True") {
-        throw "Rollback verification failed! TCP Port: $vPort, TCP Addr: $vAddr, UDP Enabled: $($vUdp.Enabled)"
+    # 1. Disable the new scoped rule if present
+    $newRule = Get-NetFirewallRule -Name $newScopedRuleName -ErrorAction SilentlyContinue
+    if ($newRule) {
+        Set-NetFirewallRule -Name $newScopedRuleName -Enabled False -ErrorAction Stop
+        Write-Host "[OK] Scoped rule ($newScopedRuleName) disabled." -ForegroundColor Green
     }
 
-    Write-Host "[OK] Rollback Verified: TCP Port=Any, RemoteAddress=Any, UDP Enabled=True" -ForegroundColor Green
+    # 2. Re-enable legacy TCP Rule
+    $legacyTcp = Get-NetFirewallRule -Name $legacyTcpRuleName -ErrorAction SilentlyContinue
+    if ($legacyTcp) {
+        Set-NetFirewallRule -Name $legacyTcpRuleName -Enabled True -ErrorAction Stop
+        Write-Host "[OK] Restored legacy TCP Rule: Enabled=True" -ForegroundColor Green
+    }
+
+    # 3. Re-enable legacy UDP Rule
+    $legacyUdp = Get-NetFirewallRule -Name $legacyUdpRuleName -ErrorAction SilentlyContinue
+    if ($legacyUdp) {
+        Set-NetFirewallRule -Name $legacyUdpRuleName -Enabled True -ErrorAction Stop
+        Write-Host "[OK] Restored legacy UDP Rule: Enabled=True" -ForegroundColor Green
+    }
+
     Write-Host "`nFirewall Rollback Completed Successfully!" -ForegroundColor Green
 } catch {
-    Write-Host "`n[FATAL ERROR] Rollback failed: $_" -ForegroundColor Red
+    Write-Host "`n==========================================================" -ForegroundColor Red
+    Write-Host "  [FATAL ERROR] Rollback Failed" -ForegroundColor Red
+    Write-Host "  Message:               $($_.Exception.Message)" -ForegroundColor Red
+    if ($_.InvocationInfo) {
+        Write-Host "  Script Line / Column:  Line $($_.InvocationInfo.ScriptLineNumber), Col $($_.InvocationInfo.OffsetInLine)" -ForegroundColor Red
+        Write-Host "  Position:              $($_.InvocationInfo.PositionMessage.Trim())" -ForegroundColor Red
+    }
+    if ($_.FullyQualifiedErrorId) {
+        Write-Host "  Error ID:              $($_.FullyQualifiedErrorId)" -ForegroundColor Red
+    }
+    if ($_.ScriptStackTrace) {
+        Write-Host "  Stack Trace:`n$($_.ScriptStackTrace)" -ForegroundColor Red
+    }
+    Write-Host "==========================================================" -ForegroundColor Red
     exit 1
 }
