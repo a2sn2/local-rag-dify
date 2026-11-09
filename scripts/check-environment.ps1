@@ -122,6 +122,41 @@ if ($LASTEXITCODE -eq 0) {
             Write-Host "  [FAIL] Missing model: bge-m3:latest (Run: ollama pull bge-m3:latest)" -ForegroundColor Red
             $allPass = $false
         }
+
+        # Safe Firewall & WSL2 Subnet Alignment Audit (Read-Only)
+        try {
+            $tcpRule = Get-NetFirewallRule -Name "TCP Query User{DFC4CFE2-EA6D-4411-AEB4-DA6AE612295A}C:\users\alhassanalshami\appdata\local\programs\ollama\ollama.exe" -ErrorAction SilentlyContinue
+            if ($tcpRule) {
+                $addrFilter = $tcpRule | Get-NetFirewallAddressFilter
+                $remoteAddrs = $addrFilter.RemoteAddress
+                
+                # Determine current WSL2 subnet dynamically
+                $wslAdapter = Get-NetIPAddress -InterfaceAlias "*WSL*" -AddressFamily IPv4 -ErrorAction SilentlyContinue | Select-Object -First 1
+                $currentWslCidr = $null
+                if ($wslAdapter) {
+                    $pLen = $wslAdapter.PrefixLength
+                    $mBytes = @(0,0,0,0)
+                    for ($k = 0; $k -lt 4; $k++) {
+                        $sh = [Math]::Max(0, [Math]::Min(8, $pLen - ($k * 8)))
+                        $mBytes[$k] = [byte](256 - [Math]::Pow(2, 8 - $sh))
+                    }
+                    $ipB = ([System.Net.IPAddress]::Parse($wslAdapter.IPAddress)).GetAddressBytes()
+                    $nB = @(0,0,0,0)
+                    for ($k = 0; $k -lt 4; $k++) { $nB[$k] = $ipB[$k] -band $mBytes[$k] }
+                    $currentWslCidr = "$(([System.Net.IPAddress]::new($nB)).IPAddressToString)/$pLen"
+                }
+                
+                if ($remoteAddrs -eq "Any") {
+                    Write-Host "  [WARN] Ollama Firewall rule is unhardened (RemoteAddress=Any). External LAN access is permitted." -ForegroundColor Yellow
+                    Write-Host "         Run .\apply-hardening-as-admin.bat to restrict to WSL2 subnet." -ForegroundColor Gray
+                } elseif ($currentWslCidr -and ($remoteAddrs -contains $currentWslCidr)) {
+                    Write-Host "  [PASS] Ollama Firewall is hardened and matches current WSL2 subnet: $currentWslCidr" -ForegroundColor Green
+                } else {
+                    Write-Host "  [WARN] Ollama Firewall rule ($($remoteAddrs -join ', ')) does not match current WSL2 subnet ($currentWslCidr)." -ForegroundColor Yellow
+                    Write-Host "         Run .\apply-hardening-as-admin.bat to re-align firewall rule with current WSL2 IP." -ForegroundColor Gray
+                }
+            }
+        } catch {}
     } catch {
         Write-Host "  [WARN] Ollama daemon is not currently responding on http://127.0.0.1:11434." -ForegroundColor Yellow
     }

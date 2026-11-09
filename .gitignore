@@ -84,8 +84,12 @@ uploads/
 !tests/fixtures/*.sample.md
 
 # ------------------------------------------------------------------------------
-# 6. Runtime Logs, Celery Traces & Process Dumps
+# 5. Local Security & Host Infrastructure Configurations
 # ------------------------------------------------------------------------------
+config/firewall_*
+*firewall*.json
+*firewall*.log
+
 *.exe
 *.msi
 *.msix
