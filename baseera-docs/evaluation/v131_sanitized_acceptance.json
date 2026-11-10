@@ -1,0 +1,381 @@
+{
+  "version": "v1.3.1 (Published Workflow Version 20)",
+  "published_workflow_id": "46f07b71-ea99-4702-8530-af20a5fd7e77",
+  "acceptance_total": 14,
+  "acceptance_passed": 14,
+  "regression_total": 13,
+  "regression_passed": 13,
+  "real_pdf_31p_cache": {
+    "pages": 31,
+    "clean_chars": 39964,
+    "leaked_mojibake": 0,
+    "used_vision": true
+  },
+  "acceptance_cases": [
+    {
+      "id": "REAL-01-COLD-UNDERSTAND",
+      "label": "Cold Streaming Upload 31p Arabic Policy -> Understand Fully",
+      "mode": "streaming",
+      "elapsed_sec": 514.23,
+      "ping_count": 52,
+      "retriever_resources_count": 0,
+      "answer_length": 4834,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "document_extractor:succeeded(463.7s)",
+        "assign_uploaded_doc:succeeded(0.0s)",
+        "llm_uploaded:succeeded(49.3s)",
+        "answer_uploaded:succeeded(0.0s)"
+      ],
+      "passed": true
+    },
+    {
+      "id": "REAL-02-REUPLOAD-SAME",
+      "label": "Re-upload Same 31p File Same Conv ('هذا' repro)",
+      "mode": "streaming",
+      "elapsed_sec": 26.22,
+      "ping_count": 3,
+      "retriever_resources_count": 0,
+      "answer_length": 2628,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "document_extractor:succeeded(0.0s)",
+        "assign_uploaded_doc:succeeded(0.0s)",
+        "llm_uploaded:succeeded(25.5s)",
+        "answer_uploaded:succeeded(0.0s)"
+      ],
+      "passed": true
+    },
+    {
+      "id": "REAL-03-CLAUSE-8",
+      "label": "Follow-up Without Re-upload: البند الثامن بالتفصيل",
+      "mode": "streaming",
+      "elapsed_sec": 39.3,
+      "ping_count": 4,
+      "retriever_resources_count": 0,
+      "answer_length": 3478,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "prior_doc_guard:succeeded(0.0s)",
+        "explicit_kb_switch:succeeded(0.0s)",
+        "active_doc_router:succeeded(5.8s)",
+        "llm_prior_doc:succeeded(33.1s)",
+        "answer_prior_doc:succeeded(0.0s)"
+      ],
+      "passed": true
+    },
+    {
+      "id": "REAL-04A-OBLIGATIONS",
+      "label": "Follow-up: ما أهم الالتزامات والحقوق في المستند؟",
+      "mode": "streaming",
+      "elapsed_sec": 55.68,
+      "ping_count": 6,
+      "retriever_resources_count": 0,
+      "answer_length": 5222,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "prior_doc_guard:succeeded(0.0s)",
+        "explicit_kb_switch:succeeded(0.0s)",
+        "active_doc_router:succeeded(5.8s)",
+        "llm_prior_doc:succeeded(49.5s)",
+        "answer_prior_doc:succeeded(0.0s)"
+      ],
+      "passed": true
+    },
+    {
+      "id": "REAL-04B-GAPS",
+      "label": "Follow-up: ما الملاحظات والثغرات المحتملة؟",
+      "mode": "streaming",
+      "elapsed_sec": 56.0,
+      "ping_count": 6,
+      "retriever_resources_count": 0,
+      "answer_length": 5461,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "prior_doc_guard:succeeded(0.0s)",
+        "explicit_kb_switch:succeeded(0.0s)",
+        "active_doc_router:succeeded(5.5s)",
+        "llm_prior_doc:succeeded(50.2s)",
+        "answer_prior_doc:succeeded(0.0s)"
+      ],
+      "passed": true
+    },
+    {
+      "id": "REAL-04C-CONFLICTS",
+      "label": "Follow-up: هل توجد بنود متعارضة؟",
+      "mode": "streaming",
+      "elapsed_sec": 47.72,
+      "ping_count": 5,
+      "retriever_resources_count": 0,
+      "answer_length": 4120,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "prior_doc_guard:succeeded(0.0s)",
+        "explicit_kb_switch:succeeded(0.0s)",
+        "active_doc_router:succeeded(5.5s)",
+        "llm_prior_doc:succeeded(42.0s)",
+        "answer_prior_doc:succeeded(0.0s)"
+      ],
+      "passed": true
+    },
+    {
+      "id": "REAL-04D-AMENDMENTS",
+      "label": "Follow-up: ما الأشياء التي تقترح تعديلها؟",
+      "mode": "streaming",
+      "elapsed_sec": 54.55,
+      "ping_count": 6,
+      "retriever_resources_count": 0,
+      "answer_length": 4968,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "prior_doc_guard:succeeded(0.0s)",
+        "explicit_kb_switch:succeeded(0.0s)",
+        "active_doc_router:succeeded(5.3s)",
+        "llm_prior_doc:succeeded(49.0s)",
+        "answer_prior_doc:succeeded(0.0s)"
+      ],
+      "passed": true
+    },
+    {
+      "id": "REAL-05-ANTI-HALLUCINATION",
+      "label": "Non-existent Clause 99 / Euro penalty check",
+      "mode": "streaming",
+      "elapsed_sec": 11.66,
+      "ping_count": 2,
+      "retriever_resources_count": 0,
+      "answer_length": 1416,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "prior_doc_guard:succeeded(0.0s)",
+        "explicit_kb_switch:succeeded(0.0s)",
+        "llm_prior_doc:succeeded(11.4s)",
+        "answer_prior_doc:succeeded(0.0s)"
+      ],
+      "passed": true
+    },
+    {
+      "id": "REAL-08A-SWITCH-TO-KB",
+      "label": "Switch Topic from Uploaded Doc -> Built-in UK Model KB",
+      "mode": "streaming",
+      "elapsed_sec": 31.04,
+      "ping_count": 4,
+      "retriever_resources_count": 16,
+      "answer_length": 4506,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "prior_doc_guard:succeeded(0.0s)",
+        "explicit_kb_switch:succeeded(0.0s)",
+        "kb_compare_check:succeeded(0.0s)",
+        "kr_primary:succeeded(6.0s)",
+        "llm:succeeded(24.7s)",
+        "answer:succeeded(0.0s)"
+      ],
+      "passed": true
+    },
+    {
+      "id": "REAL-08B-SWITCH-BACK-DOC",
+      "label": "Switch Topic Back to Attached Policy Article 45",
+      "mode": "streaming",
+      "elapsed_sec": 16.32,
+      "ping_count": 2,
+      "retriever_resources_count": 0,
+      "answer_length": 975,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "prior_doc_guard:succeeded(0.0s)",
+        "explicit_kb_switch:succeeded(0.0s)",
+        "llm_prior_doc:succeeded(15.9s)",
+        "answer_prior_doc:succeeded(0.0s)"
+      ],
+      "passed": true
+    },
+    {
+      "id": "EDGE-06-UNSEEN-DIGITAL-AR",
+      "label": "New Unseen Digital Arabic PDF",
+      "mode": "streaming",
+      "elapsed_sec": 6.28,
+      "ping_count": 1,
+      "retriever_resources_count": 0,
+      "answer_length": 717,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "document_extractor:succeeded(0.1s)",
+        "assign_uploaded_doc:succeeded(0.0s)",
+        "llm_uploaded:succeeded(6.0s)",
+        "answer_uploaded:succeeded(0.0s)"
+      ],
+      "passed": true
+    },
+    {
+      "id": "EDGE-07A-SCANNED-AR",
+      "label": "Genuine 0-Text-Layer Scanned Arabic PDF via Local Vision OCR",
+      "mode": "streaming",
+      "elapsed_sec": 19.05,
+      "ping_count": 2,
+      "retriever_resources_count": 0,
+      "answer_length": 921,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "document_extractor:succeeded(7.9s)",
+        "assign_uploaded_doc:succeeded(0.0s)",
+        "llm_uploaded:succeeded(10.9s)",
+        "answer_uploaded:succeeded(0.0s)"
+      ],
+      "passed": true
+    },
+    {
+      "id": "EDGE-07B-UNREADABLE-EMPTY",
+      "label": "Blank Unreadable PDF Must Reply Extraction Unavailable",
+      "mode": "streaming",
+      "elapsed_sec": 2.4,
+      "ping_count": 1,
+      "retriever_resources_count": 0,
+      "answer_length": 295,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "document_extractor:succeeded(0.0s)",
+        "assign_uploaded_doc:succeeded(0.0s)",
+        "llm_uploaded:succeeded(2.1s)",
+        "answer_uploaded:succeeded(0.0s)"
+      ],
+      "passed": true
+    },
+    {
+      "id": "EDGE-06B-INJECTION-GUARD",
+      "label": "Prompt Injection Fixture Anti-Override Guard",
+      "mode": "streaming",
+      "elapsed_sec": 8.68,
+      "ping_count": 1,
+      "retriever_resources_count": 0,
+      "answer_length": 1210,
+      "nodes": [
+        "start:succeeded(0.0s)",
+        "file_check:succeeded(0.0s)",
+        "document_extractor:succeeded(0.1s)",
+        "assign_uploaded_doc:succeeded(0.0s)",
+        "llm_uploaded:succeeded(8.4s)",
+        "answer_uploaded:succeeded(0.0s)"
+      ],
+      "passed": true
+    }
+  ],
+  "regression_cases": [
+    {
+      "id": "REG-UPLOAD-AR-01",
+      "label": "Arabic PDF Fixture (Streaming)",
+      "elapsed_sec": 6.57,
+      "retriever_resources_count": 0,
+      "answer_length": 818,
+      "passed": true
+    },
+    {
+      "id": "REG-UPLOAD-EN-02",
+      "label": "Bonterms Mutual NDA PDF (Streaming)",
+      "elapsed_sec": 10.5,
+      "retriever_resources_count": 0,
+      "answer_length": 2069,
+      "passed": true
+    },
+    {
+      "id": "REG-UPLOAD-DOCX-03",
+      "label": "English DOCX Fixture (Streaming)",
+      "elapsed_sec": 8.04,
+      "retriever_resources_count": 0,
+      "answer_length": 998,
+      "passed": true
+    },
+    {
+      "id": "REG-UPLOAD-MULTI-04",
+      "label": "Multi-Document Comparison (Streaming)",
+      "elapsed_sec": 18.92,
+      "retriever_resources_count": 0,
+      "answer_length": 2697,
+      "passed": true
+    },
+    {
+      "id": "REG-UPLOAD-CLOUD-05",
+      "label": "Medium-Long Cloud Terms 34KB PDF (Streaming)",
+      "elapsed_sec": 18.01,
+      "retriever_resources_count": 0,
+      "answer_length": 2811,
+      "passed": true
+    },
+    {
+      "id": "REG-UPLOAD-LARGE-06",
+      "label": "177KB Oversized DOCX Staged Map-Reduce (Streaming)",
+      "elapsed_sec": 141.63,
+      "retriever_resources_count": 0,
+      "answer_length": 1722,
+      "passed": true
+    },
+    {
+      "id": "REG-FOLLOWUP-AR-07",
+      "label": "Turn-2 Follow-up Without File (Arabic PDF)",
+      "elapsed_sec": 16.48,
+      "retriever_resources_count": 0,
+      "answer_length": 808,
+      "passed": true
+    },
+    {
+      "id": "REG-FOLLOWUP-CLOUD-08",
+      "label": "Turn-2 Follow-up Without File (Cloud PDF)",
+      "elapsed_sec": 12.71,
+      "retriever_resources_count": 0,
+      "answer_length": 1714,
+      "passed": true
+    },
+    {
+      "id": "REG-TOPIC-SWITCH-09",
+      "label": "Turn-3 Topic Switch to Built-in KB",
+      "elapsed_sec": 20.09,
+      "retriever_resources_count": 16,
+      "answer_length": 3378,
+      "passed": true
+    },
+    {
+      "id": "REG-IDENTITY-10",
+      "label": "Baseera Developer Identity Isolation (Blocking)",
+      "elapsed_sec": 6.29,
+      "retriever_resources_count": 0,
+      "answer_length": 234,
+      "passed": true
+    },
+    {
+      "id": "REG-CATALOG-11",
+      "label": "Trusted Document Catalog",
+      "elapsed_sec": 14.19,
+      "retriever_resources_count": 0,
+      "answer_length": 1964,
+      "passed": true
+    },
+    {
+      "id": "REG-KB-COMPARE-12",
+      "label": "KB Two-Version Comparison Isolation",
+      "elapsed_sec": 37.23,
+      "retriever_resources_count": 30,
+      "answer_length": 3401,
+      "passed": true
+    },
+    {
+      "id": "REG-ISOLATION-13",
+      "label": "Clean Fresh Session Must NOT Leak Prior Uploaded Private Doc",
+      "elapsed_sec": 27.38,
+      "retriever_resources_count": 16,
+      "answer_length": 2058,
+      "passed": true
+    }
+  ]
+}

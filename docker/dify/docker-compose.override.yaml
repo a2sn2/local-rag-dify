@@ -1,9 +1,12 @@
-# ==============================================================================
-# Docker Compose Override for Dify Web - JAIB Visual Identity Integration
-# Target Service: web
-# Image: local-rag/dify-web:1.18.0-jaib
-# Safe Rollback: Rename or remove this file, then execute 'docker compose up -d web'
-# ==============================================================================
 services:
+  api:
+    volumes:
+      - ./patches/document_extractor_node.py:/app/api/.venv/lib/python3.13/site-packages/graphon/nodes/document_extractor/node.py:ro
+  worker:
+    volumes:
+      - ./patches/document_extractor_node.py:/app/api/.venv/lib/python3.13/site-packages/graphon/nodes/document_extractor/node.py:ro
   web:
+    # Locally built JAIB Wallet themed Dify Web 1.18.0 image (brand-preserved across restarts).
+    # Rebuild if source changes with:
+    #   powershell -ExecutionPolicy Bypass -File scripts/apply-jaib-theme.ps1
     image: local-rag/dify-web:1.18.0-jaib
