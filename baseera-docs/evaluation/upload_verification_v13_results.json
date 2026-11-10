@@ -1,0 +1,171 @@
+[
+  {
+    "id": "UPLOAD-AR-PDF-01",
+    "label": "Arabic PDF (Clause/Amount/Penalty/Missing Tax ID)",
+    "files": [
+      "Experimental_Test_Arabic_Contract_Upload.pdf"
+    ],
+    "upload_file_ids": [
+      "34f06d52-dcc5-450c-8a81-3d95f8f1cb17"
+    ],
+    "query": "حلل العقد العربي المرفق واستخرج: (1) الطرفان، (2) مدة التنفيذ الإجمالية، (3) القيمة الإجمالية والدفعة الأولى بالريال السعودي، (4) غرامة التأخير وسقفها، (5) ما هو رقم التسجيل الضريبي للطرف الأول؟",
+    "elapsed_sec": 15.31,
+    "conversation_id": "2c880b03-ca4d-4cbf-9b3a-c477bafaf080",
+    "message_id": "1a7aacec-3476-45fb-8fa4-b4d29995466e",
+    "usage": {},
+    "retriever_resources_count": 0,
+    "retriever_docs": [],
+    "answer": "بناءً على تحليل الوثيقة المرفقة **\"Experimental_Test_Arabic_Contract_Upload.pdf\"** (صفحة 1 من 2)، إليك الاستخراجات المطلوبة بدقة:\n\n### (1) أطراف العقد\n*   **الطرف الأول (العميل):** شركة النخبة للتجارة الإلكترونية، ومقرها مدينة جدة.\n*   **الطرف الثاني (مقدم الخدمة):** مؤسسة الحلول الرقمية المتقدمة لتقنية المعلومات، ومقرها مدينة الرياض.\n\n### (2) مدة التنفيذ الإجمالية\nمدة التنفيذ الإجمالية هي **ستة (6) أشهر ميلادية**، وتبدأ من تاريخ التوقيع الفعلي المحدد في **01-12-2026م**.\n\n### (3) القيمة الإجمالية والدفعة الأولى\n*   **القيمة الإجمالية للعقد:** 240,000 ريال سعودي.\n*   **الدفعة الأولى:** نسبة 40% بقيمة **96,000 ريال سعودي** (تسدد عند توقيع العقد).\n\n### (4) غرامة التأخير وسقفها\n*   **غرامة التأخير:** قدرها **1,500 ريال سعودي** عن كل أسبوع تأخير.\n*   **سقف المسؤولية:** يُحدد الحد الأقصى الإجمالي لغرامات التأخير بنسبة 12% من إجمالي قيمة العقد، وهو ما لا يتجاوز **28,800 ريال سعودي**.\n\n### (5) رقم التسجيل الضريبي للطرف الأول\nفي المستند المرفق، يوجد خانة فارغة مخصصة لهذا الرقم:\n*   **رقم التسجيل الضريبي:** ]خانة فارغة - [غير محدد في المستند]."
+  },
+  {
+    "id": "UPLOAD-EN-PDF-02",
+    "label": "English PDF (Bonterms Mutual NDA v1.0)",
+    "files": [
+      "Bonterms_Mutual_NDA_v1.0.pdf"
+    ],
+    "upload_file_ids": [
+      "9206c71b-91b9-4ff3-9130-4878f2a03256"
+    ],
+    "query": "In the attached Bonterms Mutual NDA PDF, what standard of care applies in Section 3, what equitable relief is stated in Section 11, and is a specific US State Governing Law hardcoded in the body?",
+    "elapsed_sec": 13.62,
+    "conversation_id": "395c3a40-1b1b-40fd-8806-271c72a9e806",
+    "message_id": "e35f0a36-d28a-4af7-a486-bf6d3871069a",
+    "usage": {},
+    "retriever_resources_count": 0,
+    "retriever_docs": [],
+    "answer": "Based on the **Bonterms Mutual NDA (Version 1.0)** provided in the extract, here is the analysis regarding your three questions:\n\n### 1. Standard of Care in Section 3\n**Clause:** Section 3(c)\n**Standard Applied:** Recipient must protect Confidential Information using **\"at least the same precautions Recipient uses for its own similar information and no less than a reasonable standard of care.\"**\n\n*   **Analysis:** The document does not mandate a specific industry-standard (e.g., \"military grade encryption\") but establishes a dual-tier requirement:\n    1.  It must match the precautions the Recipient already applies to its *own* similar information.\n    2.  It cannot fall below a **\"reasonable standard of care.\"**\n\n### 2. Equitable Relief in Section 11\n**Clause:** Section 11 (Equitable Relief)\n**Relief Stated:** Upon a breach, the Discloser is entitled to seek **\"appropriate equitable relief, including an injunction,\"** in addition to other remedies.\n\n*   **Rationale:** The clause explicitly states that a breach may cause \"irreparable harm\" for which monetary damages are insufficient. Therefore, the primary specific relief mentioned is an **injunction** (a court order to stop the breach), alongside other equitable options.\n\n### 3. Specific US State Governing Law\n**Clause:** Section 10 (Governing Law and Courts)\n**Status:** **No specific US State is hardcoded.**\n\n*   **Analysis:** The text states: *\"The Governing Law governs this NDA...\"* but does not name a specific state (e.g., California, New York). Instead, it relies on the **\"Cover Page\"** to define the governing law.\n*   **Requirement:** You must check the **[اسم الملف المرفق: Bonterms_Mutual_NDA_v1.0.pdf]** for the attached **Cover Page** or any addendum signed by the parties to identify which specific state's laws apply, as this information is not present in the main body text of the extract provided.\n\n---\n\n### Summary Table\n\n| Question | Document Provision | Specifics / Status |\n| :--- | :--- | :--- |\n| **Standard of Care** | Section 3(c) | \"At least the same precautions Recipient uses for its own similar information and no less than a reasonable standard of care.\" |\n| **Equitable Relief** | Section 11 | \"Appropriate equitable relief, including an injunction.\" |\n| **Governing Law** | Section 10 | **Not hardcoded in body.** Depends on the Cover Page/Addendum. |\n\n*Note: This analysis is based strictly on the provided text extract and does not constitute final binding legal counsel.*"
+  },
+  {
+    "id": "UPLOAD-DOCX-03",
+    "label": "English DOCX (Service Agreement Fixture + Missing IBAN)",
+    "files": [
+      "Experimental_Test_Service_Agreement_Upload.docx"
+    ],
+    "upload_file_ids": [
+      "172dd02f-a177-455d-b4e4-58d6080a40bf"
+    ],
+    "query": "From the attached DOCX file, extract the parties, payment milestone amounts, liability cap, and report the Bank IBAN or state if it is missing.",
+    "elapsed_sec": 7.89,
+    "conversation_id": "98ce1445-7751-43d6-afca-68f819e6fe2f",
+    "message_id": "f23c4f10-f9c7-4d33-affc-69685984914e",
+    "usage": {},
+    "retriever_resources_count": 0,
+    "retriever_docs": [],
+    "answer": "بناءً على المستند المرفق **[اسم الملف المرفق: Experimental_Test_Service_Agreement_Upload.docx]**، إليك البيانات المطلوبة:\n\n### 1. الأطراف (Parties)\n*   **الطرف الأول (العميل):** شركة النخبة للتجارة المحدودة\n*   **الطرف الثاني (المورد):** شركة مسار الحلول الرقمية\n\n### 2. مراحل الدفع والمبالغ (Payment Milestones)\n| المرحلة | التاريخ المستحق | المبلغ (ريال سعودي) | النسبة |\n| :--- | :--- | :--- | :--- |\n| Phase 1 Kickoff | 2027-01-20 | 80,000 SAR | 25% |\n| Phase 2 Go-Live | 2027-06-30 | 240,000 SAR | 75% |\n\n### 3. حد المسؤولية (Liability Cap)\n*   **الحد الأقصى للغرامة:** 8% من قيمة العقد الإجمالي.\n    *   *ملاحظة:* القيمة الإجمالية للعقد هي 320,000 ريال سعودي، مما يجعل الحد الأقصى النظري للغرامة 25,600 ريال سعودي.\n\n### 4. رقم الحساب البنكي (Bank IBAN)\n*   **الحالة:** غير محدد في المستند (Not specified).\n    *   لم يتم ذكر أي تفاصيل حول الحساب البنكي أو رقم الـ IBAN في نص المستند المرفق."
+  },
+  {
+    "id": "UPLOAD-MULTI-04",
+    "label": "Multi-Document Comparison (Arabic PDF + English DOCX)",
+    "files": [
+      "Experimental_Test_Arabic_Contract_Upload.pdf",
+      "Experimental_Test_Service_Agreement_Upload.docx"
+    ],
+    "upload_file_ids": [
+      "28bc23a0-2156-4482-bd2e-ef8301a5bb35",
+      "cc7ef3f2-32b1-4896-8cfe-c9f619c86fe8"
+    ],
+    "query": "قارن بين المستندين المرفقين معاً (العقد العربي والاتفاقية الإنجليزية) من حيث: القيمة المالية والعملة، مدة الفحص/المعاينة، وشروط الإنهاء أو الاسترداد عند الإلغاء.",
+    "elapsed_sec": 16.85,
+    "conversation_id": "944ea45d-6af1-4ece-b2a9-5747eab78c1a",
+    "message_id": "8b64448e-3d95-4866-a2fa-ac242c42518b",
+    "usage": {},
+    "retriever_resources_count": 0,
+    "retriever_docs": [],
+    "answer": "بناءً على تحليل المستندين المرفقين (**Experimental_Test_Arabic_Contract_Upload.pdf** و **Experimental_Test_Service_Agreement_Upload.docx**)، إليك مقارنة دقيقة بين الطرفين في النقاط المطلوبة:\n\n### 1. القيمة المالية والعملة\n| المعيار | المستند العربي (PDF) | المستند الإنجليزي/الوثيقة الثانية (DOCX) | ملاحظات |\n| :--- | :--- | :--- | :--- |\n| **القيمة الإجمالية** | 240,000 ريال سعودي | 320,000 ريال سعودي | قيمتان مختلفتان تماماً. |\n| **العملة** | ريال سعودي (SAR) | ريال سعودي (SAR) | كلاهما بالريال السعودي. |\n| **جدول الدفعات** | - الدفعة الأولى: 40% (عند التوقيع)<br>- الدفعة الثانية: 35% (عند تسليم النسخة التجريبية)<br>- الدفعة الثالثة: 25% (قبل التشغيل الفعلي) | - الدفعة الأولى: 25% (عند التوقيع)<br>- الدفعة النهائية: 75% (بعد التسليم النهائي) | المستند العربي أكثر تفصيلاً في المراحل الوسيطة. |\n\n### 2. مدة الفحص/المعاينة\n| المعيار | المستند العربي (PDF) | المستند الإنجليزي/الوثيقة الثانية (DOCX) | ملاحظات |\n| :--- | :--- | :--- | :--- |\n| **مدة الفحص** | 10 أيام عمل | غير محدد في المستند | يوجد فرق واضح؛ المستند الثاني لا يذكر مدة محددة للفحص. |\n\n### 3. شروط الإنهاء أو الاسترداد عند الإلغاء (الطرف الأول يوقف المشروع)\n| المعيار | المستند العربي (PDF) | المستند الإنجليزي/الوثيقة الثانية (DOCX) | ملاحظات |\n| :--- | :--- | :--- | :--- |\n| **شروط الإنهاء** | يجوز للطرف الأول إنهاء العقد بسبب جوهري بعد إخطار كتابي قبل 30 يوماً لمنح فرصة تصحيح. | غير محدد في المستند (لا توجد بنود تفصيلية للفسخ أو الاسترداد). | المستند العربي يحدد آلية واضحة للإخطار والفرصة التصحيحية. |\n| **الاسترداد المالي** | يسدد الطرف الأول قيمة المراحل المنجزة فعلياً + احتساب 5% كمصاريف تصفية إدارية. | غير محدد في المستند. | المستند العربي يفرض خصم نسبة (5%) من القيمة المستردة كرسوم إغلاق، بينما المستند الثاني لا يذكر هذه النسبة أو آلية الاسترداد. |\n\n### ملخص التحليل\n*   **القيمة:** العقد الإنجليزي (DOCX) أكثر قيمة (320,000 ريال) مقارنة بالعقد العربي (PDF) (240,000 ريال).\n*   **الفحص:** العقد العربي يحدد فترة فحص قصيرة (10 أيام عمل)، بينما العقد الإنجليزي صامت في هذا الجانب.\n*   **الاسترداد:** العقد العربي يضع شروطاً صارمة للاسترداد تشمل خصم 5% كرسوم تصفية، بينما العقد الإنجليزي لا يذكر آلية الاسترداد أو الخصومات عند الإلغاء الطوعي من قبل العميل.\n\n**تنبيه هام:** كلا المستندين يحملان وسم \"اختباري تجريبي\" (Experimental/Test) ويستخدمان تواريخ مستقبلية (2026-2027)، مما يشير إلى أنهما وثائق نموذجية أو تجريبية وليست عقوداً نافذة قانونياً في الوقت الحالي."
+  },
+  {
+    "id": "UPLOAD-CLOUD-PDF-05",
+    "label": "Medium-Long 34KB PDF Full 16K Pass (Bonterms Cloud Terms v1.0 PDF)",
+    "files": [
+      "Bonterms_Standard_Cloud_Terms_v1.0.pdf"
+    ],
+    "upload_file_ids": [
+      "6cf92fad-385a-425d-b16d-b8b752a9efb9"
+    ],
+    "query": "In this attached Bonterms Cloud Terms v1.0 PDF, check the entire document from start to end and answer: (1) under Section 1.1 what right is granted to Customer, (2) under Section 15.2 what Feedback rights apply, and (3) under Section 16 what are the General Cap and Enhanced Cap (3x)?",
+    "elapsed_sec": 20.45,
+    "conversation_id": "ebbbf3e4-fa27-4ce0-b845-6a1dd98256f4",
+    "message_id": "8c9abe13-ce59-41a0-8cf7-0af4322968ef",
+    "usage": {},
+    "retriever_resources_count": 0,
+    "retriever_docs": [],
+    "answer": "Based on a strict review of the **[USER DOCUMENT EXTRACT]** for **Bonterms Cloud Terms (Version 1.0)**, here are the answers to your specific questions:\n\n### 1. Right granted to Customer under Section 1.1\n**Status:** **Section 1.1 does not exist.**\n*   **Analysis:** The document structure provided in the extract defines **\"1. The Agreement\"** as a single paragraph (Page 1). It does not contain subsections numbered \"1.1\".\n*   **Actual Content of Section 1:** This section establishes that the Bonterms Cloud Terms are standardized terms for cloud services and that the parties' agreement (\"Agreement\") is formed collectively by the **Bonterms Cloud Terms**, a **Cover Page** (specifying Key Terms, Attachments, and Additional Terms), and any **Orders**. It also states that conflicts between parts of the Agreement are governed by Section 22.5 (Order of Precedence).\n\n### 2. Feedback rights under Section 15.2\n**Status:** **Section 15.2 exists.**\n*   **Clause Text:** \"If Customer gives Provider feedback regarding improvement or operation of the Cloud Service, Support or Professional Services, Provider may use the feedback without restriction or obligation. All feedback is provided 'AS IS' and Provider will not publicly identify Customer as the source of feedback without Customer's permission.\" (Page 5)\n*   **Rights Applied:**\n    *   **Provider's Right:** The Provider has the right to use any Customer feedback for improvement or operation purposes **without restriction or obligation**.\n    *   **Customer's Protection:** The Provider is prohibited from publicly identifying the Customer as the source of the feedback unless they obtain explicit permission.\n    *   **Feedback Status:** All feedback is provided \"AS IS\" (no warranty).\n\n### 3. General Cap and Enhanced Cap under Section 16\n**Status:** **Section 16 defines these caps, but specific monetary values are not fixed in this text.**\n*   **General Cap Definition (Section 16.5):** The \"General Cap\" is defined as **\"amounts paid or payable by Customer to Provider under this Agreement in the 12 months immediately preceding the first incident giving rise to liability.\"**\n    *   *Note:* This is a relative calculation based on actual payments made, not a fixed dollar amount stated in the text.\n*   **Enhanced Cap Definition (Section 16.5):** The \"Enhanced Cap\" is defined as **\"three times (3x) the General Cap.\"**\n    *   *Note:* Since the General Cap depends on the specific payment history of the Customer, the Enhanced Cap is also variable and not a fixed number in the document.\n*   **Exceptions:** These caps do not apply to \"Enhanced Claims\" (breach of Security or DPA) or \"Uncapped Claims\" (indemnification obligations, IP infringement, confidentiality breaches, etc.).\n\n**Summary Table of Caps:**\n\n| Cap Type | Definition / Value in Document |\n| :--- | :--- |\n| **General Cap** | Amounts paid/payable by Customer to Provider in the 12 months immediately preceding the first incident giving rise to liability. (Variable) |\n| **Enhanced Cap** | Three times (3x) the General Cap. (Variable) |\n\n*Disclaimer: This analysis is based strictly on the provided text extract and does not constitute legal advice.*"
+  },
+  {
+    "id": "UPLOAD-LARGE-06",
+    "label": "Oversized Document Safeguard + Visible Tail Analysis (UK Model Services 177KB DOCX)",
+    "files": [
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.docx"
+    ],
+    "upload_file_ids": [
+      "5450da16-7ebd-4991-9f1f-8063ea94687c"
+    ],
+    "query": "Summarize Clause 1 and Clause 31 of this attached UK Model Services Contract, or explicitly warn if early clauses exceed context limits.",
+    "elapsed_sec": 21.32,
+    "conversation_id": "336e420d-9ba1-4651-ad85-99f62e356a88",
+    "message_id": "dd81fbd6-a723-4faf-bede-e3b207e2f3d4",
+    "usage": {},
+    "retriever_resources_count": 0,
+    "retriever_docs": [],
+    "answer": "**⚠️ LOCAL WINDOW LIMIT EXCEEDED WARNING**\nThe document provided (`UK_Model_Services_Contract_Core_Terms_v2.2A.docx`) contains **187,103 characters**, which significantly exceeds the 16,384-character local analysis window. Only the opening section (approx. 28,000 characters) is visible.\n\n**Crucial Warning:**\n*   **Clause 1** is present in the visible text.\n*   **Clause 31 (Termination Rights)** is **NOT** present in the visible text. Based on the Table of Contents and the version history, Clause 31 likely exists later in the document (the visible text ends at Clause 5.7.2).\n\nTherefore, I can summarize **Clause 1**, but I must explicitly state that **Clause 31 cannot be summarized** as it is outside the current context window.\n\n---\n\n### 1. Summary of Clause 1: [THE AUTHORITY] and Preliminaries\n\n**Location:** Page 1 (Visible Section)\n**Source:** `UK_Model_Services_Contract_Core_Terms_v2.2A.docx`\n\n**Key Provisions:**\n*   **Parties:** The contract is between **(1) THE AUTHORITY** (acting as part of the Crown) and **(2) THE SUPPLIER**.\n*   **Notification Requirement:** Users must notify the Cabinet Office (`modelservicescontract@cabinetoffice.gov.uk`) within 30 days of using this document, providing specific details including:\n    *   Name of Contracting Authority and Manager.\n    *   Supplier and Key Sub-contractor details.\n    *   Contract title, reference number, and total value.\n    *   Status as \"Critical Service Contract\" or \"Public Sector Dependent Supplier\".\n    *   CPV codes and service breakdown (per sub-contractor with % and value).\n    *   Start date and term (including extension options).\n*   **Copyright & Licensing:**\n    *   The document is issued by the Cabinet Office and copyright of the Crown.\n    *   It can be used/reused under the **Open Government Licence v3.0** for commercial and non-commercial purposes without charge.\n    *   Attribution must include: *\"Contains public sector information licensed under the Open Government Licence v3.0\"* with a link to the licence.\n*   **Disclaimer:**\n    *   No warranty is given by the Cabinet Office regarding completeness or suitability.\n    *   The document should only be used with legal advice, and users do so at their own risk.\n\n---\n\n### 2. Summary of Clause 31: [TERMINATION RIGHTS]\n\n**Status:** **NOT FOUND IN VISIBLE TEXT**\n**Reason:** The visible text ends at the end of **Clause 5 (Security Management)** / **Clause 5.7**. According to the Table of Contents provided in the document header, **Clause 31 (Termination Rights)** is located much later in the contract structure.\n\n*   **Inference from Document Structure:** While Clause 31 is not visible, the Table of Contents indicates it covers \"Termination Rights.\" In standard UK Model Services Contracts, this clause typically details:\n    *   Termination for convenience (by either party).\n    *   Termination for default (breach of contract).\n    *   Notice periods required.\n    *   Effect of termination on payments and handover obligations.\n*   **Limitation:** I cannot provide the specific text, notice periods, or conditions of Clause 31 because it is truncated from the current analysis window.\n\n---\n\n### Recommendation for Full Analysis\nTo obtain a complete summary including Clause 31 (Termination Rights), you would need to upload the document again if the system allows re-processing, or acknowledge that the current view is limited to the first ~28,000 characters of an 187,000+ character file.\n\n**Would you like me to analyze any other clauses that *are* visible in the current text (e.g., Clauses 2–5)?**"
+  },
+  {
+    "id": "UPLOAD-FOLLOWUP-AR-07",
+    "label": "Turn-2 Follow-up Without File (Arabic PDF Retained via assigner)",
+    "files": [],
+    "upload_file_ids": [],
+    "query": "وما هي نسبة الدفعة الأولى والمدة الممنوحة للفسخ بالإخطار الكتابي في نفس العقد الذي حللته للتو؟",
+    "elapsed_sec": 21.56,
+    "conversation_id": "2c880b03-ca4d-4cbf-9b3a-c477bafaf080",
+    "message_id": "bfc01316-4f83-4e81-a7fe-9a929d7c380a",
+    "usage": {},
+    "retriever_resources_count": 0,
+    "retriever_docs": [],
+    "answer": "بناءً على الوثيقة المرفقة **[Experimental_Test_Arabic_Contract_Upload.pdf]**، إليك الإجابة المباشرة بناءً على بنود العقد:\n\n**1. نسبة الدفعة الأولى:**\nتبلغ نسبة الدفعة الأولى **40%** من إجمالي قيمة العقد.\n*   **القيمة المطلقة:** 96,000 ريال سعودي.\n*   **التوقيت:** عند توقيع العقد.\n*   **المصدر:** البند الثالث (الفقرة 2) من [صفحة 1 من 2].\n\n**2. مدة الإخطار الكتابي للفسخ:**\nتبلغ المدة الممنوحة للطرف الآخر قبل الفسخ **30 يومًا**.\n*   **الشروط:** يجب أن يكون الإخطار كتابيًا، ويجب منح الطرف الآخر فرصة لتصحيح المخالفة (جوهري) خلال هذه الفترة.\n*   **المصدر:** البند الخامس (الفقرة 1) من [صفحة 2 من 2].\n\n**ملخص سريع:**\n| العنصر | القيمة/المدة | المصدر في المستند |\n| :--- | :--- | :--- |\n| نسبة الدفعة الأولى | 40% (96,000 ريال) | البند الثالث، صفحة 1 |\n| مدة الإخطار للفسخ | 30 يومًا كتابيًا | البند الخامس، صفحة 2 |\n\n*ملاحظة تحليلية:* العقد يحدد بوضوح آلية الفسخ بناءً على \"جوهري\" (Material Breach)، مما يعني أن أي مخالفة غير جوهرية قد لا تترتب عليها حق فسخ فوري دون فرصة تصحيح. كما أن سداد الدفعة الأولى شرط أساسي لبدء الالتزامات المالية، بينما يتم نقل الملكية الفكرية فقط بعد سداد الدفعة الختامية بالكامل."
+  },
+  {
+    "id": "UPLOAD-FOLLOWUP-CLOUD-08",
+    "label": "Turn-2 Follow-up Without File (34KB Cloud PDF Retained via assigner)",
+    "files": [],
+    "upload_file_ids": [],
+    "query": "In the same attached Bonterms Cloud Terms document under Section 14, how many days prior notice is required to avoid Subscription Term renewal, what is the cure period for material breach, and within how many days of request after termination must Provider delete Customer Data?",
+    "elapsed_sec": 18.32,
+    "conversation_id": "ebbbf3e4-fa27-4ce0-b845-6a1dd98256f4",
+    "message_id": "96aaafa8-4f36-4771-be7c-0dffd5227fa0",
+    "usage": {},
+    "retriever_resources_count": 0,
+    "retriever_docs": [],
+    "answer": "Based on **Section 14 (Term and Termination)** of the *Bonterms Cloud Terms (Version 1.0)* attached to **[اسم الملف المرفق: Bonterms_Standard_Cloud_Terms_v1.0.pdf]**, here is the precise analysis regarding renewal notice, breach cure periods, and data deletion timelines:\n\n### 1. Notice Required to Avoid Subscription Term Renewal\nTo prevent an automatic renewal of a **Subscription Term**, either party must provide written notice of non-renewal.\n*   **Timeline:** The notice must be given at least **30 days** prior to the end of the current Subscription Term.\n*   **Clause Reference:** Section 14.1 (Subscription Terms), Page 3 من 7.\n    > *\"Each Subscription Term will renew for successive periods unless (a) the parties agree on a different renewal Order or (b) either party notifies the other of non-renewal at least **30 days** prior to the end of the current Subscription Term.\"*\n\n### 2. Cure Period for Material Breach\nIf one party commits a material breach, the other party must provide notice and allow a specific period to \"cure\" (fix) the issue before termination rights are triggered.\n*   **Timeline:** The non-breaching party has **30 days** after receiving notice of the breach to cure it.\n*   **Clause Reference:** Section 14.3 (Termination), Page 3 من 7.\n    > *\"Either party may terminate this Agreement... if the other party (a) fails to cure a material breach of this Agreement within **30 days** after notice...\"*\n\n### 3. Provider's Obligation to Delete Customer Data After Termination\nOnce the agreement is terminated or expires, the Provider has a specific window to delete the Customer's data upon request.\n*   **Timeline:** The Provider must delete the Customer Data within **60 days** of receiving the request.\n*   **Clause Reference:** Section 14.4(b) (Data Export & Deletion), Page 3 من 7.\n    > *\"(b) After termination or expiration of this Agreement, within **60 days** of request, Provider will delete Customer Data...\"*\n\n### Summary Table\n\n| Requirement | Timeframe | Source Clause | Page |\n| :--- | :--- | :--- | :--- |\n| **Notice to Avoid Renewal** | 30 days prior to term end | Section 14.1 | [صفحة 3 من 7] |\n| **Cure Period for Material Breach** | 30 days after notice of breach | Section 14.3 | [صفحة 3 من 7] |\n| **Provider Data Deletion Deadline** | Within 60 days of request | Section 14.4(b) | [صفحة 3 من 7] |\n\n**Important Note on Exceptions:**\nWhile the deletion deadline is generally 60 days, Section 14.4(c) clarifies that this obligation is subject to standard backup or record retention policies required by Law. Therefore, if legal requirements mandate longer retention than 60 days, the Provider may be legally permitted to retain data beyond that specific contractual window."
+  },
+  {
+    "id": "UPLOAD-TOPIC-SWITCH-09",
+    "label": "Turn-3 Topic Switch to Static KB (question-classifier knowledge_base branch)",
+    "files": [],
+    "upload_file_ids": [],
+    "query": "Switching topics to Baseera's built-in UK Model Services Contract Core Terms v2.2A: under Clause 31, can the Authority rely on minor defaults to terminate for Supplier Default?",
+    "elapsed_sec": 25.76,
+    "conversation_id": "2c880b03-ca4d-4cbf-9b3a-c477bafaf080",
+    "message_id": "0fa71742-8b9c-4aae-9bdf-4b10d76c8c50",
+    "usage": {},
+    "retriever_resources_count": 16,
+    "retriever_docs": [
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md",
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.md"
+    ],
+    "answer": "Based strictly on **UK Cabinet Office Model Services Contract — Core Terms (Version 2.2A, 2025)**, here is the analysis regarding whether the Authority can rely on **minor defaults** to terminate the contract under **Clause 31**:\n\n### 1. Verbatim Contractual Limit\nThe contract explicitly distinguishes between \"material\" and non-material defaults when determining termination rights. The relevant text states:\n\n> \"Where the Authority... is terminating this Contract under Clause 31.1.2 due to the occurrence of either limb (b),(h) and/or (i) of the definition of Supplier Termination Event, it may rely on a **single material Default** or on a number of Defaults or repeated Defaults (whether of the same or different obligations and regardless of whether such Defaults are cured) which taken together constitute a **material Default**...\"\n\n### 2. Logical Inference & Analysis\n*   **Requirement for \"Materiality\":** The Authority cannot terminate based on isolated, minor defaults unless those specific defaults fall under the definition of a **\"Supplier Termination Event\"** (specifically limbs b, h, or i) AND are deemed **\"material\"**.\n*   **Aggregation Rule:** While the Authority *can* rely on multiple defaults taken together to form a \"material default,\" this does not mean they can terminate for *any* minor default. The threshold remains that the cumulative effect must constitute a **material Default**.\n*   **Exclusion of Minor Defaults:** If a default is explicitly defined as non-material (e.g., a minor administrative delay that does not impact service delivery or financial integrity), it generally cannot trigger termination rights under Clause 31.1.2, even if repeated, unless the contract's specific definitions classify it as material in context.\n\n### 3. Risks & Ambiguities\n*   **Definition of \"Material\":** The term \"material\" is not defined numerically in the provided text but relies on the broader definition within the contract (likely found in Clause 2 or similar). What constitutes a \"minor\" default depends entirely on whether it meets the threshold of being \"material.\"\n*   **Cure Periods:** The text notes that repeated defaults can be aggregated regardless of whether they are cured. However, this aggregation only works if the resulting state is \"material.\" A single minor default that remains uncured likely does not meet this bar.\n\n### 4. Practical Advisory Recommendation\n**Conclusion:** No, the Authority **cannot** rely on a standalone **minor default** to terminate the contract under Clause 31. Termination requires either:\n1.  A **single material Default** (which implies the default itself is significant enough to be \"material\" by definition); OR\n2.  Multiple defaults that, when taken together, constitute a **material Default**.\n\nIf the default in question is truly \"minor\" (i.e., not material), it does not trigger termination rights. The Authority should instead consider remedial actions under other clauses (such as Clause 27 for Remedial Adviser or Clause 28 Step-In) unless the minor defaults escalate to meet the \"material\" threshold.\n\n***\n*Disclaimer: This analysis is based on the provided text of UK Cabinet Office Model Services Contract v2.2A and serves as advisory guidance, not formal binding legal advice.*"
+  }
+]

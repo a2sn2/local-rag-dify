@@ -62,6 +62,6 @@
 
 ---
 
-## ملخص إجمالي لقاعدة المعرفة (Baseera Docs — Evaluation Knowledge)
-- **إجمالي الملفات المفهرسة في Weaviate:** **8 ملفات Markdown** بإجمالي **743 قطعة معرفية مترابطة وموسومة بالعناوين** (Section-Aware Chunking).
+## ملخص إجمالي لقاعدة المعرفة (Baseera Docs)
+- **إجمالي الملفات المفهرسة في Weaviate:** **8 ملفات Markdown** بإجمالي **457 مقطعاً مترابطاً** (`433` مقطعاً للـ 7 وثائق النشطة في `Baseera Docs — Evaluation Knowledge` مع Section-Aware Coalesced Chunking + `24` مقطعاً معزولة في `Baseera Docs — Legacy Draft v1.0.0` للمقارنة فقط؛ محدّث من `743` شظية أولية في `v1.0.0`/`v1.1.0`).
 - **إجمالي الأصول المرجعية ومرفقات الاختبار (PDF / DOCX غير المفهرسة في KB):** **7 ملفات** (5 PDF + 2 DOCX).
