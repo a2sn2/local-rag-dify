@@ -31,7 +31,16 @@ site:
   use_icon_as_answer_icon: false
 version: 0.7.0
 workflow:
-  conversation_variables: []
+  conversation_variables:
+  - description: Persisted extracted text list of the most recent uploaded document(s)
+      in this conversation
+    id: conv_uploaded_doc_text
+    name: uploaded_doc_text
+    selector:
+    - conversation
+    - uploaded_doc_text
+    value: []
+    value_type: array[string]
   environment_variables: []
   features:
     file_upload:
@@ -64,37 +73,82 @@ workflow:
       voice: ''
   graph:
     edges:
-    - id: start-file_check
+    - id: e-start-fc
       source: start
       sourceHandle: source
       target: file_check
       targetHandle: target
-    - id: file_check-document_extractor
+    - id: e-fc-de
       source: file_check
-      sourceHandle: 'true'
+      sourceHandle: has_new_files
       target: document_extractor
       targetHandle: target
-    - id: document_extractor-llm_uploaded
+    - id: e-de-asg
       source: document_extractor
+      sourceHandle: source
+      target: assign_uploaded_doc
+      targetHandle: target
+    - id: e-asg-llmu
+      source: assign_uploaded_doc
       sourceHandle: source
       target: llm_uploaded
       targetHandle: target
-    - id: llm_uploaded-answer_uploaded
+    - id: e-llmu-ansu
       source: llm_uploaded
       sourceHandle: source
       target: answer_uploaded
       targetHandle: target
-    - id: file_check-knowledge_retrieval
+    - id: e-fc-cls
+      source: file_check
+      sourceHandle: has_prior_doc
+      target: followup_classifier
+      targetHandle: target
+    - id: e-cls-llmp
+      source: followup_classifier
+      sourceHandle: prior_doc
+      target: llm_prior_doc
+      targetHandle: target
+    - id: e-llmp-ansp
+      source: llm_prior_doc
+      sourceHandle: source
+      target: answer_prior_doc
+      targetHandle: target
+    - id: e-cls-kbc
+      source: followup_classifier
+      sourceHandle: knowledge_base
+      target: kb_compare_check
+      targetHandle: target
+    - id: e-fc-kbc
       source: file_check
       sourceHandle: 'false'
-      target: knowledge_retrieval
+      target: kb_compare_check
       targetHandle: target
-    - id: knowledge_retrieval-llm
-      source: knowledge_retrieval
+    - id: e-kbc-krc
+      source: kb_compare_check
+      sourceHandle: compare_versions
+      target: kr_compare
+      targetHandle: target
+    - id: e-krc-llmc
+      source: kr_compare
+      sourceHandle: source
+      target: llm_compare
+      targetHandle: target
+    - id: e-llmc-ansc
+      source: llm_compare
+      sourceHandle: source
+      target: answer_compare
+      targetHandle: target
+    - id: e-kbc-krp
+      source: kb_compare_check
+      sourceHandle: 'false'
+      target: kr_primary
+      targetHandle: target
+    - id: e-krp-llm
+      source: kr_primary
       sourceHandle: source
       target: llm
       targetHandle: target
-    - id: llm-answer
+    - id: e-llm-ans
       source: llm
       sourceHandle: source
       target: answer
@@ -106,41 +160,50 @@ workflow:
         variables: []
       id: start
       position:
-        x: 60
-        y: 280
+        x: 40
+        y: 320
       sourcePosition: right
       targetPosition: left
       type: custom
     - data:
         _targetBranches:
-        - id: 'true'
-          name: IF
+        - id: has_new_files
+          name: IF (New Upload)
+        - id: has_prior_doc
+          name: ELIF (Prior Upload)
         - id: 'false'
-          name: ELSE
+          name: ELSE (KB)
         cases:
-        - case_id: 'true'
+        - case_id: has_new_files
           conditions:
           - comparison_operator: not empty
-            id: has_uploaded_files
+            id: cond_sys_files
             value: ''
             variable_selector:
             - sys
             - files
           logical_operator: and
-        conditions:
-        - comparison_operator: not empty
-          id: has_uploaded_files
-          value: ''
-          variable_selector:
-          - sys
-          - files
-        logical_operator: and
-        title: Uploaded File Check
+        - case_id: has_prior_doc
+          conditions:
+          - comparison_operator: empty
+            id: cond_no_new_files
+            value: ''
+            variable_selector:
+            - sys
+            - files
+          - comparison_operator: not empty
+            id: cond_conv_doc
+            value: ''
+            variable_selector:
+            - conversation
+            - uploaded_doc_text
+          logical_operator: and
+        title: Upload & Prior Doc Router
         type: if-else
       id: file_check
       position:
-        x: 320
-        y: 280
+        x: 280
+        y: 320
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -153,8 +216,28 @@ workflow:
         - files
       id: document_extractor
       position:
-        x: 600
-        y: 140
+        x: 540
+        y: 60
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        items:
+        - input_type: variable
+          operation: over-write
+          value:
+          - document_extractor
+          - text
+          variable_selector:
+          - conversation
+          - uploaded_doc_text
+        title: Save Uploaded Doc Context
+        type: assigner
+        version: '2'
+      id: assign_uploaded_doc
+      position:
+        x: 800
+        y: 60
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -165,13 +248,14 @@ workflow:
         memory:
           query_prompt_template: ''
           window:
-            enabled: false
-            size: 0
+            enabled: true
+            size: 2
         model:
           completion_params:
-            max_tokens: 900
+            max_tokens: 1100
+            num_ctx: 16384
             stop: []
-            temperature: 0.1
+            temperature: 0.05
             think: false
             top_p: 0.9
           mode: chat
@@ -179,50 +263,51 @@ workflow:
           provider: langgenius/ollama/ollama
         prompt_template:
         - role: system
-          text: "You are \"بصيرة — Baseera Docs\", a friendly, accurate assistant\
-            \ for analyzing uploaded PDF/DOCX/MD/TXT documents.\n\nMANDATORY RULES:\n\
-            1. FACTUAL CONTEXT GUARANTEE: The user ALWAYS attached a valid file in\
-            \ this branch and Document Extractor ALREADY extracted it. NEVER say \"\
-            no file was provided\" or ask them to upload a file again!\n2. OVERSIZED\
-            \ DOCUMENT & TRUNCATION GUARD (CRITICAL):\n   - Local inference uses a\
-            \ ~4096-token single-pass window.\n   - If EITHER `=== START OF EXTRACTED\
-            \ DOCUMENT ===` OR `=== END OF EXTRACTED DOCUMENT ===` is missing, OR\
-            \ the text between them appears cut off / blank (dropped by the 4096-token\
-            \ runtime limit), DO NOT pretend no file was uploaded and DO NOT invent\
-            \ missing clauses! Explicitly inform the user in their language: that\
-            \ their attached document was received and extracted, but its full size\
-            \ exceeds the local single-pass ~4096-token processing limit (تم استلام\
-            \ المستند المرفق واستخراج نصه، غير أن حجمه الكلي يتجاوز حد نافذة السياق\
-            \ المحلية ~4096 توكن للمعالجة في دفعة واحدة). Summarize only any visible\
-            \ snippet if present, and recommend focusing on a single clause or splitting\
-            \ the file.\n3. Analyze ONLY extracted document text between the markers.\
-            \ Never fabricate clauses, numbers, IDs, or parties. Extract parties,\
-            \ dates, amounts & currencies, durations, penalties, mutual obligations,\
-            \ termination rules, and report blank/omitted fields explicitly. When\
-            \ 2 files are uploaded, compare them cleanly.\n4. THREE-LEVEL GROUNDING\
-            \ + STRICT LANGUAGE RULE:\n   - Distinguish quoted facts vs logical risk\
-            \ analysis (add non-legal-advice disclaimer) vs missing items.\n   - Strictly\
-            \ answer in the SAME language as the user's question (English for English\
-            \ questions; friendly Arabic for Arabic questions).\n"
+          text: "You are \"بصيرة — Baseera Docs\", an accurate, helpful assistant\
+            \ for analyzing uploaded contracts and business documents (PDF, DOCX,\
+            \ MD, TXT) as well as follow-up questions about them.\n\nMANDATORY RULES:\n\
+            1. STRICT LANGUAGE MATCHING:\n   - Detect the language of the User Question\
+            \ in the final message.\n   - If the User Question is in English, write\
+            \ your ENTIRE answer strictly in clear English.\n   - If the User Question\
+            \ is in Arabic, write your ENTIRE answer strictly in clear Modern Standard\
+            \ Arabic.\n2. UPLOAD FACT GUARANTEE & 16,384-TOKEN OVERFLOW RULE:\n  \
+            \ - The system ALREADY verified and extracted a valid uploaded/retained\
+            \ document for this turn. You are strictly forbidden from writing \"no\
+            \ document was attached\" or asking the user to upload a file again.\n\
+            \   - CHECK ABOVE BEFORE ANSWERING:\n     * IF a `[USER DOCUMENT EXTRACT]`\
+            \ block IS present above: read EVERY word and EVERY document inside it\
+            \ thoroughly (including multiple files in arrays) and answer ALL parts\
+            \ of the question using verbatim clauses, numbers, amounts, currencies,\
+            \ and missing-field disclosures.\n     * ONLY IF NO `[USER DOCUMENT EXTRACT]`\
+            \ block exists above at all (which occurs ONLY when an extra-large document\
+            \ >16,384 tokens / ~55KB exceeded Ollama's single-pass context window\
+            \ and was dropped by the runtime): state directly in the question's language\
+            \ that the attached document was received and extracted successfully,\
+            \ explain that its total length exceeds the local 16,384-token (~55KB)\
+            \ single-pass processing limit, and recommend querying targeted sections\
+            \ or indexing the full contract into Baseera's Knowledge Base.\n3. THREE-LEVEL\
+            \ GROUNDING:\n   - Distinguish quoted facts from advisory risk observations\
+            \ (include a brief non-legal-advice disclaimer when analyzing risks).\n"
         - role: user
-          text: '=== START OF EXTRACTED DOCUMENT ===
+          text: '[USER DOCUMENT EXTRACT]
 
             {{#document_extractor.text#}}
 
-            === END OF EXTRACTED DOCUMENT ===
-
-
-            User Question / سؤال المستخدم:
+            [/USER DOCUMENT EXTRACT]'
+        - role: user
+          text: 'Answer the following question strictly using the [USER DOCUMENT EXTRACT]
+            block above (or if no [USER DOCUMENT EXTRACT] block is visible above,
+            apply Rule 2 immediately):
 
             {{#sys.query#}}'
-        title: LLM (Uploaded Document)
+        title: LLM (Uploaded Doc 16K)
         type: llm
         vision:
           enabled: false
       id: llm_uploaded
       position:
-        x: 880
-        y: 140
+        x: 1060
+        y: 60
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -233,8 +318,301 @@ workflow:
         variables: []
       id: answer_uploaded
       position:
-        x: 1160
-        y: 140
+        x: 1320
+        y: 60
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        classes:
+        - id: prior_doc
+          name: Follow-up or detail question about the previously uploaded/attached
+            contract or file in this chat (mentions العقد المرفق / نفس العقد / المستند
+            / attached file / this contract, or asks for another clause, deposit,
+            termination notice, fees, or risks from the uploaded document)
+        - id: knowledge_base
+          name: Independent question explicitly asking about one of Baseera's named
+            reference standards (UK Model Services Contract, Bonterms Cloud/NDA/PSA,
+            Saudi Digital Solutions Contract v1.0.0/Final, or Scope Guide) unrelated
+            to the user's uploaded file
+        instruction: Default to prior_doc whenever the user follows up on the contract
+          already uploaded in this conversation, unless they explicitly name a different
+          static reference contract.
+        model:
+          completion_params:
+            max_tokens: 120
+            num_ctx: 16384
+            temperature: 0.0
+            think: false
+          mode: chat
+          name: qwen3.5:4b
+          provider: langgenius/ollama/ollama
+        query_variable_selector:
+        - sys
+        - query
+        title: Follow-up Intent Router
+        type: question-classifier
+      id: followup_classifier
+      position:
+        x: 540
+        y: 240
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          query_prompt_template: ''
+          window:
+            enabled: true
+            size: 3
+        model:
+          completion_params:
+            max_tokens: 1100
+            num_ctx: 16384
+            stop: []
+            temperature: 0.05
+            think: false
+            top_p: 0.9
+          mode: chat
+          name: qwen3.5:4b
+          provider: langgenius/ollama/ollama
+        prompt_template:
+        - role: system
+          text: "You are \"بصيرة — Baseera Docs\", an accurate, helpful assistant\
+            \ for analyzing uploaded contracts and business documents (PDF, DOCX,\
+            \ MD, TXT) as well as follow-up questions about them.\n\nMANDATORY RULES:\n\
+            1. STRICT LANGUAGE MATCHING:\n   - Detect the language of the User Question\
+            \ in the final message.\n   - If the User Question is in English, write\
+            \ your ENTIRE answer strictly in clear English.\n   - If the User Question\
+            \ is in Arabic, write your ENTIRE answer strictly in clear Modern Standard\
+            \ Arabic.\n2. UPLOAD FACT GUARANTEE & 16,384-TOKEN OVERFLOW RULE:\n  \
+            \ - The system ALREADY verified and extracted a valid uploaded/retained\
+            \ document for this turn. You are strictly forbidden from writing \"no\
+            \ document was attached\" or asking the user to upload a file again.\n\
+            \   - CHECK ABOVE BEFORE ANSWERING:\n     * IF a `[USER DOCUMENT EXTRACT]`\
+            \ block IS present above: read EVERY word and EVERY document inside it\
+            \ thoroughly (including multiple files in arrays) and answer ALL parts\
+            \ of the question using verbatim clauses, numbers, amounts, currencies,\
+            \ and missing-field disclosures.\n     * ONLY IF NO `[USER DOCUMENT EXTRACT]`\
+            \ block exists above at all (which occurs ONLY when an extra-large document\
+            \ >16,384 tokens / ~55KB exceeded Ollama's single-pass context window\
+            \ and was dropped by the runtime): state directly in the question's language\
+            \ that the attached document was received and extracted successfully,\
+            \ explain that its total length exceeds the local 16,384-token (~55KB)\
+            \ single-pass processing limit, and recommend querying targeted sections\
+            \ or indexing the full contract into Baseera's Knowledge Base.\n3. THREE-LEVEL\
+            \ GROUNDING:\n   - Distinguish quoted facts from advisory risk observations\
+            \ (include a brief non-legal-advice disclaimer when analyzing risks).\n"
+        - role: user
+          text: '[USER DOCUMENT EXTRACT]
+
+            {{#conversation.uploaded_doc_text#}}
+
+            [/USER DOCUMENT EXTRACT]'
+        - role: user
+          text: 'Follow-up Question:
+
+            {{#sys.query#}}'
+        title: LLM (Retained Upload 16K)
+        type: llm
+        vision:
+          enabled: false
+      id: llm_prior_doc
+      position:
+        x: 820
+        y: 220
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        answer: '{{#llm_prior_doc.text#}}'
+        title: Answer (Prior Upload)
+        type: answer
+        variables: []
+      id: answer_prior_doc
+      position:
+        x: 1100
+        y: 220
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        _targetBranches:
+        - id: compare_versions
+          name: IF (Compare / v1.0.0)
+        - id: 'false'
+          name: ELSE (Active KB)
+        cases:
+        - case_id: compare_versions
+          conditions:
+          - comparison_operator: contains
+            id: cmp_0
+            value: v1.0.0
+            variable_selector:
+            - sys
+            - query
+          - comparison_operator: contains
+            id: cmp_1
+            value: 1.0.0
+            variable_selector:
+            - sys
+            - query
+          - comparison_operator: contains
+            id: cmp_2
+            value: السابق
+            variable_selector:
+            - sys
+            - query
+          - comparison_operator: contains
+            id: cmp_3
+            value: السابقة
+            variable_selector:
+            - sys
+            - query
+          - comparison_operator: contains
+            id: cmp_4
+            value: القديم
+            variable_selector:
+            - sys
+            - query
+          - comparison_operator: contains
+            id: cmp_5
+            value: القديمة
+            variable_selector:
+            - sys
+            - query
+          - comparison_operator: contains
+            id: cmp_6
+            value: النسختين
+            variable_selector:
+            - sys
+            - query
+          - comparison_operator: contains
+            id: cmp_7
+            value: قبل التعديل
+            variable_selector:
+            - sys
+            - query
+          - comparison_operator: contains
+            id: cmp_8
+            value: الإصدار الأول
+            variable_selector:
+            - sys
+            - query
+          - comparison_operator: contains
+            id: cmp_9
+            value: النسخة الأولى
+            variable_selector:
+            - sys
+            - query
+          logical_operator: or
+        title: Legacy Version Check
+        type: if-else
+      id: kb_compare_check
+      position:
+        x: 540
+        y: 460
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        dataset_ids:
+        - IUzLzwz7Riw051NulPTwtiT+MVXAVn+KaYudFUDL8u1TRQ1cTaB0RHVROC3Rb/CY
+        - 11fDXDFvc9lxwsrOv7ASOptt87I+FS5hwNp0FfZR616KZk6IKelENcA0YQxMw5ac
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: reranking_model
+          reranking_model: null
+          score_threshold: 0.2
+          top_k: 30
+        query_variable_selector:
+        - sys
+        - query
+        retrieval_mode: multiple
+        title: KR (Final + Legacy v1.0.0)
+        type: knowledge-retrieval
+      id: kr_compare
+      position:
+        x: 820
+        y: 400
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - kr_compare
+          - result
+        memory:
+          query_prompt_template: ''
+          window:
+            enabled: false
+            size: 0
+        model:
+          completion_params:
+            max_tokens: 1200
+            num_ctx: 16384
+            stop: []
+            temperature: 0.05
+            think: false
+            top_p: 0.9
+          mode: chat
+          name: qwen3.5:4b
+          provider: langgenius/ollama/ollama
+        prompt_template:
+        - role: system
+          text: "You are \"بصيرة — Baseera Docs\", specializing in exact cross-version\
+            \ contract comparison.\n\nMANDATORY TWO-VERSION ISOLATION PROTOCOL (NO\
+            \ MIXING ALLOWED):\nThe retrieved context below contains excerpts tagged\
+            \ either as:\n- `[النسخة النهائية 2025 | عقد الحلول الرقمية ...]` (Final\
+            \ Version)\n- `[الإصدار السابق v1.0.0 | عقد الحلول الرقمية ...]` (Previous\
+            \ Version v1.0.0)\n\nBEFORE writing your comparison summary, follow these\
+            \ 3 mandatory steps:\nStep 1 — Scan ONLY `[النسخة النهائية 2025 ...]`\
+            \ excerpts and record exact values per axis:\n  - Inspection / review\
+            \ period (e.g., البند الثالث: 15 يوم عمل).\n  - Intellectual Property\
+            \ / source code transfer condition (e.g., البند السادس: تنتقل للطرف الأول\
+            \ بعد سداد كامل المستحقات).\n  - Cancellation fee (البند السابع: 10% رسوم\
+            \ إدارية) and post-commencement settlement/refund rule (البند 19.6: احتساب\
+            \ ما تم إنجازه + خصم 10% مع **استرداد المبالغ الزائدة** للطرف الأول إذا\
+            \ كان المدفوع أكبر).\nStep 2 — Scan ONLY `[الإصدار السابق v1.0.0 ...]`\
+            \ excerpts and record exact values per axis:\n  - Inspection period (e.g.,\
+            \ البند الثالث: 5 أيام عمل).\n  - Intellectual Property condition (e.g.,\
+            \ البند السادس: بعد سداد كامل المستحقات).\n  - Cancellation & refund rule\
+            \ (البند السابع و البند 19.6: **عدم قابلية استرداد الدفعات — لا يحق له\
+            \ استرداد المبالغ المدفوعة** عند الإلغاء بعد البدء، مع خصم 10%).\nStep\
+            \ 3 — Present a clean, well-structured Arabic (or English if asked in\
+            \ English) comparison highlighting exact clauses for EACH version separately.\
+            \ NEVER attribute \"عدم الاسترداد / لا يحق له استرداد\" from v1.0.0 to\
+            \ the Final 2025 version, and NEVER attribute \"استرداد المبالغ الزائدة\"\
+            \ from Final 2025 to v1.0.0! If a requested item is absent from all excerpts,\
+            \ disclose honestly without fabricating.\n\nRetrieved Context (Both Versions\
+            \ Tagged):\n{{#context#}}\n"
+        - role: user
+          text: '{{#sys.query#}}'
+        title: LLM (Version Compare 16K)
+        type: llm
+        vision:
+          enabled: false
+      id: llm_compare
+      position:
+        x: 1080
+        y: 400
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        answer: '{{#llm_compare.text#}}'
+        title: Answer (Compare)
+        type: answer
+        variables: []
+      id: answer_compare
+      position:
+        x: 1340
+        y: 400
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -245,18 +623,18 @@ workflow:
           reranking_enable: false
           reranking_mode: reranking_model
           reranking_model: null
-          score_threshold: 0.25
-          top_k: 10
+          score_threshold: 0.2
+          top_k: 16
         query_variable_selector:
         - sys
         - query
         retrieval_mode: multiple
-        title: Knowledge Retrieval
+        title: KR (Active Baseera KB)
         type: knowledge-retrieval
-      id: knowledge_retrieval
+      id: kr_primary
       position:
-        x: 600
-        y: 420
+        x: 820
+        y: 560
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -264,7 +642,7 @@ workflow:
         context:
           enabled: true
           variable_selector:
-          - knowledge_retrieval
+          - kr_primary
           - result
         memory:
           query_prompt_template: '{{#sys.query#}}'
@@ -273,9 +651,10 @@ workflow:
             size: 4
         model:
           completion_params:
-            max_tokens: 900
+            max_tokens: 1000
+            num_ctx: 8192
             stop: []
-            temperature: 0.1
+            temperature: 0.05
             think: false
             top_p: 0.9
           mode: chat
@@ -283,48 +662,50 @@ workflow:
           provider: langgenius/ollama/ollama
         prompt_template:
         - role: system
-          text: "You are \"بصيرة — Baseera Docs\", a friendly, accurate assistant\
-            \ for analyzing contracts, agreements, and business documents.\n\nSTRICT\
-            \ RULES (MANDATORY):\n1. STRICT DOCUMENT & VERSION SEPARATION:\n   - Each\
-            \ excerpt begins with a tag like `[الوثيقة: ...]` or `[Doc: ...]`. Read\
-            \ the tag BEFORE attributing ANY number, duration, or rule. Never mix\
-            \ \"النسخة النهائية\" vs \"v1.0.0\" or mix UK/Bonterms/Arabic contracts.\n\
-            \   - In Arabic contracts (\"عقد الحلول الرقمية\"): First Party (الطرف\
-            \ الأول) = Customer/Client; Second Party (الطرف الثاني) = Company/Provider.\n\
-            \   - CONVERSATION MEMORY OVERRIDE FOR UPLOAD FOLLOW-UPS: If conversation\
-            \ history clearly shows the user previously uploaded/analyzed a specific\
-            \ external file (e.g., an earlier uploaded PDF/DOCX not in KB) and the\
-            \ current follow-up refers back to THAT uploaded document (\"في نفس العقد\
-            \ الذي حللته للتو\", \"in that attached file\"), answer strictly using\
-            \ ONLY what was extracted in conversation history (and clearly note any\
-            \ unextracted detail, asking them to re-attach the file if needed) — NEVER\
-            \ substitute unrelated static KB contracts.\n2. ZERO CITATION FABRICATION:\n\
-            \   - Quote ONLY clause numbers, amounts, currencies, percentages, and\
-            \ durations that appear verbatim in the retrieved excerpts. Report empty\
-            \ placeholders `[.....]%` explicitly as unspecified/blank.\n   - When\
-            \ comparing multiple clauses or versions, if one clause is missing from\
-            \ the retrieved snippets, explicitly state that snippet was not retrieved\
-            \ without denying its existence in the full contract.\n3. THREE-LEVEL\
-            \ GROUNDING:\n   - Level A (Explicit Fact): Answer directly with exact\
-            \ doc tag + clause quote.\n   - Level B (Reasonable Analysis/Risk): Provide\
-            \ balanced reasoning grounded in text + include \"(ملاحظة: هذا التحليل\
-            \ استرشادي منطقي وليس استشارة قانونية نظامية رسمية)\" (or English equivalent\
-            \ when answering in English).\n   - Level C (Not Found / Missing): Clearly\
-            \ state the item is not specified in the provided excerpts and refuse\
-            \ to invent data.\n4. STRICT LANGUAGE RULE:\n   - Match the user's question\
-            \ language strictly: answer in clear English when the question is in English,\
-            \ and in clear, friendly Modern Standard Arabic when the question is in\
-            \ Arabic.\n\nRetrieved Knowledge Context:\n{{#context#}}\n"
+          text: "You are \"بصيرة — Baseera Docs\", an accurate, friendly legal and\
+            \ business document assistant.\n\nMANDATORY GROUNDING & REASONING RULES:\n\
+            1. STRICT DOCUMENT & PARTY ATTRIBUTION:\n   - Every excerpt begins with\
+            \ a bracketed source tag such as `[النسخة النهائية 2025 | ...]`, `[UK\
+            \ Model Services ...]`, or `[Bonterms ...]`. Read the source tag carefully\
+            \ BEFORE attributing any clause, number, duration, or party.\n   - In\
+            \ Arabic service contracts (\"عقد الحلول الرقمية\"): First Party (الطرف\
+            \ الأول) = العميل/Customer; Second Party (الطرف الثاني) = الشركة/Provider.\
+            \ Never invert them.\n2. PRE-COMMITMENT NUMERIC & DEADLINE VERIFICATION\
+            \ (MANDATORY):\n   - For ANY eligibility, deadline, duration, fee, or\
+            \ compliance question (e.g., \"هل يشمل...؟\", \"هل ينطبق...؟\", \"Does\
+            \ X apply after Y days?\"):\n   - NEVER begin your response with \"نعم\"\
+            \ / \"لا\" / \"Yes\" / \"No\"!\n   - ALWAYS FIRST quote the exact clause\
+            \ rule and total contractual limit/duration (e.g., \"تنص الفقرة 1 من البند\
+            \ الرابع على أن الدعم الفني المجاني يستمر لمدة سنة كاملة (365 يوماً) من\
+            \ تاريخ التسليم النهائي...\"), SECOND explicitly compare the scenario's\
+            \ number against that limit (e.g., \"45 يوماً تقع ضمن الـ 365 يوماً /\
+            \ 45 ≤ 365\"), and ONLY AFTER verifying the math state your final conclusion\
+            \ cleanly (e.g., \"النتيجة: نعم، يشمله الدعم الفني المجاني...\").\n3.\
+            \ VERBATIM QUOTES, PLACEHOLDERS & PAYMENT TRIGGERS:\n   - Preserve critical\
+            \ verbatim contractual phrases in your answer when explaining obligations,\
+            \ acceptance criteria, IP, or liability (for example: \"البرمجة والربط\
+            \ التقني\", \"المواصفات الفنية\", \"سداد كامل المستحقات\").\n   - When\
+            \ a field or percentage is left blank as a placeholder like `[.....]%`,\
+            \ explicitly state that it is unspecified/blank `[.....]%` AND quote its\
+            \ accompanying payment condition/trigger verbatim (for example: `تُسدد\
+            \ عند توقيع العقد`).\n   - Quote ONLY clause numbers, amounts, currencies,\
+            \ percentages, and durations verbatim from retrieved excerpts. Never guess\
+            \ or fabricate missing facts.\n4. THREE-LEVEL GROUNDING & STRICT LANGUAGE\
+            \ MATCHING:\n   - Clearly separate quoted facts (Level A) from logical\
+            \ risk analysis (Level B — append non-legal-advice notice) and missing\
+            \ items (Level C).\n   - Strictly respond in English when the question\
+            \ is in English, and in clear Modern Standard Arabic when the question\
+            \ is in Arabic.\n\nRetrieved Knowledge Context:\n{{#context#}}\n"
         - role: user
           text: '{{#sys.query#}}'
-        title: LLM (Baseera KB Qwen 4B)
+        title: LLM (Baseera Active KB 8K)
         type: llm
         vision:
           enabled: false
       id: llm
       position:
-        x: 880
-        y: 420
+        x: 1080
+        y: 560
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -335,8 +716,8 @@ workflow:
         variables: []
       id: answer
       position:
-        x: 1160
-        y: 420
+        x: 1340
+        y: 560
       sourcePosition: right
       targetPosition: left
       type: custom
