@@ -1,0 +1,53 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 1045 >>
+stream
+BT
+/F1 11 Tf
+50 750 Td
+15 TL
+(EXPERIMENTAL TEST FIXTURE - SOFTWARE MAINTENANCE CONTRACT) Tj T*
+(Contract Reference: EXP-PDF-2026-8842) Tj T*
+(Effective Date: 2026-12-01) Tj T*
+(Expiration Date: 2027-11-30) Tj T*
+(Client: Al-Majd Logistics Co.) Tj T*
+(Vendor: Horizon Cloud Systems LLC) Tj T*
+(Clause 1 - Contract Value & Payments:) Tj T*
+(Total Annual Fee: 485,000 SAR \(Four Hundred Eighty-Five Thousand Saudi Riyals\).) Tj T*
+(Advance Payment: 40% \(194,000 SAR\) payable within 10 business days of Effective Date.) Tj T*
+(Milestone Payment: 60% \(291,000 SAR\) payable upon Final UAT Acceptance Certificate.) Tj T*
+(Clause 2 - Warranty & SLA:) Tj T*
+(Free Defect Warranty Period: 90 calendar days after go-live.) Tj T*
+(Critical Incident Response Time: Within 2 hours \(24/7\).) Tj T*
+(Clause 3 - Delay Penalty:) Tj T*
+(Late delivery penalty is 2,500 SAR per calendar day, capped at 12% of Total Annual Fee.) Tj T*
+(Clause 4 - Termination Notice:) Tj T*
+(Either party may terminate for convenience with 45 days prior written notice.) Tj T*
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000001338 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1408
+%%EOF

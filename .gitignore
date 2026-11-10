@@ -84,6 +84,8 @@ uploads/
 !tests/fixtures/*.sample.md
 !baseera-docs/documents/*.pdf
 !baseera-docs/documents/*.docx
+!baseera-docs/evaluation/fixtures/*.pdf
+!baseera-docs/evaluation/fixtures/*.docx
 
 # ------------------------------------------------------------------------------
 # 5. Local Security & Host Infrastructure Configurations

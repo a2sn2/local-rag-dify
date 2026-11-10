@@ -588,6 +588,15 @@ img[src*="logo-site"],
   }
 }
 
+/* Small footer / Powered-by Co-branding SVG keeps proportional aspect ratio */
+img[src*="/logo/logo"].h-4,
+a[href*="dify"] img[src*="/logo/logo"] {
+  height: 18px !important;
+  width: auto !important;
+  max-width: 96px !important;
+  object-fit: contain !important;
+}
+
 /* Sign-in Specific Logo Adjustment */
 div[class*="p-6"] img[src*="logo"] {
   height: 36px !important;
@@ -595,11 +604,12 @@ div[class*="p-6"] img[src*="logo"] {
   max-width: 160px !important;
 }
 
-/* Dark Mode Logo Swap: Uses official JAIB white mark + official Dify dark logo */
+/* Dark Mode Logo Swap: Uses official JAIB white mark + official Dify dark logo without inversion tint */
 html[data-theme=dark] header img[src*="logo"],
 html[data-theme=dark] nav img[src*="logo"],
 html[data-theme=dark] div[class*="items-center"] img[src*="logo"],
-html[data-theme=dark] div[class*="p-6"] img[src*="logo"] {
+html[data-theme=dark] div[class*="p-6"] img[src*="logo"],
+html[data-theme=dark] img[src*="/logo/logo"] {
   content: url("/logo/logo-dark.svg") !important;
   filter: none !important;
 }

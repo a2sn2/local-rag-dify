@@ -25,6 +25,12 @@ if ([string]::IsNullOrWhiteSpace($WorkspaceDir)) {
 }
 $WorkspaceDir = (Resolve-Path $WorkspaceDir).Path
 $composeFile = Join-Path $WorkspaceDir "docker\dify\docker-compose.yaml"
+$overrideFile = Join-Path $WorkspaceDir "docker\dify\docker-compose.override.yaml"
+if (Test-Path $overrideFile) {
+    $composeArgs = "-f `"$composeFile`" -f `"$overrideFile`""
+} else {
+    $composeArgs = "-f `"$composeFile`""
+}
 
 Write-Host "==========================================================" -ForegroundColor Cyan
 Write-Host "  Starting Local RAG System (Ollama Native + Dify Stack)  " -ForegroundColor Cyan
@@ -104,7 +110,7 @@ if (-not (Test-Path $composeFile)) {
 
 $origEA = $ErrorActionPreference
 $ErrorActionPreference = "Continue"
-$upOut = & cmd.exe /c "docker compose -f `"$composeFile`" up -d 2>&1"
+$upOut = & cmd.exe /c "docker compose $composeArgs up -d 2>&1"
 $composeExit = $LASTEXITCODE
 $ErrorActionPreference = $origEA
 
@@ -135,14 +141,16 @@ while ($sw.Elapsed.TotalSeconds -lt $TimeoutSeconds) {
 }
 
 Write-Host "`n==========================================================" -ForegroundColor Cyan
+$webImg = docker inspect --format '{{.Config.Image}}' dify-web-1 2>$null
 if ($difyReady) {
     Write-Host "  Local RAG System is ONLINE and READY!                    " -ForegroundColor Green
     Write-Host "  Web Console: http://127.0.0.1                            " -ForegroundColor Green
+    Write-Host "  Web Image:   $webImg" -ForegroundColor Green
     Write-Host "  API Backend: http://127.0.0.1/api                        " -ForegroundColor Green
     Write-Host "  Ollama API:  http://127.0.0.1:11434                      " -ForegroundColor Green
 }
 else {
     Write-Host "  Startup timed out after $TimeoutSeconds seconds. Review: " -ForegroundColor Yellow
-    Write-Host "  docker compose -f $composeFile ps                        " -ForegroundColor Yellow
+    Write-Host "  docker compose $composeArgs ps                           " -ForegroundColor Yellow
 }
 Write-Host "==========================================================" -ForegroundColor Cyan

@@ -12,15 +12,15 @@
 | **إصدار التطبيق** | الإصدار الأول المنشور (Published v1.0.0) |
 | **معرف التطبيق (App ID)** | `1b555bfe-8c5d-401b-bdd6-3a7862f467ff` |
 | **معرف الإصدار المنشور** | `a904375b-0608-445c-918d-d14511246a8b` |
-| **رابط المعاينة المباشرة (Preview URL)** | [http://127.0.0.1/chat/1b555bfe-8c5d-401b-bdd6-3a7862f467ff](http://127.0.0.1/chat/1b555bfe-8c5d-401b-bdd6-3a7862f467ff) |
+| **رابط المعاينة المباشرة (Preview URL)** | [http://127.0.0.1/chat/JWUhTnPUst1llzGJ](http://127.0.0.1/chat/JWUhTnPUst1llzGJ) |
 | **رابط استوديو Dify (Workflow Studio)** | [http://127.0.0.1/app/1b555bfe-8c5d-401b-bdd6-3a7862f467ff/workflow](http://127.0.0.1/app/1b555bfe-8c5d-401b-bdd6-3a7862f467ff/workflow) |
-| **مفتاح واجهة البرمجة (API Key)** | `app-8lKs1YovQpVBxKJ2Utm1VrTI` |
+| **مفتاح واجهة البرمجة (API Key)** | `[REDACTED — Revoked & rotated on 2026-11-10 to untracked .secrets/baseera_api_token.env]` |
 | **نقطة نهاية الـ API المباشرة** | `POST http://127.0.0.1/v1/chat-messages` |
 | **قاعدة المعرفة المستقلة (Dataset)** | `Baseera Docs — Evaluation Knowledge` (ID: `0de4f4ec-4c4e-4bc7-bef7-6379466cdfd1`) |
-| **عدد الوثائق والقطع المفهرسة** | 8 وثائق معتمدة بإجمالي **1,973 قطعة معرفية (Segments)** في Weaviate |
+| **عدد الوثائق والقطع المفهرسة** | 8 وثائق معتمدة (أُعيد فهرستها في v1.1.0؛ التقرير النهائي المحدّث في `baseera-docs/docs/FINAL_QA_AND_BRANDING_REPORT.md`) |
 | **النماذج المستخدمة** | `qwen3.5:4b` (توليد واستدلال) + `bge-m3:latest` (تضمين متجهي هجين) |
-| **متوسط زمن الاستجابة (Latency)** | **32.52 ثانية** (تشمل تبديل النماذج في VRAM وتوليد الرد) |
-| **حالة الجاهزية للتسليم** | **جاهز للإنتاج المحلي ومكتمل بنسبة 100% (Production Ready)** |
+| **متوسط زمن الاستجابة (Latency)** | **32.52 ثانية** (قياسات v1.0.0 التاريخية؛ راجع التقرير المستقل المحدّث في `FINAL_QA_AND_BRANDING_REPORT.md`) |
+| **حالة الجاهزية للتسليم** | **تقرير تاريخي لـ v1.0.0 — تم ترقية التطبيق وتحديث التقييم المستقل في `baseera-docs/docs/FINAL_QA_AND_BRANDING_REPORT.md`** |
 
 ---
 

@@ -28,6 +28,12 @@ if ([string]::IsNullOrWhiteSpace($WorkspaceDir)) {
 }
 $WorkspaceDir = (Resolve-Path $WorkspaceDir).Path
 $composeFile = Join-Path $WorkspaceDir "docker\dify\docker-compose.yaml"
+$overrideFile = Join-Path $WorkspaceDir "docker\dify\docker-compose.override.yaml"
+if (Test-Path $overrideFile) {
+    $composeArgs = "-f `"$composeFile`" -f `"$overrideFile`""
+} else {
+    $composeArgs = "-f `"$composeFile`""
+}
 
 # 1. Resolve Passphrase
 $resolvedPassphrase = $Passphrase
@@ -139,29 +145,29 @@ try {
     # Step 3: Restore PostgreSQL Relational Database
     # --------------------------------------------------------------------------
     Write-Host "`n[3/6] Restoring PostgreSQL Relational Database..." -ForegroundColor Yellow
-    & cmd.exe /c "docker compose -f `"$composeFile`" up -d db_postgres 2>&1" | Out-Null
+    & cmd.exe /c "docker compose $composeArgs up -d db_postgres 2>&1" | Out-Null
     
     # Wait for DB readiness
     $pgReady = $false
     for ($i = 0; $i -lt 30; $i++) {
         Start-Sleep -Seconds 1
-        $probe = & cmd.exe /c "docker compose -f `"$composeFile`" exec -T db_postgres psql -U postgres -d dify -c `"SELECT 1;`" 2>nul"
+        $probe = & cmd.exe /c "docker compose $composeArgs exec -T db_postgres psql -U postgres -d dify -c `"SELECT 1;`" 2>nul"
         if ($probe -match "1") { $pgReady = $true; break }
     }
     if (-not $pgReady) { throw "PostgreSQL did not become healthy within timeout." }
 
     $sqlDump = Join-Path $tempRestoreDir $manifest.components.postgresql.file
-    $pgContainer = (& cmd.exe /c "docker compose -f `"$composeFile`" ps -q db_postgres 2>nul").Trim()
+    $pgContainer = (& cmd.exe /c "docker compose $composeArgs ps -q db_postgres 2>nul").Trim()
     docker cp $sqlDump "${pgContainer}:/tmp/restore.sql"
-    & cmd.exe /c "docker compose -f `"$composeFile`" exec -T db_postgres psql -U postgres -d dify -f /tmp/restore.sql 2>&1" | Out-Null
-    & cmd.exe /c "docker compose -f `"$composeFile`" exec -T db_postgres rm -f /tmp/restore.sql 2>&1" | Out-Null
+    & cmd.exe /c "docker compose $composeArgs exec -T db_postgres psql -U postgres -d dify -f /tmp/restore.sql 2>&1" | Out-Null
+    & cmd.exe /c "docker compose $composeArgs exec -T db_postgres rm -f /tmp/restore.sql 2>&1" | Out-Null
     Write-Host "  [OK] PostgreSQL database restored from dump." -ForegroundColor Green
 
     # --------------------------------------------------------------------------
     # Step 4: Restore Weaviate Physical Data & Vector Index
     # --------------------------------------------------------------------------
     Write-Host "`n[4/6] Restoring Weaviate Vector Database LSM Trees..." -ForegroundColor Yellow
-    & cmd.exe /c "docker compose -f `"$composeFile`" stop weaviate 2>&1" | Out-Null
+    & cmd.exe /c "docker compose $composeArgs stop weaviate 2>&1" | Out-Null
     
     $weaviateVolDir = Join-Path $WorkspaceDir "docker\dify\volumes\weaviate"
     if (-not (Test-Path $weaviateVolDir)) {
@@ -170,7 +176,7 @@ try {
     $weaviateArchive = Join-Path $tempRestoreDir $manifest.components.weaviate.volume_archive
     tar.exe -xzf $weaviateArchive -C $weaviateVolDir
     
-    & cmd.exe /c "docker compose -f `"$composeFile`" up -d weaviate 2>&1" | Out-Null
+    & cmd.exe /c "docker compose $composeArgs up -d weaviate 2>&1" | Out-Null
     Write-Host "  [OK] Weaviate LSM trees and vector indexes restored." -ForegroundColor Green
 
     # --------------------------------------------------------------------------
@@ -189,12 +195,12 @@ try {
     # Step 6: Restart Full Stack & Verify Health
     # --------------------------------------------------------------------------
     Write-Host "`n[6/6] Launching Full Dify Stack & Verifying Health..." -ForegroundColor Yellow
-    & cmd.exe /c "docker compose -f `"$composeFile`" up -d 2>&1" | Out-Null
+    & cmd.exe /c "docker compose $composeArgs up -d 2>&1" | Out-Null
 
     # Quick check
     Start-Sleep -Seconds 5
-    $tableCount = & cmd.exe /c "docker compose -f `"$composeFile`" exec -T db_postgres psql -U postgres -d dify -t -c `"SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public';`" 2>nul"
-    $appCount = & cmd.exe /c "docker compose -f `"$composeFile`" exec -T db_postgres psql -U postgres -d dify -t -c `"SELECT count(*) FROM apps;`" 2>nul"
+    $tableCount = & cmd.exe /c "docker compose $composeArgs exec -T db_postgres psql -U postgres -d dify -t -c `"SELECT count(*) FROM information_schema.tables WHERE table_schema = 'public';`" 2>nul"
+    $appCount = & cmd.exe /c "docker compose $composeArgs exec -T db_postgres psql -U postgres -d dify -t -c `"SELECT count(*) FROM apps;`" 2>nul"
     
     Write-Host "  Restored Metrics:" -ForegroundColor Gray
     Write-Host "    * Relational Tables: $($tableCount.Trim())" -ForegroundColor Gray

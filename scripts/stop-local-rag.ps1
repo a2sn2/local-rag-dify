@@ -25,6 +25,12 @@ if ([string]::IsNullOrWhiteSpace($WorkspaceDir)) {
 }
 $WorkspaceDir = (Resolve-Path $WorkspaceDir).Path
 $composeFile = Join-Path $WorkspaceDir "docker\dify\docker-compose.yaml"
+$overrideFile = Join-Path $WorkspaceDir "docker\dify\docker-compose.override.yaml"
+if (Test-Path $overrideFile) {
+    $composeArgs = "-f `"$composeFile`" -f `"$overrideFile`""
+} else {
+    $composeArgs = "-f `"$composeFile`""
+}
 
 Write-Host "==========================================================" -ForegroundColor Cyan
 Write-Host "  Graceful Shutdown: Local RAG Platform                    " -ForegroundColor Cyan
@@ -45,7 +51,7 @@ Write-Host "`n[2/4] Stopping Dify Microservices (docker compose stop)..." -Foreg
 if (Test-Path $composeFile) {
     $origEA = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
-    $stopOut = & cmd.exe /c "docker compose -f `"$composeFile`" stop 2>&1"
+    $stopOut = & cmd.exe /c "docker compose $composeArgs stop 2>&1"
     $stopExit = $LASTEXITCODE
     $ErrorActionPreference = $origEA
     

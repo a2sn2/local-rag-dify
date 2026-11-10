@@ -1,0 +1,585 @@
+﻿[
+    {
+        "name":  "01_signin",
+        "requestedUrl":  "http://127.0.0.1/signin",
+        "viewport":  "1440x900",
+        "theme":  "light",
+        "locale":  "en-US",
+        "screenshot":  "docs\\evidence\\recovery\\after\\01_signin.png",
+        "metrics":  {
+                        "href":  "http://127.0.0.1/signin",
+                        "title":  "Sign in - Dify",
+                        "dataTheme":  "light",
+                        "dir":  "ltr",
+                        "favHref":  "/favicon.ico",
+                        "favStatus":  200,
+                        "jaibCssStatus":  200,
+                        "logoSvgStatus":  200,
+                        "logoSvgSnippet":  "\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 152 36\" fill=\"none\" width=\"152\" height=\"36\"\u003e\n  \u003c!-- JAIB Official Pure Vector Brandmark --\u003e\n  \u003cg id=\"jaib-brand\" transform=\"translate(2, 3)\"\u003e\n    \u003crect width=\"30\" heig",
+                        "imgs":  [
+                                     {
+                                         "src":  "/logo/logo.svg",
+                                         "alt":  "Dify",
+                                         "complete":  true,
+                                         "naturalWidth":  152,
+                                         "naturalHeight":  36,
+                                         "w":  152,
+                                         "h":  36
+                                     }
+                                 ],
+                        "btnStyle":  {
+                                         "text":  "Sign in",
+                                         "backgroundColor":  "rgb(228, 18, 45)",
+                                         "color":  "rgb(255, 255, 255)"
+                                     },
+                        "activeNavStyle":  null,
+                        "reactFlowDirection":  null,
+                        "bodyStyle":  {
+                                          "fontFamily":  "\"DIN Next LT Arabic\", \"Noto Sans Arabic\", \"Plus Jakarta Sans\", \"Segoe UI\", -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif",
+                                          "backgroundColor":  "rgb(243, 242, 247)",
+                                          "color":  "rgb(255, 255, 255)"
+                                      },
+                        "navCount":  0,
+                        "svgsCount":  0
+                    },
+        "consoleErrors":  [
+                              "R: No refresh token provided\n    at r (http://127.0.0.1/_next/static/chunks/2y3o-a7d1dxi3.js:1:19146)\n    at n (http://127.0.0.1/_next/static/chunks/2y3o-a7d1dxi3.js:1:19426)\n    at async B (http://127.0.0.1/_next/static/chunks/2ymth1q9o4456.js:1:8500)\n    at async i (http://127.0.0.1/_next/static/chunks/2ymth1q9o4456.js:1:69357)\n    at async ep (http://127.0.0.1/_next/static/chunks/2ymth1q9o4456.js:1:21747)\n    at async s.fetch (http://127.0.0.1/_next/static/chunks/2ymth1q9o4456.js:1:28551)\n    at async s.call (http://127.0.0.1/_next/static/chunks/0y5tlh9ha3-dy.js:1:8090)\n    at async http://127.0.0.1/_next/static/chunks/261n--bqsxqfn.js:7:6218\n    at async http://127.0.0.1/_next/static/chunks/261n--bqsxqfn.js:7:17448\n    at async http://127.0.0.1/_next/static/chunks/2ymth1q9o4456.js:1:28717",
+                              "R: Invalid Authorization token.\n    at r (http://127.0.0.1/_next/static/chunks/2y3o-a7d1dxi3.js:1:19146)\n    at n (http://127.0.0.1/_next/static/chunks/2y3o-a7d1dxi3.js:1:19426)\n    at async U.$.extend.hooks.afterResponse (http://127.0.0.1/_next/static/chunks/2ymth1q9o4456.js:1:6666)\n    at async #s (http://127.0.0.1/_next/static/chunks/2ymth1q9o4456.js:1:95096)\n    at async #K (http://127.0.0.1/_next/static/chunks/2ymth1q9o4456.js:1:96173)\n    at async #e (http://127.0.0.1/_next/static/chunks/2ymth1q9o4456.js:1:90580)\n    at async http://127.0.0.1/_next/static/chunks/2ymth1q9o4456.js:1:85965\n    at async U (http://127.0.0.1/_next/static/chunks/2ymth1q9o4456.js:1:7046)\n    at async i (http://127.0.0.1/_next/static/chunks/2ymth1q9o4456.js:1:69357)\n    at async ep (http://127.0.0.1/_next/static/chunks/2ymth1q9o4456.js:1:20643)"
+                          ],
+        "pageExceptions":  [
+
+                           ],
+        "networkErrors":  [
+                              "401 http://127.0.0.1/console/api/account/profile",
+                              "401 http://127.0.0.1/console/api/refresh-token"
+                          ]
+    },
+    {
+        "name":  "02_dashboard_apps",
+        "requestedUrl":  "http://127.0.0.1/apps",
+        "viewport":  "1440x900",
+        "theme":  "light",
+        "locale":  "en-US",
+        "screenshot":  "docs\\evidence\\recovery\\after\\02_dashboard_apps.png",
+        "metrics":  {
+                        "href":  "http://127.0.0.1/apps",
+                        "title":  "Studio - Dify",
+                        "dataTheme":  "light",
+                        "dir":  "ltr",
+                        "favHref":  "/favicon.ico",
+                        "favStatus":  200,
+                        "jaibCssStatus":  200,
+                        "logoSvgStatus":  200,
+                        "logoSvgSnippet":  "\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 152 36\" fill=\"none\" width=\"152\" height=\"36\"\u003e\n  \u003c!-- JAIB Official Pure Vector Brandmark --\u003e\n  \u003cg id=\"jaib-brand\" transform=\"translate(2, 3)\"\u003e\n    \u003crect width=\"30\" heig",
+                        "imgs":  [
+                                     {
+                                         "src":  "/logo/logo.svg",
+                                         "alt":  "",
+                                         "complete":  true,
+                                         "naturalWidth":  152,
+                                         "naturalHeight":  36,
+                                         "w":  135,
+                                         "h":  32
+                                     }
+                                 ],
+                        "btnStyle":  {
+                                         "text":  "Create",
+                                         "backgroundColor":  "rgb(228, 18, 45)",
+                                         "color":  "rgb(255, 255, 255)"
+                                     },
+                        "activeNavStyle":  {
+                                               "color":  "rgb(228, 18, 45)",
+                                               "backgroundColor":  "rgba(228, 18, 45, 0.08)"
+                                           },
+                        "reactFlowDirection":  null,
+                        "bodyStyle":  {
+                                          "fontFamily":  "\"DIN Next LT Arabic\", \"Noto Sans Arabic\", \"Plus Jakarta Sans\", \"Segoe UI\", -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif",
+                                          "backgroundColor":  "rgb(243, 242, 247)",
+                                          "color":  "rgb(0, 0, 0)"
+                                      },
+                        "navCount":  7,
+                        "svgsCount":  1
+                    },
+        "consoleErrors":  [
+
+                          ],
+        "pageExceptions":  [
+
+                           ],
+        "networkErrors":  [
+
+                          ]
+    },
+    {
+        "name":  "03_studio_explore",
+        "requestedUrl":  "http://127.0.0.1/explore/apps",
+        "viewport":  "1440x900",
+        "theme":  "light",
+        "locale":  "en-US",
+        "screenshot":  "docs\\evidence\\recovery\\after\\03_studio_explore.png",
+        "metrics":  {
+                        "href":  "http://127.0.0.1/",
+                        "title":  "Home - Dify",
+                        "dataTheme":  "light",
+                        "dir":  "ltr",
+                        "favHref":  "/favicon.ico",
+                        "favStatus":  200,
+                        "jaibCssStatus":  200,
+                        "logoSvgStatus":  200,
+                        "logoSvgSnippet":  "\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 152 36\" fill=\"none\" width=\"152\" height=\"36\"\u003e\n  \u003c!-- JAIB Official Pure Vector Brandmark --\u003e\n  \u003cg id=\"jaib-brand\" transform=\"translate(2, 3)\"\u003e\n    \u003crect width=\"30\" heig",
+                        "imgs":  [
+                                     {
+                                         "src":  "/logo/logo.svg",
+                                         "alt":  "",
+                                         "complete":  true,
+                                         "naturalWidth":  152,
+                                         "naturalHeight":  36,
+                                         "w":  135,
+                                         "h":  32
+                                     }
+                                 ],
+                        "btnStyle":  null,
+                        "activeNavStyle":  {
+                                               "color":  "rgb(228, 18, 45)",
+                                               "backgroundColor":  "rgba(228, 18, 45, 0.08)"
+                                           },
+                        "reactFlowDirection":  null,
+                        "bodyStyle":  {
+                                          "fontFamily":  "\"DIN Next LT Arabic\", \"Noto Sans Arabic\", \"Plus Jakarta Sans\", \"Segoe UI\", -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif",
+                                          "backgroundColor":  "rgb(243, 242, 247)",
+                                          "color":  "rgb(0, 0, 0)"
+                                      },
+                        "navCount":  7,
+                        "svgsCount":  14
+                    },
+        "consoleErrors":  [
+
+                          ],
+        "pageExceptions":  [
+
+                           ],
+        "networkErrors":  [
+
+                          ]
+    },
+    {
+        "name":  "04_datasets",
+        "requestedUrl":  "http://127.0.0.1/datasets",
+        "viewport":  "1440x900",
+        "theme":  "light",
+        "locale":  "en-US",
+        "screenshot":  "docs\\evidence\\recovery\\after\\04_datasets.png",
+        "metrics":  {
+                        "href":  "http://127.0.0.1/datasets",
+                        "title":  "Dify",
+                        "dataTheme":  "light",
+                        "dir":  "ltr",
+                        "favHref":  "/favicon.ico",
+                        "favStatus":  200,
+                        "jaibCssStatus":  200,
+                        "logoSvgStatus":  200,
+                        "logoSvgSnippet":  "\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 152 36\" fill=\"none\" width=\"152\" height=\"36\"\u003e\n  \u003c!-- JAIB Official Pure Vector Brandmark --\u003e\n  \u003cg id=\"jaib-brand\" transform=\"translate(2, 3)\"\u003e\n    \u003crect width=\"30\" heig",
+                        "imgs":  [
+                                     {
+                                         "src":  "/logo/logo.svg",
+                                         "alt":  "",
+                                         "complete":  true,
+                                         "naturalWidth":  152,
+                                         "naturalHeight":  36,
+                                         "w":  135,
+                                         "h":  32
+                                     }
+                                 ],
+                        "btnStyle":  {
+                                         "text":  "Create",
+                                         "backgroundColor":  "rgb(228, 18, 45)",
+                                         "color":  "rgb(255, 255, 255)"
+                                     },
+                        "activeNavStyle":  {
+                                               "color":  "rgb(228, 18, 45)",
+                                               "backgroundColor":  "rgba(228, 18, 45, 0.08)"
+                                           },
+                        "reactFlowDirection":  null,
+                        "bodyStyle":  {
+                                          "fontFamily":  "\"DIN Next LT Arabic\", \"Noto Sans Arabic\", \"Plus Jakarta Sans\", \"Segoe UI\", -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif",
+                                          "backgroundColor":  "rgb(243, 242, 247)",
+                                          "color":  "rgb(0, 0, 0)"
+                                      },
+                        "navCount":  7,
+                        "svgsCount":  1
+                    },
+        "consoleErrors":  [
+
+                          ],
+        "pageExceptions":  [
+
+                           ],
+        "networkErrors":  [
+
+                          ]
+    },
+    {
+        "name":  "05_baseera_workflow",
+        "requestedUrl":  "http://127.0.0.1/app/1b555bfe-8c5d-401b-bdd6-3a7862f467ff/workflow",
+        "viewport":  "1440x900",
+        "theme":  "light",
+        "locale":  "en-US",
+        "screenshot":  "docs\\evidence\\recovery\\after\\05_baseera_workflow.png",
+        "metrics":  {
+                        "href":  "http://127.0.0.1/app/1b555bfe-8c5d-401b-bdd6-3a7862f467ff/workflow",
+                        "title":  "Dify",
+                        "dataTheme":  "light",
+                        "dir":  "ltr",
+                        "favHref":  "/favicon.ico",
+                        "favStatus":  200,
+                        "jaibCssStatus":  200,
+                        "logoSvgStatus":  200,
+                        "logoSvgSnippet":  "\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 152 36\" fill=\"none\" width=\"152\" height=\"36\"\u003e\n  \u003c!-- JAIB Official Pure Vector Brandmark --\u003e\n  \u003cg id=\"jaib-brand\" transform=\"translate(2, 3)\"\u003e\n    \u003crect width=\"30\" heig",
+                        "imgs":  [
+
+                                 ],
+                        "btnStyle":  {
+                                         "text":  "Publish",
+                                         "backgroundColor":  "rgb(228, 18, 45)",
+                                         "color":  "rgb(255, 255, 255)"
+                                     },
+                        "activeNavStyle":  null,
+                        "reactFlowDirection":  "ltr",
+                        "bodyStyle":  {
+                                          "fontFamily":  "\"DIN Next LT Arabic\", \"Noto Sans Arabic\", \"Plus Jakarta Sans\", \"Segoe UI\", -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif",
+                                          "backgroundColor":  "rgb(243, 242, 247)",
+                                          "color":  "rgb(0, 0, 0)"
+                                      },
+                        "navCount":  7,
+                        "svgsCount":  3
+                    },
+        "consoleErrors":  [
+                              "WebSocket connection error: Error: Connection rejected by server\n    at tl.onpacket (http://127.0.0.1/_next/static/chunks/39r_iud1h7sh7.js:1:32867)\n    at w.emit (http://127.0.0.1/_next/static/chunks/39r_iud1h7sh7.js:1:3218)\n    at http://127.0.0.1/_next/static/chunks/39r_iud1h7sh7.js:1:38673"
+                          ],
+        "pageExceptions":  [
+
+                           ],
+        "networkErrors":  [
+
+                          ]
+    },
+    {
+        "name":  "06_baseera_published_chat",
+        "requestedUrl":  "http://127.0.0.1/chat/JWUhTnPUst1llzGJ",
+        "viewport":  "1440x900",
+        "theme":  "light",
+        "locale":  "en-US",
+        "screenshot":  "docs\\evidence\\recovery\\after\\06_baseera_published_chat.png",
+        "metrics":  {
+                        "href":  "http://127.0.0.1/chat/JWUhTnPUst1llzGJ",
+                        "title":  "بصيرة — Baseera Docs - Dify",
+                        "dataTheme":  "light",
+                        "dir":  "ltr",
+                        "favHref":  "/favicon.ico",
+                        "favStatus":  200,
+                        "jaibCssStatus":  200,
+                        "logoSvgStatus":  200,
+                        "logoSvgSnippet":  "\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 152 36\" fill=\"none\" width=\"152\" height=\"36\"\u003e\n  \u003c!-- JAIB Official Pure Vector Brandmark --\u003e\n  \u003cg id=\"jaib-brand\" transform=\"translate(2, 3)\"\u003e\n    \u003crect width=\"30\" heig",
+                        "imgs":  [
+                                     {
+                                         "src":  "/logo/logo.svg",
+                                         "alt":  "Dify",
+                                         "complete":  true,
+                                         "naturalWidth":  152,
+                                         "naturalHeight":  36,
+                                         "w":  135,
+                                         "h":  32
+                                     }
+                                 ],
+                        "btnStyle":  {
+                                         "text":  "",
+                                         "backgroundColor":  "rgb(228, 18, 45)",
+                                         "color":  "rgb(255, 255, 255)"
+                                     },
+                        "activeNavStyle":  null,
+                        "reactFlowDirection":  null,
+                        "bodyStyle":  {
+                                          "fontFamily":  "\"DIN Next LT Arabic\", \"Noto Sans Arabic\", \"Plus Jakarta Sans\", \"Segoe UI\", -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif",
+                                          "backgroundColor":  "rgb(243, 242, 247)",
+                                          "color":  "rgb(0, 0, 0)"
+                                      },
+                        "navCount":  0,
+                        "svgsCount":  1
+                    },
+        "consoleErrors":  [
+
+                          ],
+        "pageExceptions":  [
+
+                           ],
+        "networkErrors":  [
+                              "401 http://127.0.0.1/console/api/apps/1b555bfe-8c5d-401b-bdd6-3a7862f467ff/workflows/draft"
+                          ]
+    },
+    {
+        "name":  "07_apps_dark",
+        "requestedUrl":  "http://127.0.0.1/apps",
+        "viewport":  "1440x900",
+        "theme":  "dark",
+        "locale":  "en-US",
+        "screenshot":  "docs\\evidence\\recovery\\after\\07_apps_dark.png",
+        "metrics":  {
+                        "href":  "http://127.0.0.1/apps",
+                        "title":  "Studio - Dify",
+                        "dataTheme":  "dark",
+                        "dir":  "ltr",
+                        "favHref":  "/favicon.ico",
+                        "favStatus":  200,
+                        "jaibCssStatus":  200,
+                        "logoSvgStatus":  200,
+                        "logoSvgSnippet":  "\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 152 36\" fill=\"none\" width=\"152\" height=\"36\"\u003e\n  \u003c!-- JAIB Official Pure Vector Brandmark --\u003e\n  \u003cg id=\"jaib-brand\" transform=\"translate(2, 3)\"\u003e\n    \u003crect width=\"30\" heig",
+                        "imgs":  [
+                                     {
+                                         "src":  "/logo/logo.svg",
+                                         "alt":  "",
+                                         "complete":  true,
+                                         "naturalWidth":  152,
+                                         "naturalHeight":  36,
+                                         "w":  135,
+                                         "h":  32
+                                     }
+                                 ],
+                        "btnStyle":  {
+                                         "text":  "Create",
+                                         "backgroundColor":  "rgb(228, 18, 45)",
+                                         "color":  "rgb(255, 255, 255)"
+                                     },
+                        "activeNavStyle":  {
+                                               "color":  "rgb(255, 255, 255)",
+                                               "backgroundColor":  "rgba(228, 18, 45, 0.2)"
+                                           },
+                        "reactFlowDirection":  null,
+                        "bodyStyle":  {
+                                          "fontFamily":  "\"DIN Next LT Arabic\", \"Noto Sans Arabic\", \"Plus Jakarta Sans\", \"Segoe UI\", -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif",
+                                          "backgroundColor":  "rgb(18, 19, 22)",
+                                          "color":  "rgb(255, 255, 255)"
+                                      },
+                        "navCount":  7,
+                        "svgsCount":  1
+                    },
+        "consoleErrors":  [
+
+                          ],
+        "pageExceptions":  [
+
+                           ],
+        "networkErrors":  [
+
+                          ]
+    },
+    {
+        "name":  "08_apps_arabic_rtl",
+        "requestedUrl":  "http://127.0.0.1/apps",
+        "viewport":  "1440x900",
+        "theme":  "light",
+        "locale":  "ar-EG",
+        "screenshot":  "docs\\evidence\\recovery\\after\\08_apps_arabic_rtl.png",
+        "metrics":  {
+                        "href":  "http://127.0.0.1/apps",
+                        "title":  "الاستوديو - Dify",
+                        "dataTheme":  "light",
+                        "dir":  "rtl",
+                        "favHref":  "/favicon.ico",
+                        "favStatus":  200,
+                        "jaibCssStatus":  200,
+                        "logoSvgStatus":  200,
+                        "logoSvgSnippet":  "\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 152 36\" fill=\"none\" width=\"152\" height=\"36\"\u003e\n  \u003c!-- JAIB Official Pure Vector Brandmark --\u003e\n  \u003cg id=\"jaib-brand\" transform=\"translate(2, 3)\"\u003e\n    \u003crect width=\"30\" heig",
+                        "imgs":  [
+                                     {
+                                         "src":  "/logo/logo.svg",
+                                         "alt":  "",
+                                         "complete":  true,
+                                         "naturalWidth":  152,
+                                         "naturalHeight":  36,
+                                         "w":  135,
+                                         "h":  32
+                                     }
+                                 ],
+                        "btnStyle":  {
+                                         "text":  "إنشاء",
+                                         "backgroundColor":  "rgb(228, 18, 45)",
+                                         "color":  "rgb(255, 255, 255)"
+                                     },
+                        "activeNavStyle":  {
+                                               "color":  "rgb(228, 18, 45)",
+                                               "backgroundColor":  "rgba(228, 18, 45, 0.08)"
+                                           },
+                        "reactFlowDirection":  null,
+                        "bodyStyle":  {
+                                          "fontFamily":  "\"DIN Next LT Arabic\", \"Noto Sans Arabic\", \"Plus Jakarta Sans\", \"Segoe UI\", -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif",
+                                          "backgroundColor":  "rgb(243, 242, 247)",
+                                          "color":  "rgb(0, 0, 0)"
+                                      },
+                        "navCount":  7,
+                        "svgsCount":  1
+                    },
+        "consoleErrors":  [
+
+                          ],
+        "pageExceptions":  [
+
+                           ],
+        "networkErrors":  [
+
+                          ]
+    },
+    {
+        "name":  "09_apps_mobile_390",
+        "requestedUrl":  "http://127.0.0.1/apps",
+        "viewport":  "390x844",
+        "theme":  "light",
+        "locale":  "en-US",
+        "screenshot":  "docs\\evidence\\recovery\\after\\09_apps_mobile_390.png",
+        "metrics":  {
+                        "href":  "http://127.0.0.1/apps",
+                        "title":  "Studio - Dify",
+                        "dataTheme":  "light",
+                        "dir":  "ltr",
+                        "favHref":  "/favicon.ico",
+                        "favStatus":  200,
+                        "jaibCssStatus":  200,
+                        "logoSvgStatus":  200,
+                        "logoSvgSnippet":  "\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 152 36\" fill=\"none\" width=\"152\" height=\"36\"\u003e\n  \u003c!-- JAIB Official Pure Vector Brandmark --\u003e\n  \u003cg id=\"jaib-brand\" transform=\"translate(2, 3)\"\u003e\n    \u003crect width=\"30\" heig",
+                        "imgs":  [
+                                     {
+                                         "src":  "/logo/logo.svg",
+                                         "alt":  "",
+                                         "complete":  true,
+                                         "naturalWidth":  152,
+                                         "naturalHeight":  36,
+                                         "w":  106,
+                                         "h":  25
+                                     }
+                                 ],
+                        "btnStyle":  {
+                                         "text":  "Create",
+                                         "backgroundColor":  "rgb(228, 18, 45)",
+                                         "color":  "rgb(255, 255, 255)"
+                                     },
+                        "activeNavStyle":  {
+                                               "color":  "rgb(228, 18, 45)",
+                                               "backgroundColor":  "rgba(228, 18, 45, 0.08)"
+                                           },
+                        "reactFlowDirection":  null,
+                        "bodyStyle":  {
+                                          "fontFamily":  "\"DIN Next LT Arabic\", \"Noto Sans Arabic\", \"Plus Jakarta Sans\", \"Segoe UI\", -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif",
+                                          "backgroundColor":  "rgb(243, 242, 247)",
+                                          "color":  "rgb(0, 0, 0)"
+                                      },
+                        "navCount":  7,
+                        "svgsCount":  1
+                    },
+        "consoleErrors":  [
+
+                          ],
+        "pageExceptions":  [
+
+                           ],
+        "networkErrors":  [
+
+                          ]
+    },
+    {
+        "name":  "10_baseera_chat_dark",
+        "requestedUrl":  "http://127.0.0.1/chat/JWUhTnPUst1llzGJ",
+        "viewport":  "1440x900",
+        "theme":  "dark",
+        "locale":  "en-US",
+        "screenshot":  "docs\\evidence\\recovery\\after\\10_baseera_chat_dark.png",
+        "metrics":  {
+                        "href":  "http://127.0.0.1/chat/JWUhTnPUst1llzGJ",
+                        "title":  "بصيرة — Baseera Docs - Dify",
+                        "dataTheme":  "dark",
+                        "dir":  "ltr",
+                        "favHref":  "/favicon.ico",
+                        "favStatus":  200,
+                        "jaibCssStatus":  200,
+                        "logoSvgStatus":  200,
+                        "logoSvgSnippet":  "\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 152 36\" fill=\"none\" width=\"152\" height=\"36\"\u003e\n  \u003c!-- JAIB Official Pure Vector Brandmark --\u003e\n  \u003cg id=\"jaib-brand\" transform=\"translate(2, 3)\"\u003e\n    \u003crect width=\"30\" heig",
+                        "imgs":  [
+                                     {
+                                         "src":  "/logo/logo.svg",
+                                         "alt":  "Dify",
+                                         "complete":  true,
+                                         "naturalWidth":  152,
+                                         "naturalHeight":  36,
+                                         "w":  135,
+                                         "h":  32
+                                     }
+                                 ],
+                        "btnStyle":  {
+                                         "text":  "",
+                                         "backgroundColor":  "rgb(228, 18, 45)",
+                                         "color":  "rgb(255, 255, 255)"
+                                     },
+                        "activeNavStyle":  null,
+                        "reactFlowDirection":  null,
+                        "bodyStyle":  {
+                                          "fontFamily":  "\"DIN Next LT Arabic\", \"Noto Sans Arabic\", \"Plus Jakarta Sans\", \"Segoe UI\", -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif",
+                                          "backgroundColor":  "rgb(18, 19, 22)",
+                                          "color":  "rgb(255, 255, 255)"
+                                      },
+                        "navCount":  0,
+                        "svgsCount":  1
+                    },
+        "consoleErrors":  [
+
+                          ],
+        "pageExceptions":  [
+
+                           ],
+        "networkErrors":  [
+
+                          ]
+    },
+    {
+        "name":  "11_baseera_chat_mobile_390",
+        "requestedUrl":  "http://127.0.0.1/chat/JWUhTnPUst1llzGJ",
+        "viewport":  "390x844",
+        "theme":  "light",
+        "locale":  "en-US",
+        "screenshot":  "docs\\evidence\\recovery\\after\\11_baseera_chat_mobile_390.png",
+        "metrics":  {
+                        "href":  "http://127.0.0.1/chat/JWUhTnPUst1llzGJ",
+                        "title":  "بصيرة — Baseera Docs - Dify",
+                        "dataTheme":  "light",
+                        "dir":  "ltr",
+                        "favHref":  "/favicon.ico",
+                        "favStatus":  200,
+                        "jaibCssStatus":  200,
+                        "logoSvgStatus":  200,
+                        "logoSvgSnippet":  "\u003csvg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 152 36\" fill=\"none\" width=\"152\" height=\"36\"\u003e\n  \u003c!-- JAIB Official Pure Vector Brandmark --\u003e\n  \u003cg id=\"jaib-brand\" transform=\"translate(2, 3)\"\u003e\n    \u003crect width=\"30\" heig",
+                        "imgs":  [
+
+                                 ],
+                        "btnStyle":  {
+                                         "text":  "",
+                                         "backgroundColor":  "rgb(228, 18, 45)",
+                                         "color":  "rgb(255, 255, 255)"
+                                     },
+                        "activeNavStyle":  null,
+                        "reactFlowDirection":  null,
+                        "bodyStyle":  {
+                                          "fontFamily":  "\"DIN Next LT Arabic\", \"Noto Sans Arabic\", \"Plus Jakarta Sans\", \"Segoe UI\", -apple-system, BlinkMacSystemFont, Tahoma, Arial, sans-serif",
+                                          "backgroundColor":  "rgb(243, 242, 247)",
+                                          "color":  "rgb(255, 255, 255)"
+                                      },
+                        "navCount":  0,
+                        "svgsCount":  0
+                    },
+        "consoleErrors":  [
+
+                          ],
+        "pageExceptions":  [
+
+                           ],
+        "networkErrors":  [
+
+                          ]
+    }
+]

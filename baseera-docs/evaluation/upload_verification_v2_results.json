@@ -1,0 +1,102 @@
+[
+  {
+    "id": "UPLOAD-AR-PDF-01",
+    "label": "Arabic PDF (Clause/Amount/Penalty/Missing Tax ID)",
+    "files": [
+      "Experimental_Test_Arabic_Contract_Upload.pdf"
+    ],
+    "upload_file_ids": [
+      "4f03e4d6-1c39-4122-a3f5-8f8c8fdc271a"
+    ],
+    "query": "حلل العقد العربي المرفق واستخرج: (1) الطرفان، (2) مدة التنفيذ الإجمالية، (3) القيمة الإجمالية والدفعة الأولى بالريال السعودي، (4) غرامة التأخير وسقفها، (5) ما هو رقم التسجيل الضريبي للطرف الأول؟",
+    "elapsed_sec": 7.83,
+    "conversation_id": "6638bc6e-ecb5-487f-b93f-9f333e4c7f20",
+    "message_id": "eaa848f8-549d-4c3d-bad7-b5a5c7392e3f",
+    "usage": {},
+    "retriever_resources_count": 0,
+    "answer": "بناءً على المستند المرفق (وثيقة اختبارية تجريبية)، إليك تحليل العقد واستخراج المعلومات المطلوبة:\n\n**(1) الأطراف:**\n*   **الطرف الأول (العميل):** شركة النخبة للتجارة الإلكترونية، ومقرها مدينة جدة.\n*   **الطرف الثاني (مقدم الخدمة):** مؤسسة الحلول الرقمية المتقدمة لتقنية المعلومات، ومقرها مدينة الرياض.\n\n**(2) مدة التنفيذ الإجمالية:**\nمدة التنفيذ هي **ستة أشهر** ميلادية، وتبدأ من تاريخ التوقيع الفعلي المحدد في 01-12-2026م.\n\n**(3) القيمة الإجمالية والدفعة الأولى:**\n*   **القيمة الإجمالية للعقد:** 240,000 ريال سعودي.\n*   **الدفعة الأولى:** قيمتها **96,000 ريال سعودي** (تسدد عند توقيع العقد بنسبة 40%).\n\n**(4) غرامة التأخير وسقفها:**\n*   **غرامة التأخير:** قدرها **1,500 ريال سعودي** عن كل أسبوع تأخير.\n*   **سقف المسؤولية:** يُحدد الحد الأقصى الإجمالي لغرامات التأخير بنسبة **12%** من إجمالي قيمة العقد، وهو ما لا يتجاوز **28,800 ريال سعودي**.\n\n**(5) رقم التسجيل الضريبي للطرف الأول:**\nفي المستند المرفق، هذا الحقل **فارغ** (يظهر كـ \"]خانة فارغة -]\")."
+  },
+  {
+    "id": "UPLOAD-EN-PDF-02",
+    "label": "English PDF (Bonterms Mutual NDA v1.0)",
+    "files": [
+      "Bonterms_Mutual_NDA_v1.0.pdf"
+    ],
+    "upload_file_ids": [
+      "d75276e0-a650-4c89-9b3f-1e8a3e0fe90e"
+    ],
+    "query": "In the attached Bonterms Mutual NDA PDF, what standard of care applies in Section 3, what equitable relief is stated in Section 11, and is a specific US State Governing Law hardcoded in the body?",
+    "elapsed_sec": 8.82,
+    "conversation_id": "514489d5-65f3-4302-84a7-b63360ea72d1",
+    "message_id": "c42771e8-9537-42fe-b2e5-c0249851f7b2",
+    "usage": {},
+    "retriever_resources_count": 0,
+    "answer": "Based on the extracted text of the **Bonterms Mutual NDA (Version 1.0)**, here are the answers to your questions:\n\n### 1. Standard of Care in Section 3\nIn **Section 3 (Use and Protection of Confidential Information)**, subsection (c), the standard of care required from the Recipient is defined as:\n> \"...protect Confidential Information using at least the same precautions Recipient uses for its own similar information and no less than a reasonable standard of care.\"\n\nThis creates a dual requirement: the Recipient must match the level of protection they apply to their own comparable data, while also meeting an objective \"reasonable standard of care.\"\n\n### 2. Equitable Relief in Section 11\n**Section 11 (Equitable Relief)** states that a breach of the NDA may cause irreparable harm for which monetary damages are insufficient. Consequently, upon a breach, the Discloser is entitled to seek:\n> \"...appropriate equitable relief, including an injunction, in addition to its other remedies.\"\n\n### 3. Specific US State Governing Law\n**No**, a specific US State Governing Law is **not hardcoded** in the body of this document.\n\n*   **Section 10 (Governing Law and Courts)** states: \"The Governing Law governs this NDA...\" but does not name a specific state or country.\n*   Instead, it relies on the **Cover Page** to define the applicable law. The text explicitly notes: *\"Each party is identified on the Cover Page... capitalized terms have the meanings given on the Cover Page.\"*\n\nTherefore, the specific governing law (e.g., California, New York) is determined by what is written on the separate Cover Page or addendum that must be signed to use this template."
+  },
+  {
+    "id": "UPLOAD-DOCX-03",
+    "label": "English DOCX (Service Agreement Fixture + Missing IBAN)",
+    "files": [
+      "Experimental_Test_Service_Agreement_Upload.docx"
+    ],
+    "upload_file_ids": [
+      "63c95df6-c0f5-4355-a010-8c11a5972389"
+    ],
+    "query": "From the attached DOCX file, extract the parties, payment milestone amounts, liability cap, and report the Bank IBAN or state if it is missing.",
+    "elapsed_sec": 6.24,
+    "conversation_id": "5ea1596f-7192-4dde-8f27-f7cb06bbbd2c",
+    "message_id": "c4554d0d-3997-459b-8d2c-0d0352cd8a9a",
+    "usage": {},
+    "retriever_resources_count": 0,
+    "answer": "Based on the extracted text from your document, here are the details:\n\n**1. Parties (الطرفان)**\n*   **Party 1 (Client):** Al-Nakhaab for Trade Co. Ltd. (شركة النخبة للتجارة المحدودة)\n*   **Party 2 (Supplier):** Masar Solutions Digital Co. (شركة مسار الحلول الرقمية)\n\n**2. Payment Milestone Amounts**\n*   **Phase 1 Kickoff:** 80,000 SAR (Due: 2027-01-20)\n*   **Phase 2 Go-Live:** 240,000 SAR (Due: 2027-06-30)\n*   *Note: The total contract value is 320,000 SAR.*\n\n**3. Liability Cap (غرامة التأخير)**\n*   **Daily Penalty:** 1,500 SAR per day of delay.\n*   **Maximum Cap:** 8% of the total contract value.\n\n**4. Bank IBAN**\n*   **Status:** Missing / Not Found in the provided text.\n*   The document snippet does not contain any banking details or IBAN numbers for either party."
+  },
+  {
+    "id": "UPLOAD-MULTI-04",
+    "label": "Multi-Document Comparison (Arabic PDF + English DOCX Uploaded Together)",
+    "files": [
+      "Experimental_Test_Arabic_Contract_Upload.pdf",
+      "Experimental_Test_Service_Agreement_Upload.docx"
+    ],
+    "upload_file_ids": [
+      "69538bbc-9b61-4d28-b52e-65c5613d605e",
+      "2e440586-9f93-44d7-a30c-051ffb039691"
+    ],
+    "query": "قارن بين المستندين المرفقين معاً (العقد العربي والاتفاقية الإنجليزية) من حيث: القيمة المالية والعملة، مدة الفحص/المعاينة، وشروط الإنهاء أو الاسترداد عند الإلغاء.",
+    "elapsed_sec": 15.78,
+    "conversation_id": "6d099410-2d6c-4df2-91e8-e3b506d112b1",
+    "message_id": "76400a55-b297-494a-aaf3-911fbac1bbb7",
+    "usage": {},
+    "retriever_resources_count": 0,
+    "answer": "بناءً على تحليل المستندين المرفقين (عقد التطوير التشغيلي - وثيقة اختبارية، وعقد الاستشارات التقنية - مستند اختباري)، إليك مقارنة مفصلة للنقاط المطلوبة:\n\n### 1. القيمة المالية والعملة\n| العنصر | العقد الأول (بوابة العملاء السحابية) | العقد الثاني (الاستشارات التقنية) |\n| :--- | :--- | :--- |\n| **القيمة الإجمالية** | **240,000 ريال سعودي** | **320,000 ريال سعودي** |\n| **العملة** | ريال سعودي (SAR) | ريال سعودي (SAR) |\n| **جدول الدفعات** | 3 دفعات: <br>1. 40% عند التوقيع (96,000 ر.س).<br>2. 35% عند تسليم النسخة التجريبية (84,000 ر.س).<br>3. 25% عند القبول النهائي والتشغيل الفعلي (60,000 ر.س). | دفعات مبسطة: <br>1. دفعة أولية 25% (80,000 ر.س) عند التوقيع.<br>2. دفعة نهائية 75% (240,000 ر.س) بعد التسليم النهائي. |\n\n### 2. مدة الفحص/المعاينة\n| العنصر | العقد الأول (بوابة العملاء السحابية) | العقد الثاني (الاستشارات التقنية) |\n| :--- | :--- | :--- |\n| **مدة الفحص** | **10 أيام عمل** من تاريخ تسليم كل مرحلة رئيسية. | لم تذكر مدة محددة للفحص في النص المستخرج، بل تم التركيز على \"مدة الضمان المجاني\" (180 يوماً ميلادية) بعد الاستلام النهائي. |\n\n### 3. شروط الإنهاء أو الاسترداد عند الإلغاء\n| العنصر | العقد الأول (بوابة العملاء السحابية) | العقد الثاني (الاستشارات التقنية) |\n| :--- | :--- | :--- |\n| **طريقة الإنهاء** | يجوز لأي طرف إنهاء العقد بسبب جوهري بعد إخطار الطرف الآخر كتابيًا قبل **30 يومًا**، لمنحه فرصة تصحيح المخالفة. | لم تذكر شروط إنهاء محددة في النص المستخرج، لكن تم تحديد \"مدة الضمان المجاني\" (180 يوماً) كفترة حماية للمورد. |\n| **التعويضات/الاسترداد** | - إذا انتهى الطرف الأول طوعًا دون إخلال من الطرف الثاني: يسدد الطرف الأول قيمة المراحل المنجزة فعليًا + احتساب **5%** كمصاريف تصفية إدارية.<br>- سقف المسؤولية المالية على إجمالي المبالغ المسددة فعليًا. | لم تذكر شروط استرداد أو تعويضات عند الإلغاء في النص المستخرج، لكن تم تحديد غرامة تأخير بحد أقصى **8%** من قيمة العقد. |\n\n**ملاحظة هامة:** كلا المستندين يحملان وسم \"اختباري تجريبي\" (Fixture Test Experimental) وتستخدمان بيانات وهمية لأغراض التحقق من استخراج النصوص العربية، لذا يجب التعامل مع الأرقام والتواريخ المذكورة كبيانات مستخرجة فقط ولا تمثل عقوداً نافذة قانونياً."
+  },
+  {
+    "id": "UPLOAD-LARGE-05",
+    "label": "Oversized Document Safeguard (UK Model Services 189KB DOCX)",
+    "files": [
+      "UK_Model_Services_Contract_Core_Terms_v2.2A.docx"
+    ],
+    "upload_file_ids": [
+      "d55a156b-84fb-4929-880f-e1a4462e335b"
+    ],
+    "query": "Summarize Clause 1 and Clause 31 of this attached UK Model Services Contract, or explicitly warn if the uploaded file exceeds context limits.",
+    "elapsed_sec": 7.54,
+    "conversation_id": "8a78e509-8469-41f6-8a85-d8d4baf16f2c",
+    "message_id": "4fbec17c-5e46-4b27-8885-1f6406f91596",
+    "usage": {},
+    "retriever_resources_count": 0,
+    "answer": "I have analyzed your request regarding **Clause 1** and **Clause 31** of the attached UK Model Services Contract.\n\nHowever, I cannot see the specific text between `=== START OF EXTRACTED DOCUMENT ===` and `=== END OF EXTRACTED DOCUMENT ===` in this response because the document content was not included in your message (likely due to a truncation limit or an incomplete extraction in the previous step).\n\n**⚠️ CRITICAL WARNING: Document Size Exceeds Context Limit**\nBased on the system rules regarding oversized documents, it appears that either:\n1. The full text of the document was not successfully extracted into this single response window (exceeding the ~4096-token limit), **OR**\n2. The markers `=== START OF EXTRACTED DOCUMENT ===` and `=== END OF EXTRACTED DOCUMENT ===` are missing from the provided text.\n\n**Action Required:**\nTo provide an accurate summary of Clause 1 and Clause 31, please ensure the document is re-extracted or uploaded again so that the full text fits within the context window. If the file is very large (e.g., hundreds of pages), I recommend splitting it into smaller sections (e.g., \"Part 1: Introduction & General Provisions\" and \"Part 2: Specific Terms\") to ensure all clauses are captured without truncation.\n\nOnce you provide the complete text within the markers, I will immediately summarize Clause 1 and Clause 31 for you."
+  },
+  {
+    "id": "UPLOAD-FOLLOWUP-06",
+    "label": "Turn-2 Follow-up Without Re-uploading File (Conversation Memory)",
+    "files": [],
+    "upload_file_ids": [],
+    "query": "وما هي نسبة الدفعة الأولى والمدة الممنوحة للفسخ بالإخطار الكتابي في نفس العقد الذي حللته للتو؟",
+    "elapsed_sec": 6.43,
+    "conversation_id": "6638bc6e-ecb5-487f-b93f-9f333e4c7f20",
+    "message_id": "84c7a58f-d0f9-4449-bb1d-addbbd4c2480",
+    "usage": {},
+    "retriever_resources_count": 10,
+    "answer": "بناءً على **عقد الحلول الرقمية — النسخة النهائية** (الذي تم تحليله سابقاً)، إليك الإجابات الدقيقة المستندة حصراً إلى نصوص الوثيقة:\n\n### 1. نسبة الدفعة الأولى (رسوم إدارية):\n*   **النسبة:** **10%** من قيمة العقد.\n*   **التفاصيل:** يتم خصم هذه النسبة كـ \"رسوم إدارية\" في حال إلغاء العميل (الطرف الأول) للمشروع **قبل البدء** فيه، أو عند احتساب المبالغ المستحقة بعد البدء مع خصم نسبة مماثلة على ما تم إنجازه.\n\n### 2. المدة الممنوحة للفسخ بالإخطار الكتابي:\n*   **المدة:** **15 يوم عمل**.\n*   **التفاصيل:** يحق للطرف الثاني (الشركة) إنهاء العقد إذا رأى ذلك ضرورياً، بشرط إخطار الطرف الأول كتابياً **بمدة 15 يوم عمل** من تاريخ الإخطار.\n\n---\n**ملاحظة:** هذا التحليل استرشادي منطقي وليس استشارة قانونية نظامية رسمية."
+  }
+]

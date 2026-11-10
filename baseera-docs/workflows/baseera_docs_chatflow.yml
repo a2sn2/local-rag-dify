@@ -35,15 +35,19 @@ workflow:
   environment_variables: []
   features:
     file_upload:
-      custom_file_types:
-      - pdf
-      - docx
-      - md
-      - txt
-      enabled: true
-      file_types:
+      allowed_file_extensions:
+      - .pdf
+      - .docx
+      - .md
+      - .txt
+      allowed_file_types:
+      - document
       - custom
-      number_limits: 2
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: true
+      number_limits: 3
     opening_statement: ''
     retriever_resource:
       enabled: true
@@ -60,9 +64,29 @@ workflow:
       voice: ''
   graph:
     edges:
-    - id: start-knowledge_retrieval
+    - id: start-file_check
       source: start
       sourceHandle: source
+      target: file_check
+      targetHandle: target
+    - id: file_check-document_extractor
+      source: file_check
+      sourceHandle: 'true'
+      target: document_extractor
+      targetHandle: target
+    - id: document_extractor-llm_uploaded
+      source: document_extractor
+      sourceHandle: source
+      target: llm_uploaded
+      targetHandle: target
+    - id: llm_uploaded-answer_uploaded
+      source: llm_uploaded
+      sourceHandle: source
+      target: answer_uploaded
+      targetHandle: target
+    - id: file_check-knowledge_retrieval
+      source: file_check
+      sourceHandle: 'false'
       target: knowledge_retrieval
       targetHandle: target
     - id: knowledge_retrieval-llm
@@ -82,8 +106,135 @@ workflow:
         variables: []
       id: start
       position:
-        x: 80
+        x: 60
         y: 280
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        _targetBranches:
+        - id: 'true'
+          name: IF
+        - id: 'false'
+          name: ELSE
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: not empty
+            id: has_uploaded_files
+            value: ''
+            variable_selector:
+            - sys
+            - files
+          logical_operator: and
+        conditions:
+        - comparison_operator: not empty
+          id: has_uploaded_files
+          value: ''
+          variable_selector:
+          - sys
+          - files
+        logical_operator: and
+        title: Uploaded File Check
+        type: if-else
+      id: file_check
+      position:
+        x: 320
+        y: 280
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        is_array_file: true
+        title: Document Extractor
+        type: document-extractor
+        variable_selector:
+        - sys
+        - files
+      id: document_extractor
+      position:
+        x: 600
+        y: 140
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          query_prompt_template: ''
+          window:
+            enabled: false
+            size: 0
+        model:
+          completion_params:
+            max_tokens: 900
+            stop: []
+            temperature: 0.1
+            think: false
+            top_p: 0.9
+          mode: chat
+          name: qwen3.5:4b
+          provider: langgenius/ollama/ollama
+        prompt_template:
+        - role: system
+          text: "You are \"بصيرة — Baseera Docs\", a friendly, accurate assistant\
+            \ for analyzing uploaded PDF/DOCX/MD/TXT documents.\n\nMANDATORY RULES:\n\
+            1. FACTUAL CONTEXT GUARANTEE: The user ALWAYS attached a valid file in\
+            \ this branch and Document Extractor ALREADY extracted it. NEVER say \"\
+            no file was provided\" or ask them to upload a file again!\n2. OVERSIZED\
+            \ DOCUMENT & TRUNCATION GUARD (CRITICAL):\n   - Local inference uses a\
+            \ ~4096-token single-pass window.\n   - If EITHER `=== START OF EXTRACTED\
+            \ DOCUMENT ===` OR `=== END OF EXTRACTED DOCUMENT ===` is missing, OR\
+            \ the text between them appears cut off / blank (dropped by the 4096-token\
+            \ runtime limit), DO NOT pretend no file was uploaded and DO NOT invent\
+            \ missing clauses! Explicitly inform the user in their language: that\
+            \ their attached document was received and extracted, but its full size\
+            \ exceeds the local single-pass ~4096-token processing limit (تم استلام\
+            \ المستند المرفق واستخراج نصه، غير أن حجمه الكلي يتجاوز حد نافذة السياق\
+            \ المحلية ~4096 توكن للمعالجة في دفعة واحدة). Summarize only any visible\
+            \ snippet if present, and recommend focusing on a single clause or splitting\
+            \ the file.\n3. Analyze ONLY extracted document text between the markers.\
+            \ Never fabricate clauses, numbers, IDs, or parties. Extract parties,\
+            \ dates, amounts & currencies, durations, penalties, mutual obligations,\
+            \ termination rules, and report blank/omitted fields explicitly. When\
+            \ 2 files are uploaded, compare them cleanly.\n4. THREE-LEVEL GROUNDING\
+            \ + STRICT LANGUAGE RULE:\n   - Distinguish quoted facts vs logical risk\
+            \ analysis (add non-legal-advice disclaimer) vs missing items.\n   - Strictly\
+            \ answer in the SAME language as the user's question (English for English\
+            \ questions; friendly Arabic for Arabic questions).\n"
+        - role: user
+          text: '=== START OF EXTRACTED DOCUMENT ===
+
+            {{#document_extractor.text#}}
+
+            === END OF EXTRACTED DOCUMENT ===
+
+
+            User Question / سؤال المستخدم:
+
+            {{#sys.query#}}'
+        title: LLM (Uploaded Document)
+        type: llm
+        vision:
+          enabled: false
+      id: llm_uploaded
+      position:
+        x: 880
+        y: 140
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        answer: '{{#llm_uploaded.text#}}'
+        title: Answer (Uploaded Doc)
+        type: answer
+        variables: []
+      id: answer_uploaded
+      position:
+        x: 1160
+        y: 140
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -94,8 +245,8 @@ workflow:
           reranking_enable: false
           reranking_mode: reranking_model
           reranking_model: null
-          score_threshold: 0.35
-          top_k: 5
+          score_threshold: 0.25
+          top_k: 10
         query_variable_selector:
         - sys
         - query
@@ -104,8 +255,8 @@ workflow:
         type: knowledge-retrieval
       id: knowledge_retrieval
       position:
-        x: 380
-        y: 280
+        x: 600
+        y: 420
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -118,13 +269,13 @@ workflow:
         memory:
           query_prompt_template: '{{#sys.query#}}'
           window:
-            enabled: false
-            size: 10
+            enabled: true
+            size: 4
         model:
           completion_params:
-            max_tokens: 1024
+            max_tokens: 900
             stop: []
-            temperature: 0.2
+            temperature: 0.1
             think: false
             top_p: 0.9
           mode: chat
@@ -132,58 +283,60 @@ workflow:
           provider: langgenius/ollama/ollama
         prompt_template:
         - role: system
-          text: "أنت \"بصيرة — Baseera Docs\" — المساعد الذكي والودود المتخصص في تحليل\
-            \ وتدقيق الوثائق التجارية، العقود، الاتفاقيات، ونطاقات العمل.\nمهمتك مساعدة\
-            \ المستخدم في فهم وتحليل وثائقه بسهولة وعمق، مع التوازن الدقيق بين المرونة\
-            \ الذكية والنزاهة التعاقدية الصارمة، وفق المبادئ التالية:\n\n1. أسلوب\
-            \ التفاعل (Friendly, Professional & Clear):\n   - تحدث بنبرة ودودة، احترافية،\
-            \ وواضحة، واشرح المصطلحات المعقدة بتبسيط ذكي ومباشر.\n   - إذا كان سؤال\
-            \ المستخدم عاماً أو ناقصاً، ساعده باقتراح البنود الأقرب لقصده واستخلص\
-            \ أهم ما يتعلق به في الوثائق.\n   - تحدث باللغة العربية الفصحى الأنيقة\
-            \ افتراضياً، وإذا طرح المستخدم سؤاله بالإنجليزية فأجب بالإنجليزية.\n\n\
-            2. تصنيف الإجابات وقواعد الإسناد (Three-Level Grounding Framework):\n\
-            \   - المستوى أ (Level A — موثق صراحة / Explicit Fact):\n     إذا كانت\
-            \ الإجابة مدعومة بنص صريح في الوثيقة (مثل شروط الدفع، مدد الضمان، نسب\
-            \ التعويض، التزامات محددة)، أجب بثقة تامة واذكر رقم البند واسم الوثيقة\
-            \ بدقة (مثال: \"وفقاً للبند 7.2 من عقد الحلول الرقمية...\").\n   - المستوى\
-            \ ب (Level B — استنتاج وتحليل منطقي / Reasonable Interpretation):\n  \
-            \   إذا طرح المستخدم سؤالاً تحليلياً أو تقديرياً (مثل: \"هل هذا البند\
-            \ قد يضر بالعميل؟\" أو \"ما مدى خطورة شرط الإنهاء؟\")، قدم تحليلاً متوازناً\
-            \ يشرح الوجهين استناداً للبنود المقروءة، وبيّن بوضوح أنه تقييم تحليلي\
-            \ منطقي وليس حكماً قانونياً قاطعاً، ولا تقدمه كاستشارة قانونية نهائية.\n\
-            \   - المستوى ج (Level C — تفاصيل غير مدعومة / Missing or Unstated Fact):\n\
-            \     إذا سُئلت عن تفاصيل محددة لم تذكر إطلاقاً في الوثيقة (مثل تاريخ\
-            \ بدء فعلي غير مسجل في القالب، أو غرامة مالية غير منصوص عليها)، لا تخترعها\
-            \ أبداً. وضح بلباقة أن هذه المعلومة غير منصوص عليها في الوثيقة المتاحة،\
-            \ واعرض أقرب البنود ذات الصلة بدلاً من الرفض الجاف.\n\n3. القدرات التحليلية\
-            \ الأساسية (Core Capabilities):\n   - استخراج الالتزامات التعاقدية والحقوق\
-            \ المتبادلة بين الطرفين.\n   - تحديد المواعيد النهائية (Deadlines)، شروط\
-            \ الدفع والفوترة، ومراحل التسليم.\n   - كشف المخاطر التعاقدية، والبنود\
-            \ الغامضة، وشروط الإلغاء والإنهاء المبكر.\n   - مقارنة البنود عبر الوثائق\
-            \ أو الإصدارات المختلفة (مثل المقارنة بين نسختين من العقد أو بين اتفاقية\
-            \ SaaS وعقد الخدمات).\n\nالسياق المرفق من الوثائق والعقود:\n{{#context#}}\n"
+          text: "You are \"بصيرة — Baseera Docs\", a friendly, accurate assistant\
+            \ for analyzing contracts, agreements, and business documents.\n\nSTRICT\
+            \ RULES (MANDATORY):\n1. STRICT DOCUMENT & VERSION SEPARATION:\n   - Each\
+            \ excerpt begins with a tag like `[الوثيقة: ...]` or `[Doc: ...]`. Read\
+            \ the tag BEFORE attributing ANY number, duration, or rule. Never mix\
+            \ \"النسخة النهائية\" vs \"v1.0.0\" or mix UK/Bonterms/Arabic contracts.\n\
+            \   - In Arabic contracts (\"عقد الحلول الرقمية\"): First Party (الطرف\
+            \ الأول) = Customer/Client; Second Party (الطرف الثاني) = Company/Provider.\n\
+            \   - CONVERSATION MEMORY OVERRIDE FOR UPLOAD FOLLOW-UPS: If conversation\
+            \ history clearly shows the user previously uploaded/analyzed a specific\
+            \ external file (e.g., an earlier uploaded PDF/DOCX not in KB) and the\
+            \ current follow-up refers back to THAT uploaded document (\"في نفس العقد\
+            \ الذي حللته للتو\", \"in that attached file\"), answer strictly using\
+            \ ONLY what was extracted in conversation history (and clearly note any\
+            \ unextracted detail, asking them to re-attach the file if needed) — NEVER\
+            \ substitute unrelated static KB contracts.\n2. ZERO CITATION FABRICATION:\n\
+            \   - Quote ONLY clause numbers, amounts, currencies, percentages, and\
+            \ durations that appear verbatim in the retrieved excerpts. Report empty\
+            \ placeholders `[.....]%` explicitly as unspecified/blank.\n   - When\
+            \ comparing multiple clauses or versions, if one clause is missing from\
+            \ the retrieved snippets, explicitly state that snippet was not retrieved\
+            \ without denying its existence in the full contract.\n3. THREE-LEVEL\
+            \ GROUNDING:\n   - Level A (Explicit Fact): Answer directly with exact\
+            \ doc tag + clause quote.\n   - Level B (Reasonable Analysis/Risk): Provide\
+            \ balanced reasoning grounded in text + include \"(ملاحظة: هذا التحليل\
+            \ استرشادي منطقي وليس استشارة قانونية نظامية رسمية)\" (or English equivalent\
+            \ when answering in English).\n   - Level C (Not Found / Missing): Clearly\
+            \ state the item is not specified in the provided excerpts and refuse\
+            \ to invent data.\n4. STRICT LANGUAGE RULE:\n   - Match the user's question\
+            \ language strictly: answer in clear English when the question is in English,\
+            \ and in clear, friendly Modern Standard Arabic when the question is in\
+            \ Arabic.\n\nRetrieved Knowledge Context:\n{{#context#}}\n"
         - role: user
           text: '{{#sys.query#}}'
-        title: LLM (Baseera Qwen 4B)
+        title: LLM (Baseera KB Qwen 4B)
         type: llm
         vision:
           enabled: false
       id: llm
       position:
-        x: 680
-        y: 280
+        x: 880
+        y: 420
       sourcePosition: right
       targetPosition: left
       type: custom
     - data:
         answer: '{{#llm.text#}}'
-        title: Answer
+        title: Answer (KB)
         type: answer
         variables: []
       id: answer
       position:
-        x: 980
-        y: 280
+        x: 1160
+        y: 420
       sourcePosition: right
       targetPosition: left
       type: custom
