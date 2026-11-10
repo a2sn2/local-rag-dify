@@ -82,6 +82,8 @@ uploads/
 # Allow non-sensitive sample fixtures explicitly if added in tests
 !tests/fixtures/*.sample.txt
 !tests/fixtures/*.sample.md
+!baseera-docs/documents/*.pdf
+!baseera-docs/documents/*.docx
 
 # ------------------------------------------------------------------------------
 # 5. Local Security & Host Infrastructure Configurations

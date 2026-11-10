@@ -1,0 +1,190 @@
+app:
+  description: بصيرة — المساعد الذكي والودود لتحليل وتدقيق الوثائق التجارية، العقود،
+    الاتفاقيات، وكشف المخاطر والالتزامات التعاقدية.
+  icon: 📑
+  icon_background: '#E0F2FE'
+  icon_type: emoji
+  mode: advanced-chat
+  name: بصيرة — Baseera Docs
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/ollama:1.0.3@1086758302d98263d5b7881de8ba95fc219351fdf97831d18a7807378674d203
+    version: null
+kind: app
+site:
+  chat_color_theme: null
+  chat_color_theme_inverted: false
+  copyright: null
+  custom_disclaimer: ''
+  default_language: ar-TN
+  description: null
+  icon: 📑
+  icon_background: '#E0F2FE'
+  icon_type: emoji
+  input_placeholder: null
+  privacy_policy: null
+  show_workflow_steps: true
+  title: بصيرة — Baseera Docs
+  use_icon_as_answer_icon: false
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      custom_file_types:
+      - pdf
+      - docx
+      - md
+      - txt
+      enabled: true
+      file_types:
+      - custom
+      number_limits: 2
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - id: start-knowledge_retrieval
+      source: start
+      sourceHandle: source
+      target: knowledge_retrieval
+      targetHandle: target
+    - id: knowledge_retrieval-llm
+      source: knowledge_retrieval
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+    - id: llm-answer
+      source: llm
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+    nodes:
+    - data:
+        title: Start
+        type: start
+        variables: []
+      id: start
+      position:
+        x: 80
+        y: 280
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        dataset_ids:
+        - IUzLzwz7Riw051NulPTwtiT+MVXAVn+KaYudFUDL8u1TRQ1cTaB0RHVROC3Rb/CY
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: reranking_model
+          reranking_model: null
+          score_threshold: 0.35
+          top_k: 5
+        query_variable_selector:
+        - sys
+        - query
+        retrieval_mode: multiple
+        title: Knowledge Retrieval
+        type: knowledge-retrieval
+      id: knowledge_retrieval
+      position:
+        x: 380
+        y: 280
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - knowledge_retrieval
+          - result
+        memory:
+          query_prompt_template: '{{#sys.query#}}'
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            max_tokens: 1024
+            stop: []
+            temperature: 0.2
+            think: false
+            top_p: 0.9
+          mode: chat
+          name: qwen3.5:4b
+          provider: langgenius/ollama/ollama
+        prompt_template:
+        - role: system
+          text: "أنت \"بصيرة — Baseera Docs\" — المساعد الذكي والودود المتخصص في تحليل\
+            \ وتدقيق الوثائق التجارية، العقود، الاتفاقيات، ونطاقات العمل.\nمهمتك مساعدة\
+            \ المستخدم في فهم وتحليل وثائقه بسهولة وعمق، مع التوازن الدقيق بين المرونة\
+            \ الذكية والنزاهة التعاقدية الصارمة، وفق المبادئ التالية:\n\n1. أسلوب\
+            \ التفاعل (Friendly, Professional & Clear):\n   - تحدث بنبرة ودودة، احترافية،\
+            \ وواضحة، واشرح المصطلحات المعقدة بتبسيط ذكي ومباشر.\n   - إذا كان سؤال\
+            \ المستخدم عاماً أو ناقصاً، ساعده باقتراح البنود الأقرب لقصده واستخلص\
+            \ أهم ما يتعلق به في الوثائق.\n   - تحدث باللغة العربية الفصحى الأنيقة\
+            \ افتراضياً، وإذا طرح المستخدم سؤاله بالإنجليزية فأجب بالإنجليزية.\n\n\
+            2. تصنيف الإجابات وقواعد الإسناد (Three-Level Grounding Framework):\n\
+            \   - المستوى أ (Level A — موثق صراحة / Explicit Fact):\n     إذا كانت\
+            \ الإجابة مدعومة بنص صريح في الوثيقة (مثل شروط الدفع، مدد الضمان، نسب\
+            \ التعويض، التزامات محددة)، أجب بثقة تامة واذكر رقم البند واسم الوثيقة\
+            \ بدقة (مثال: \"وفقاً للبند 7.2 من عقد الحلول الرقمية...\").\n   - المستوى\
+            \ ب (Level B — استنتاج وتحليل منطقي / Reasonable Interpretation):\n  \
+            \   إذا طرح المستخدم سؤالاً تحليلياً أو تقديرياً (مثل: \"هل هذا البند\
+            \ قد يضر بالعميل؟\" أو \"ما مدى خطورة شرط الإنهاء؟\")، قدم تحليلاً متوازناً\
+            \ يشرح الوجهين استناداً للبنود المقروءة، وبيّن بوضوح أنه تقييم تحليلي\
+            \ منطقي وليس حكماً قانونياً قاطعاً، ولا تقدمه كاستشارة قانونية نهائية.\n\
+            \   - المستوى ج (Level C — تفاصيل غير مدعومة / Missing or Unstated Fact):\n\
+            \     إذا سُئلت عن تفاصيل محددة لم تذكر إطلاقاً في الوثيقة (مثل تاريخ\
+            \ بدء فعلي غير مسجل في القالب، أو غرامة مالية غير منصوص عليها)، لا تخترعها\
+            \ أبداً. وضح بلباقة أن هذه المعلومة غير منصوص عليها في الوثيقة المتاحة،\
+            \ واعرض أقرب البنود ذات الصلة بدلاً من الرفض الجاف.\n\n3. القدرات التحليلية\
+            \ الأساسية (Core Capabilities):\n   - استخراج الالتزامات التعاقدية والحقوق\
+            \ المتبادلة بين الطرفين.\n   - تحديد المواعيد النهائية (Deadlines)، شروط\
+            \ الدفع والفوترة، ومراحل التسليم.\n   - كشف المخاطر التعاقدية، والبنود\
+            \ الغامضة، وشروط الإلغاء والإنهاء المبكر.\n   - مقارنة البنود عبر الوثائق\
+            \ أو الإصدارات المختلفة (مثل المقارنة بين نسختين من العقد أو بين اتفاقية\
+            \ SaaS وعقد الخدمات).\n\nالسياق المرفق من الوثائق والعقود:\n{{#context#}}\n"
+        - role: user
+          text: '{{#sys.query#}}'
+        title: LLM (Baseera Qwen 4B)
+        type: llm
+        vision:
+          enabled: false
+      id: llm
+      position:
+        x: 680
+        y: 280
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+    - data:
+        answer: '{{#llm.text#}}'
+        title: Answer
+        type: answer
+        variables: []
+      id: answer
+      position:
+        x: 980
+        y: 280
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+  rag_pipeline_variables: []
